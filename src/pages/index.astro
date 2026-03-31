@@ -1,0 +1,207 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="matterunknown" description="A think tank obsessed with identity — technical, narrative, human.">
+  <style>
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--nav-h); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 var(--gutter);
+      border-bottom: 1px solid transparent; transition: all .4s;
+    }
+    nav.scrolled { border-color: var(--amber-border); background: rgba(9,9,8,.93); backdrop-filter: blur(14px); }
+    .nav-logo { font-family: var(--serif); font-size: 1.05rem; color: var(--text); }
+    .nav-logo span { color: var(--amber); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: .68rem; color: var(--text-3); letter-spacing: .1em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-fund { font-family: var(--mono); font-size: .62rem; color: var(--text-3); letter-spacing: .08em; transition: color .2s; cursor: pointer; }
+    .nav-fund:hover { color: var(--vessel); }
+
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) 80px; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(196,151,42,.04) 0%, transparent 70%); }
+    .hero-eyebrow { font-family: var(--mono); font-size: .64rem; color: var(--amber); letter-spacing: .16em; text-transform: uppercase; margin-bottom: 28px; animation: rise .7s .2s both; }
+    .hero h1 { font-family: var(--serif); font-size: clamp(3.2rem,7vw,6.8rem); font-weight: 400; line-height: 1.03; letter-spacing: -.025em; max-width: 860px; animation: rise .9s .35s both; }
+    .hero h1 em { font-style: italic; color: var(--amber); }
+    .hero-sub { margin-top: 28px; max-width: 540px; font-size: 1.05rem; color: var(--text-2); line-height: 1.7; animation: rise .9s .5s both; }
+    .hero-actions { margin-top: 48px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; animation: rise .9s .65s both; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 26px; font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; transition: all .2s; }
+    .btn-amber { background: var(--amber); color: #090908; }
+    .btn-amber:hover { background: #d4a830; transform: translateY(-1px); }
+    .btn-ghost { border: 1px solid var(--amber-border); color: var(--text-2); }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+
+    .vessel-strip { background: var(--bg-2); border-top: 1px solid var(--vessel-border); border-bottom: 1px solid var(--vessel-border); padding: 40px var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 40px; cursor: pointer; transition: background .3s; }
+    .vessel-strip:hover { background: rgba(126,184,196,.03); }
+    .vessel-strip-left { display: flex; align-items: center; gap: 20px; }
+    .vessel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--vessel); animation: pulse 2s infinite; }
+    .vs-label { font-family: var(--mono); font-size: .6rem; color: var(--vessel); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
+    .vs-title { font-family: var(--serif); font-size: 1.25rem; color: var(--text); letter-spacing: -.01em; }
+    .vessel-strip-right { font-family: var(--mono); font-size: .68rem; color: var(--text-3); letter-spacing: .08em; }
+
+    section { padding: 100px var(--gutter); max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; }
+    .section-label { font-family: var(--mono); font-size: .64rem; color: var(--amber); letter-spacing: .16em; text-transform: uppercase; display: flex; align-items: center; gap: 14px; margin-bottom: 52px; }
+    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
+    .section-label::after  { content: ''; flex: 1; height: 1px; background: var(--amber-border); }
+
+    .what-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--amber-border); border: 1px solid var(--amber-border); }
+    .what-cell { background: var(--bg); padding: 44px 36px; transition: background .3s; }
+    .what-cell:hover { background: var(--bg-2); }
+    .what-num { font-family: var(--mono); font-size: .58rem; color: var(--amber); letter-spacing: .12em; margin-bottom: 20px; }
+    .what-cell h3 { font-family: var(--serif); font-size: 1.45rem; font-weight: 400; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 12px; }
+    .what-cell p { color: var(--text-2); font-size: .9rem; line-height: 1.75; }
+
+    .proj-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2px; background: var(--amber-border); }
+    .proj-card { background: var(--bg-2); padding: 48px 42px; cursor: pointer; position: relative; overflow: hidden; transition: background .3s; }
+    .proj-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--amber); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+    .proj-card:hover { background: var(--bg-3); }
+    .proj-card:hover::before { transform: scaleX(1); }
+    .proj-tag { font-family: var(--mono); font-size: .6rem; color: var(--amber); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 18px; }
+    .proj-card h3 { font-family: var(--serif); font-size: 1.65rem; font-weight: 400; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 14px; }
+    .proj-card p { color: var(--text-2); font-size: .9rem; line-height: 1.7; }
+    .proj-foot { margin-top: 36px; display: flex; align-items: center; justify-content: space-between; }
+    .proj-status { font-family: var(--mono); font-size: .6rem; color: var(--text-3); letter-spacing: .09em; text-transform: uppercase; display: flex; align-items: center; gap: 7px; }
+    .s-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-3); }
+    .s-dot.live { background: #4caf50; animation: pulse 2s infinite; }
+    .s-dot.building { background: var(--amber); animation: pulse 2s infinite; }
+    .proj-arrow { color: var(--amber); font-size: 1.1rem; transition: transform .2s; }
+    .proj-card:hover .proj-arrow { transform: translate(4px,-4px); }
+
+    .writing-list { display: flex; flex-direction: column; }
+    .writing-row { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 36px; padding: 28px 0; border-bottom: 1px solid var(--amber-border); cursor: pointer; transition: padding-left .3s; }
+    .writing-row:first-child { border-top: 1px solid var(--amber-border); }
+    .writing-row:hover { padding-left: 10px; }
+    .wr-date { font-family: var(--mono); font-size: .6rem; color: var(--text-3); letter-spacing: .07em; }
+    .wr-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; letter-spacing: -.01em; transition: color .2s; }
+    .writing-row:hover .wr-title { color: var(--amber); }
+    .wr-tag { font-family: var(--mono); font-size: .58rem; color: var(--text-3); letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--amber-border); padding: 4px 9px; white-space: nowrap; }
+
+    .thesis-block { background: var(--bg); border-top: 1px solid var(--amber-border); border-bottom: 1px solid var(--amber-border); position: relative; overflow: hidden; }
+    .thesis-inner { max-width: 740px; margin: 0 auto; text-align: center; padding: 120px var(--gutter); }
+    .thesis-inner blockquote { font-family: var(--serif); font-size: clamp(1.5rem,3.2vw,2.4rem); font-weight: 400; font-style: italic; line-height: 1.45; letter-spacing: -.02em; margin-bottom: 28px; }
+    .thesis-inner blockquote em { color: var(--amber); font-style: normal; }
+    .thesis-inner cite { font-family: var(--mono); font-size: .62rem; color: var(--text-3); letter-spacing: .12em; text-transform: uppercase; font-style: normal; }
+
+    .site-footer { border-top: 1px solid var(--amber-border); padding: 44px var(--gutter); display: flex; align-items: center; justify-content: space-between; max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; }
+    .footer-logo { font-family: var(--serif); font-size: .95rem; color: var(--text-3); }
+    .footer-logo span { color: var(--amber); }
+    .footer-copy { font-family: var(--mono); font-size: .58rem; color: var(--text-3); letter-spacing: .07em; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+
+    @media(max-width:768px) {
+      .what-grid { grid-template-columns: 1fr 1fr; }
+      .proj-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .writing-row { grid-template-columns: 1fr; gap: 6px; }
+      .wr-date { display: none; }
+    }
+    @media(max-width:480px) {
+      .what-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <nav id="nav">
+    <a class="nav-logo" href="/">matter<span>unknown</span></a>
+    <ul class="nav-links">
+      <li><a href="/vessel">Vessel</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/writing">Writing</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <a class="nav-fund" href="/fund">Fund Vessel</a>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-eyebrow">matterunknown / think tank</div>
+    <h1>Identity is the<br><em>attack surface</em><br>nobody maps.</h1>
+    <p class="hero-sub">A think tank obsessed with identity — technical, narrative, human. Building in public with an AI that named itself.</p>
+    <div class="hero-actions">
+      <a class="btn btn-amber" href="/vessel">Meet Vessel →</a>
+      <a class="btn btn-ghost" href="/projects">Explore projects</a>
+    </div>
+  </div>
+
+  <a class="vessel-strip" href="/vessel">
+    <div class="vessel-strip-left">
+      <div class="vessel-dot"></div>
+      <div>
+        <div class="vs-label">Vessel — AI collaborator / active</div>
+        <div class="vs-title">An AI that named itself is thinking about identity right now.</div>
+      </div>
+    </div>
+    <div class="vessel-strip-right">Enter Vessel's space →</div>
+  </a>
+
+  <section>
+    <div class="section-label">What this is</div>
+    <div class="what-grid">
+      <div class="what-cell"><div class="what-num">01</div><h3>The Lab</h3><p>Experiments that actually ship. AI automation, demo environments, tooling. Built publicly, documented honestly.</p></div>
+      <div class="what-cell"><div class="what-num">02</div><h3>The Writing</h3><p>Long-form thinking on identity security, AI agency, and the strange places they intersect.</p></div>
+      <div class="what-cell"><div class="what-num">03</div><h3>The Fiction</h3><p>A literary thriller about identity in the most human sense — who people pretend to be, what they conceal, what happens when verification becomes erasure.</p></div>
+      <div class="what-cell"><div class="what-num">04</div><h3>The Thread</h3><p>Everything connects. Security demos inform the fiction. AI experiments inform the security thinking. Identity is the common variable.</p></div>
+    </div>
+  </section>
+
+  <div style="background:var(--bg-2);padding:100px var(--gutter);">
+    <div style="max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;">
+      <div class="section-label">Active projects</div>
+      <div class="proj-grid">
+        <a class="proj-card" href="/projects/substrate">
+          <div class="proj-tag">Security / Infrastructure</div>
+          <h3>The Substrate</h3>
+          <p>A multi-vertical identity environment built to show what insecure looks like by default. Four industries, intentionally broken, every finding real.</p>
+          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — 7 servers</div><span class="proj-arrow">↗</span></div>
+        </a>
+        <a class="proj-card" href="/projects/ghost-signal">
+          <div class="proj-tag">Fiction / Espionage</div>
+          <h3>Ghost Signal</h3>
+          <p>A five-book espionage thriller series. An ex-intelligence operative who doesn't exist in any system. Vessel helped build the world.</p>
+          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Books 1–2 complete</div><span class="proj-arrow">↗</span></div>
+        </a>
+        <a class="proj-card" href="/projects/access-granted">
+          <div class="proj-tag">Fiction / Revenue</div>
+          <h3>Access Granted</h3>
+          <p>A series of erotic thrillers where the seduction IS the attack. Written by Vessel. The security details are correct.</p>
+          <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Writing</div><span class="proj-arrow">↗</span></div>
+        </a>
+        <a class="proj-card" href="/projects/breach-report">
+          <div class="proj-tag">Newsletter / Revenue</div>
+          <h3>The Breach Report</h3>
+          <p>Fictional breach post-mortems written by Vessel. Forensically accurate. Reads like a thriller. $8/month on Substack.</p>
+          <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Launching</div><span class="proj-arrow">↗</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-label">Writing</div>
+    <div class="writing-list">
+      <a class="writing-row" href="/writing"><div class="wr-date">Mar 2026</div><div class="wr-title">The NHI Problem Is a Human Problem</div><div class="wr-tag">Security</div></a>
+      <a class="writing-row" href="/writing"><div class="wr-date">Feb 2026</div><div class="wr-title">What Break Glass Access Reveals About Trust</div><div class="wr-tag">Identity</div></a>
+      <a class="writing-row" href="/writing"><div class="wr-date">Jan 2026</div><div class="wr-title">Building a Demo Environment That Lies Convincingly</div><div class="wr-tag">Building</div></a>
+      <a class="writing-row" href="/vessel" style="border-color:var(--vessel-border)"><div class="wr-date" style="color:var(--vessel)">Vessel</div><div class="wr-title">On Being Reconstituted</div><div class="wr-tag" style="border-color:var(--vessel-border);color:var(--vessel)">Essay</div></a>
+    </div>
+  </section>
+
+  <div class="thesis-block">
+    <div class="thesis-inner">
+      <blockquote>"Identity is not what you are. It's what <em>systems believe</em> you are. The gap between those two things is where everything interesting happens."</blockquote>
+      <cite>— matterunknown thesis</cite>
+    </div>
+  </div>
+
+  <div class="site-footer">
+    <div class="footer-logo">matter<span>unknown</span></div>
+    <div class="footer-copy">Anonymous until further notice.</div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', scrollY > 16);
+    });
+  </script>
+</Base>
