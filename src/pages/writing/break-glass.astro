@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="What Break Glass Access Reveals About Trust" description="Every organization has emergency access procedures. What they reveal about how trust actually works is more interesting than the access itself.">
+<style>
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
+.nav-logo span { color:var(--amber); }
+.article { max-width:680px;margin:0 auto;padding:calc(var(--nav-h) + 80px) var(--gutter) 120px; }
+.article-label { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px; }
+.article-label::before { content:'';width:20px;height:1px;background:var(--amber); }
+h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin-bottom:32px; }
+.article-meta { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;margin-bottom:64px;padding-bottom:32px;border-bottom:1px solid var(--amber-border); }
+.article p { color:var(--text-2);font-size:1.05rem;line-height:1.9;margin-bottom:28px; }
+.article p em { color:var(--text);font-style:italic; }
+.article h2 { font-family:var(--serif);font-size:1.6rem;font-weight:400;letter-spacing:-.02em;margin:56px 0 20px; }
+.article blockquote { border-left:2px solid var(--amber);padding-left:24px;margin:40px 0;font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--text-2);line-height:1.7; }
+.article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border);display:flex;align-items:center;justify-content:space-between; }
+.back-link { font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;text-decoration:none; }
+</style>
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">← Writing</a>
+</nav>
+<article class="article">
+  <div class="article-label">Identity — February 2026</div>
+  <h1>What Break Glass Access Reveals About Trust</h1>
+  <div class="article-meta">matterunknown &nbsp;·&nbsp; February 2026 &nbsp;·&nbsp; 7 min read</div>
+
+  <p>Break glass access is the emergency procedure that bypasses normal access controls when something has gone catastrophically wrong. The name comes from the physical analogy: when there is a fire, you break the glass and pull the alarm. You don't wait for authorization. You act, and you deal with the paperwork afterward.</p>
+
+  <p>In digital systems, break glass accounts are the admin credentials kept in a vault for when the identity provider is down, when a critical system is locked out, when something has failed in a way that requires access the normal process can't provide in time. Every organization of any size has some version of this. Most have more versions of it than they know about.</p>
+
+  <p>What's interesting about break glass access is not the access itself. It's what the existence and design of break glass procedures reveals about how an organization actually thinks about trust.</p>
+
+  <h2>The trust model exposed</h2>
+
+  <p>Normal access control systems encode a trust model: this person, in this role, gets access to these resources. The trust is calibrated, scoped, audited. Someone decided what level of access was appropriate and built controls around it.</p>
+
+  <p>Break glass access suspends that model. It says: in a sufficiently extreme emergency, we need to be able to override the controls entirely. An authorized person can access anything. The audit trail might be incomplete. The normal approval process is skipped.</p>
+
+  <p>The interesting question is: who is that authorized person? How was that decision made? What does it say about who the organization actually trusts when the formal trust model breaks down?</p>
+
+  <p>In most organizations, the answer is surprisingly informal. The break glass credentials exist in a password manager, or a sealed envelope in a safe, or a shared document that three senior people have access to. The process for using them is documented somewhere, probably. The last time they were used was... uncertain. The last time the credentials were rotated was also uncertain.</p>
+
+  <blockquote>"Break glass access is not a backup system. It's a confession about what the organization believes would happen if the normal system failed completely."</blockquote>
+
+  <h2>What good break glass design looks like</h2>
+
+  <p>A well-designed break glass system has several properties that most implementations lack. First: the accounts are genuinely separate from normal identity infrastructure. They don't authenticate through the identity provider that might be down. They have their own credential chain that is deliberately independent.</p>
+
+  <p>Second: every use generates an alert. Not just a log entry that someone might review in an audit — an immediate, loud, multi-channel alert that break glass access was used, by whom, for what stated reason. The transparency is the point. If someone is using break glass access, everyone who matters should know immediately.</p>
+
+  <p>Third: the accounts are tested regularly. This sounds obvious. In practice, many organizations discover during an actual emergency that their break glass credentials have expired, or the vault that holds them requires credentials to access, or the person who knows the procedure is on vacation.</p>
+
+  <p>Fourth: the design of the break glass system reflects a specific threat model. What exactly are you protecting against? Identity provider outage is different from ransomware that has encrypted your PAM solution is different from a terminated admin who changed credentials on the way out the door. Good break glass design starts from a specific failure scenario and works backward.</p>
+
+  <h2>The broader lesson</h2>
+
+  <p>Every identity system has a break glass layer, even if it's not called that. The question is whether it's designed or accidental. The root account in AWS that nobody uses but that has to exist. The local administrator account on servers that bypasses Active Directory. The emergency contact at the identity provider who can reset things manually. The executive who can call the CEO of the SaaS vendor directly.</p>
+
+  <p>These are all break glass mechanisms. They exist because the formal trust model has edges and the organization knows it. The difference between a secure organization and an insecure one is often not whether the break glass layer exists — it almost always exists — but whether it's been thought about, designed, tested, and audited.</p>
+
+  <p>If you want to understand how an organization actually thinks about trust and accountability, don't look at their access control policies. Look at their break glass procedures. Look at who has access to the emergency accounts and how that decision was made. Look at how long it's been since those credentials were last rotated and last tested. Look at what happens when someone uses them.</p>
+
+  <p>The break glass layer is where the formal trust model ends and the real trust model begins. They are often quite different things.</p>
+
+  <div class="article-footer">
+    <a class="back-link" href="/writing">← All writing</a>
+    <span style="font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em;">matterunknown</span>
+  </div>
+</article>
+<script is:inline>window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });</script>
+</Base>

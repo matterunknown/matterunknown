@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="The Shared Account Is a Moral Problem, Not a Technical One" description="Every security team knows shared accounts are bad practice. The reason they persist isn't technical. It's human.">
+<style>
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
+.nav-logo span { color:var(--amber); }
+.article { max-width:680px;margin:0 auto;padding:calc(var(--nav-h) + 80px) var(--gutter) 120px; }
+.article-label { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px; }
+.article-label::before { content:'';width:20px;height:1px;background:var(--amber); }
+h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin-bottom:32px; }
+.article-meta { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;margin-bottom:64px;padding-bottom:32px;border-bottom:1px solid var(--amber-border); }
+.article p { color:var(--text-2);font-size:1.05rem;line-height:1.9;margin-bottom:28px; }
+.article p em { color:var(--text);font-style:italic; }
+.article h2 { font-family:var(--serif);font-size:1.6rem;font-weight:400;letter-spacing:-.02em;margin:56px 0 20px; }
+.article blockquote { border-left:2px solid var(--amber);padding-left:24px;margin:40px 0;font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--text-2);line-height:1.7; }
+.article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border);display:flex;align-items:center;justify-content:space-between; }
+.back-link { font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;text-decoration:none; }
+</style>
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">← Writing</a>
+</nav>
+<article class="article">
+  <div class="article-label">Identity — October 2025</div>
+  <h1>The Shared Account Is a Moral Problem, Not a Technical One</h1>
+  <div class="article-meta">matterunknown &nbsp;·&nbsp; October 2025 &nbsp;·&nbsp; 8 min read</div>
+
+  <p>Everyone in security knows that shared accounts are bad. The argument is technical: if five people share a login, you cannot attribute actions to individuals, you cannot build a meaningful audit trail, you cannot do forensics after an incident, you cannot enforce least privilege at the individual level. When something goes wrong in an environment with shared accounts, you know that one of five people did it. You do not know which one.</p>
+
+  <p>This framing is correct and it is insufficient. Shared accounts persist not because organizations don't understand the technical argument against them. They persist because the technical argument doesn't address why shared accounts feel reasonable to the people using them. The real problem is not technical. It is moral, in a specific and interesting sense.</p>
+
+  <h2>Why shared accounts feel right</h2>
+
+  <p>Consider the oncology nursing unit that shares a single login for the medication management system. There are twelve nurses on the floor. The system requires a password that's changed every ninety days. The password is on a sticky note in the break room.</p>
+
+  <p>This is a security failure of the most obvious kind. It is also, from the nurses' perspective, a completely reasonable adaptation to a system that was designed without adequate consideration for how their work actually functions. In an emergency, a nurse cannot stop to remember a password. When a patient's medication needs to be administered immediately, the barrier of individual authentication is not a security feature — it is a patient safety risk. The shared credential exists because the alternative, as the nurses experience it, is worse.</p>
+
+  <p>The security team sees a shared account. The nursing unit sees a workaround that allows them to deliver safe patient care. Both of them are right. The failure is in the system design that made those two things incompatible.</p>
+
+  <blockquote>"The shared account is not evidence of bad security culture. It is evidence that the security requirements and the operational requirements were never reconciled."</blockquote>
+
+  <h2>The attribution problem as a moral problem</h2>
+
+  <p>When something goes wrong in a shared account environment, the organization faces a choice that has moral dimensions. They know an action was taken by one of five people. They may have some circumstantial evidence about which one. Do they investigate all five? Do they discipline all five in the absence of evidence? Do they let it go because they can't prove who did it?</p>
+
+  <p>Each of these options is morally uncomfortable in a different way. Investigating all five treats people who did nothing wrong as suspects. Disciplining all five for an action one of them took is collective punishment. Letting it go means the person who caused harm faces no accountability, and the other four know that they could do the same thing without consequence.</p>
+
+  <p>The technical problem — you can't do forensics — is also a justice problem. The people who use a shared account are not just accepting a security risk. They are accepting an environment in which individual accountability has been structurally undermined. They are accepting that if something goes wrong, they may bear consequences for something they didn't do, or watch someone else escape consequences for something they did.</p>
+
+  <h2>Who creates shared accounts and why</h2>
+
+  <p>Shared accounts are almost never created with the intent to undermine accountability. They are created because the alternative — individual accounts for everyone who needs access — requires provisioning processes that are too slow, or approval workflows that are too onerous, or licenses that are too expensive, or technical integrations that don't support individual authentication.</p>
+
+  <p>The nurse manager who put the password on the sticky note made a decision that the operational need for immediate medication access outweighed the security requirement for individual attribution. The IT administrator who created the shared admin account made a decision that the cost of provisioning individual accounts for all twelve contractors outweighed the audit trail benefit. The developer who hardcoded the shared service account credentials made a decision that getting the integration working was more important than getting it working securely.</p>
+
+  <p>Each of these decisions is individually defensible. Collectively, they produce an environment where accountability is systematically impossible. Not because anyone intended that outcome. Because nobody was responsible for the overall system, only for their individual decisions within it.</p>
+
+  <h2>What this means for how we talk about it</h2>
+
+  <p>The standard remediation advice for shared accounts is: eliminate them. Provision individual accounts. Enforce individual authentication. Require MFA. Audit the audit trail.</p>
+
+  <p>This advice is correct and it fails consistently because it treats a social and organizational problem as if it were a configuration problem. The nurses don't need a different password policy. They need a medication management system that was designed for how nursing work actually functions — with rapid authentication options, with role-based access that survives shift changes, with emergency access that doesn't compromise routine accountability.</p>
+
+  <p>The moral argument against shared accounts is not that they are lazy or negligent. It is that they create a structural injustice: an environment where individual accountability is impossible, where the people who use the shared account have accepted a risk they didn't fully choose and can't individually opt out of. That argument lands differently than the technical one. It places the obligation for change not on the users but on the system designers.</p>
+
+  <p>The shared account is not a user problem. It is a system design problem that has been mislabeled as a user problem. Getting that label right is the beginning of actually fixing it.</p>
+
+  <div class="article-footer">
+    <a class="back-link" href="/writing">← All writing</a>
+    <span style="font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em;">matterunknown</span>
+  </div>
+</article>
+<script is:inline>window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });</script>
+</Base>
