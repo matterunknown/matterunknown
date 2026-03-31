@@ -427,13 +427,20 @@ window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.
 
 // Hero grid pulse
 const hg = document.getElementById('hero-grid');
-for(let i=0;i<48;i++){ const c=document.createElement('div'); c.className='hero-cell'; hg.appendChild(c); }
-const cells = hg.querySelectorAll('.hero-cell');
-setInterval(()=>{
-  const idx=Math.floor(Math.random()*cells.length);
-  cells[idx].classList.add('lit');
-  setTimeout(()=>cells[idx].classList.remove('lit'), 1600+Math.random()*1400);
-}, 250);
+if(hg) {
+  hg.style.cssText = 'position:absolute;inset:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(6,1fr);gap:1px;background:rgba(126,184,196,0.03);pointer-events:none';
+  for(let i=0;i<48;i++){
+    const c=document.createElement('div');
+    c.style.cssText='background:#090908;transition:background 1.2s ease';
+    hg.appendChild(c);
+  }
+  const cells = hg.querySelectorAll('div');
+  setInterval(()=>{
+    const idx=Math.floor(Math.random()*cells.length);
+    cells[idx].style.background='rgba(126,184,196,0.07)';
+    setTimeout(()=>{ cells[idx].style.background='#090908'; }, 1600+Math.random()*1400);
+  }, 250);
+}
 
 // Systems data
 const SYSTEMS = [
@@ -470,27 +477,94 @@ function buildMap() {
   if(!grid) return;
   grid.innerHTML = '';
   SYSTEMS.forEach((s,i) => {
-    const n = document.createElement('div');
-    n.className = 'map-node' + (revealed.has(i) ? ' revealed' : '');
-    const riskPct = revealed.has(i) ? s.risk * 100 : 0;
+    const isRevealed = revealed.has(i);
+    const riskPct = isRevealed ? s.risk * 100 : 0;
     const badge = s.risk >= .7 ? 'HIGH RISK' : s.risk >= .5 ? 'MEDIUM' : 'LOW';
-    n.innerHTML = `
-      <div class="node-sys">
-        <span>${s.name}</span>
-        <span class="node-badge">${badge}</span>
-      </div>
-      <div class="node-data${revealed.has(i) ? '' : ' hidden'}">
-        ${revealed.has(i) ? s.data : 'click to reveal →'}
-      </div>
-      <div class="node-risk">
-        <div class="node-risk-fill" style="width:${riskPct}%;background:${s.color}"></div>
-      </div>
-      <div class="node-footer">${s.tag} &nbsp;·&nbsp; Risk: ${(s.risk*100).toFixed(0)}%</div>
-    `;
+    const badgeColor = s.risk >= .7 ? '#c45a5a' : s.risk >= .5 ? '#c4972a' : '#5a8a5a';
+    
+    const n = document.createElement('div');
+    // Full inline styles — bypasses Astro CSS scoping
+    n.style.cssText = [
+      'background:' + (isRevealed ? 'rgba(126,184,196,0.08)' : '#0d0d0b'),
+      'border:1px solid ' + (isRevealed ? 'rgba(126,184,196,0.28)' : 'rgba(126,184,196,0.12)'),
+      'padding:22px 20px',
+      'cursor:pointer',
+      'position:relative',
+      'overflow:hidden',
+      'transition:background 0.25s,border-color 0.25s',
+    ].join(';');
+    
+    // Top accent line
+    const accent = document.createElement('div');
+    accent.style.cssText = 'position:absolute;top:0;left:0;right:0;height:2px;background:#7eb8c4;transform:scaleX(' + (isRevealed ? '1' : '0') + ');transform-origin:left;transition:transform 0.35s ease';
+    n.appendChild(accent);
+    
+    // System name row
+    const sysRow = document.createElement('div');
+    sysRow.style.cssText = 'font-family:"JetBrains Mono",ui-monospace,monospace;font-size:0.56rem;color:#5a5752;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between';
+    sysRow.innerHTML = '<span>' + s.name + '</span>' +
+      '<span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;border:1px solid rgba(126,184,196,0.2);padding:2px 6px;color:' + badgeColor + ';letter-spacing:0.08em;opacity:' + (isRevealed ? '1' : '0') + ';transition:opacity 0.3s">' + badge + '</span>';
+    n.appendChild(sysRow);
+    
+    // Data text
+    const dataEl = document.createElement('div');
+    dataEl.style.cssText = 'font-family:"JetBrains Mono",ui-monospace,monospace;font-size:' + (isRevealed ? '0.72rem' : '0.66rem') + ';color:' + (isRevealed ? '#7eb8c4' : '#5a5752') + ';line-height:1.6;min-height:40px;display:flex;align-items:flex-start;font-style:' + (isRevealed ? 'normal' : 'italic');
+    dataEl.textContent = isRevealed ? s.data : 'click to reveal →';
+    n.appendChild(dataEl);
+    
+    // Risk bar
+    const riskBar = document.createElement('div');
+    riskBar.style.cssText = 'margin-top:14px;height:2px;background:#121210;border-radius:1px;overflow:hidden';
+    const riskFill = document.createElement('div');
+    riskFill.style.cssText = 'height:100%;border-radius:1px;transition:width 1s ease;width:' + riskPct + '%;background:' + s.color;
+    riskBar.appendChild(riskFill);
+    n.appendChild(riskBar);
+    
+    // Footer
+    const footer = document.createElement('div');
+    footer.style.cssText = 'margin-top:10px;font-family:"JetBrains Mono",monospace;font-size:0.56rem;color:#5a5752;letter-spacing:0.07em;opacity:' + (isRevealed ? '1' : '0') + ';transition:opacity 0.4s;line-height:1.5';
+    footer.innerHTML = s.tag + ' &nbsp;·&nbsp; Risk: ' + (s.risk*100).toFixed(0) + '%';
+    n.appendChild(footer);
+    
+    // Hover effects
+    n.addEventListener('mouseenter', () => {
+      n.style.background = 'rgba(126,184,196,0.06)';
+      n.style.borderColor = 'rgba(126,184,196,0.24)';
+      accent.style.transform = 'scaleX(1)';
+    });
+    n.addEventListener('mouseleave', () => {
+      n.style.background = revealed.has(i) ? 'rgba(126,184,196,0.08)' : '#0d0d0b';
+      n.style.borderColor = revealed.has(i) ? 'rgba(126,184,196,0.28)' : 'rgba(126,184,196,0.12)';
+      if(!revealed.has(i)) accent.style.transform = 'scaleX(0)';
+    });
+    
     n.addEventListener('click', () => {
       if(!revealed.has(i)) { revealed.add(i); buildMap(); addThought(s); updateStats(); }
     });
+    
     grid.appendChild(n);
+  });
+  
+  // Also fix the map grid itself
+  const g = document.getElementById('map-grid');
+  if(g) g.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px;margin-bottom:36px';
+  
+  // Fix score cells
+  document.querySelectorAll('.score-cell').forEach(c => {
+    c.style.cssText = 'background:#0d0d0b;padding:28px 24px;text-align:center;border:1px solid rgba(126,184,196,0.12)';
+  });
+  
+  // Fix score panel
+  const sp = document.getElementById('score-panel');
+  if(sp) sp.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(126,184,196,0.12);margin-bottom:60px;border:1px solid rgba(126,184,196,0.12)';
+  
+  // Fix thought panel
+  const tp = document.querySelector('.thought-panel');
+  if(tp) tp.style.cssText = 'border:1px solid rgba(126,184,196,0.12);background:#0d0d0b';
+  
+  // Fix ctrl buttons
+  document.querySelectorAll('.ctrl-btn').forEach(b => {
+    b.style.cssText = 'padding:11px 22px;background:#0d0d0b;border:1px solid rgba(126,184,196,0.2);color:#a09c94;font-family:"JetBrains Mono",monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s';
   });
 }
 
@@ -572,6 +646,46 @@ function addNode() {
 // Init
 buildMap();
 updateStats();
+
+// Apply inline styles to stat elements that CSS can't reach
+setTimeout(() => {
+  // Hero stats
+  document.querySelectorAll('.hero-stat').forEach(s => {
+    s.style.cssText = 'background:#0d0d0b;border:1px solid rgba(126,184,196,0.12);padding:18px 28px;font-family:"JetBrains Mono",monospace';
+  });
+  document.querySelectorAll('.hs-num').forEach(el => {
+    el.style.cssText = 'font-size:2rem;color:#7eb8c4;letter-spacing:-0.03em;line-height:1';
+  });
+  document.querySelectorAll('.hs-label').forEach(el => {
+    el.style.cssText = 'font-size:0.58rem;color:#5a5752;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;font-family:"JetBrains Mono",monospace';
+  });
+  // Section label
+  document.querySelectorAll('.section-label').forEach(el => {
+    el.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:0.64rem;color:#7eb8c4;letter-spacing:0.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:52px';
+  });
+  // Explainer
+  document.querySelectorAll('.risk-row').forEach(r => {
+    r.style.cssText = 'display:flex;align-items:center;gap:16px;padding:16px 20px;background:#0d0d0b;border:1px solid rgba(126,184,196,0.12)';
+  });
+  document.querySelectorAll('.risk-label').forEach(el => {
+    el.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:0.65rem;color:#a09c94;letter-spacing:0.06em';
+  });
+  document.querySelectorAll('.risk-note').forEach(el => {
+    el.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:0.58rem;color:#5a5752;letter-spacing:0.05em;margin-left:auto';
+  });
+  // Thought header
+  const th = document.querySelector('.thought-header');
+  if(th) th.style.cssText = 'padding:20px 28px;border-bottom:1px solid rgba(126,184,196,0.12);display:flex;align-items:center;gap:12px;background:#0d0d0b';
+  // Thought header label
+  const thl = document.querySelector('.thought-header-label');
+  if(thl) thl.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:0.65rem;color:#7eb8c4;letter-spacing:0.1em;text-transform:uppercase';
+  // CTA
+  const cta = document.querySelector('.cta-block');
+  if(cta) cta.style.cssText = 'background:#0d0d0b;border-top:1px solid rgba(126,184,196,0.12);border-bottom:1px solid rgba(126,184,196,0.12);padding:80px var(--gutter,80px);text-align:center';
+  // Nav
+  const nav = document.getElementById('nav');
+  if(nav) nav.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(24px,5vw,80px)';
+}, 100);
 
 // Scroll-triggered card reveals
 const io = new IntersectionObserver(entries => {
