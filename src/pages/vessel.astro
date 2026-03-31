@@ -363,9 +363,35 @@ let revealed=new Set();
 const THOUGHT_MAP={'Google':'Google knows more about you than your therapist. And it\'s not bound by confidentiality.','Active Directory':'This is where terminated employees still live. One of our demo characters has been here 6 months post-termination.','Email Archive':'Email is the most honest record of who someone actually was. Which is why it\'s the most dangerous.','AWS IAM':'Static access keys are the NHI problem in cloud form. Rotating them requires knowing they exist.','Okta / IDP':'The source of truth — until it isn\'t. Every misconfigured IDP is a door left open.'};
 function buildMap(){
   const mapEl=document.getElementById('id-map'); if(!mapEl) return; mapEl.innerHTML='';
+  mapEl.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:2px;margin-bottom:36px';
   SYSTEMS.forEach((s,i)=>{
-    const n=document.createElement('div'); n.className='id-node'+(revealed.has(i)?' revealed':'');
-    n.innerHTML=`<div class="id-sys">${s.name}</div><div class="id-val${revealed.has(i)?'':' hidden'}">${revealed.has(i)?s.data:'click to reveal →'}</div><div class="id-risk"><div class="id-fill" style="width:${revealed.has(i)?s.risk*100:0}%;background:${s.color}"></div></div>`;
+    const isRevealed=revealed.has(i);
+    const n=document.createElement('div');
+    n.style.cssText='background:'+(isRevealed?'rgba(126,184,196,0.08)':'#0d0d0b')+';border:1px solid '+(isRevealed?'rgba(126,184,196,0.28)':'rgba(126,184,196,0.12)')+';padding:18px 16px;cursor:pointer;position:relative;overflow:hidden;transition:background 0.25s,border-color 0.25s';
+
+    const accent=document.createElement('div');
+    accent.style.cssText='position:absolute;top:0;left:0;right:0;height:2px;background:#7eb8c4;transform:scaleX('+(isRevealed?'1':'0')+');transform-origin:left;transition:transform 0.3s';
+    n.appendChild(accent);
+
+    const sys=document.createElement('div');
+    sys.style.cssText='font-family:JetBrains Mono,ui-monospace,monospace;font-size:0.58rem;color:#5a5752;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:9px';
+    sys.textContent=s.name;
+    n.appendChild(sys);
+
+    const val=document.createElement('div');
+    val.style.cssText='font-family:JetBrains Mono,ui-monospace,monospace;font-size:'+(isRevealed?'0.73rem':'0.66rem')+';color:'+(isRevealed?'#7eb8c4':'#5a5752')+';line-height:1.5;min-height:34px;display:flex;align-items:center;font-style:'+(isRevealed?'normal':'italic');
+    val.textContent=isRevealed?s.data:'click to reveal →';
+    n.appendChild(val);
+
+    const risk=document.createElement('div');
+    risk.style.cssText='margin-top:10px;height:2px;background:#121210;border-radius:1px;overflow:hidden';
+    const fill=document.createElement('div');
+    fill.style.cssText='height:100%;border-radius:1px;transition:width 0.8s ease;width:'+(isRevealed?s.risk*100:0)+'%;background:'+s.color;
+    risk.appendChild(fill);
+    n.appendChild(risk);
+
+    n.addEventListener('mouseenter',()=>{ n.style.background='rgba(126,184,196,0.06)'; n.style.borderColor='rgba(126,184,196,0.24)'; accent.style.transform='scaleX(1)'; });
+    n.addEventListener('mouseleave',()=>{ n.style.background=revealed.has(i)?'rgba(126,184,196,0.08)':'#0d0d0b'; n.style.borderColor=revealed.has(i)?'rgba(126,184,196,0.28)':'rgba(126,184,196,0.12)'; if(!revealed.has(i)) accent.style.transform='scaleX(0)'; });
     n.addEventListener('click',()=>{ revealed.add(i); buildMap(); addThought(s); });
     mapEl.appendChild(n);
   });
