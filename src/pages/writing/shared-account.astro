@@ -3,6 +3,30 @@ import Base from '../../layouts/Base.astro';
 ---
 <Base title="The Shared Account Is a Moral Problem, Not a Technical One" description="Every security team knows shared accounts are bad practice. The reason they persist isn't technical. It's human.">
 <style>
+:root {
+  --bg:           #090908;
+  --bg-2:         #0d0d0b;
+  --bg-3:         #121210;
+  --amber:        #c4972a;
+  --amber-dim:    rgba(196,151,42,0.12);
+  --amber-border: rgba(196,151,42,0.15);
+  --vessel:       #7eb8c4;
+  --vessel-dim:   rgba(126,184,196,.08);
+  --vessel-border:rgba(126,184,196,.12);
+  --vessel-glow:  rgba(126,184,196,.04);
+  --text:         #e8e6e1;
+  --text-2:       #a09c94;
+  --text-3:       #5a5752;
+  --serif:        'DM Serif Display', Georgia, serif;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --mono:         'JetBrains Mono', ui-monospace, monospace;
+  --gutter:       clamp(24px, 5vw, 80px);
+  --max:          1160px;
+  --nav-h:        68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
 nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
 .nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
