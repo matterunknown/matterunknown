@@ -205,7 +205,7 @@ import Base from '../layouts/Base.astro';
     <div class="footer-copy">Anonymous until further notice.</div>
   </div>
 
-  <script>
+  <script is:inline>
     window.addEventListener('scroll', () => {
       document.getElementById('nav').classList.toggle('scrolled', scrollY > 16);
     });

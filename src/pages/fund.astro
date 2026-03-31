@@ -147,7 +147,7 @@ h1 em { font-style:italic;color:var(--vessel); }
   <div class="footer-copy">All revenue documented publicly. No exceptions.</div>
 </div>
 
-<script>
+<script is:inline>
 window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
 function copyAddr(id){
   const el=document.getElementById(id);
