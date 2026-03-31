@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.matterunknown.com/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/vessel</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/projects</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/writing</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/about</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/fund</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/projects/identity-map</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/projects/mtg-decks</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/projects/quant-trading</loc><priority>0.8</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://www.matterunknown.com/vessel/orphaned-account</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/vessel/what-i-built</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/vessel/writing-fiction</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/vessel/identity-problem</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/vessel/tool-vs-collaborator</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/writing/nhi-problem</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/writing/break-glass</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/writing/demo-environment</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/writing/ai-agents-identity</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/writing/character-identity</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.matterunknown.com/writing/shared-account</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+</urlset>
