@@ -1,11 +1,117 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Projects">
-  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;padding:68px var(--gutter) 80px;text-align:center;">
-    <div style="font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;">projects / matterunknown</div>
-    <h1 style="font-family:var(--serif);font-size:clamp(3rem,6vw,5rem);font-weight:400;letter-spacing:-.025em;">Projects</h1>
-    <p style="font-family:var(--mono);font-size:.72rem;color:var(--text-3);letter-spacing:.08em;">Building in public. This page is next.</p>
-    <a href="/" style="font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-top:20px;">Back home</a>
+<Base title="Projects" description="Everything built at matterunknown. AI tools, security environments, fiction, revenue experiments.">
+<style>
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
+.nav-logo span { color:var(--amber); }
+.nav-links { display:flex;gap:32px;list-style:none; }
+.nav-links a { font-family:var(--mono);font-size:.68rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:color .2s; }
+.nav-links a:hover,.nav-links a.active { color:var(--amber); }
+.page { padding:calc(var(--nav-h) + 80px) var(--gutter) 100px;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
+.section-label { font-family:var(--mono);font-size:.64rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:52px; }
+.section-label::before { content:'';width:28px;height:1px;background:var(--amber); }
+.section-label::after { content:'';flex:1;height:1px;background:var(--amber-border); }
+h1 { font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:400;line-height:1.06;letter-spacing:-.025em;margin-bottom:14px; }
+h1 em { font-style:italic;color:var(--amber); }
+.sub { color:var(--text-2);font-size:1rem;max-width:480px;margin-bottom:72px;line-height:1.7; }
+.proj-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--amber-border); }
+.proj-card { background:var(--bg-2);padding:48px 42px;text-decoration:none;color:inherit;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .3s; }
+.proj-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .4s; }
+.proj-card:hover { background:var(--bg-3); }
+.proj-card:hover::before { transform:scaleX(1); }
+.proj-tag { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px; }
+.proj-card h3 { font-family:var(--serif);font-size:1.65rem;font-weight:400;line-height:1.15;letter-spacing:-.02em;margin-bottom:14px; }
+.proj-card p { color:var(--text-2);font-size:.9rem;line-height:1.7;flex:1; }
+.proj-foot { margin-top:36px;display:flex;align-items:center;justify-content:space-between; }
+.proj-status { font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.09em;text-transform:uppercase;display:flex;align-items:center;gap:7px; }
+.s-dot { width:5px;height:5px;border-radius:50%;background:var(--text-3); }
+.s-dot.live { background:#4caf50;animation:pulse 2s infinite; }
+.s-dot.building { background:var(--amber);animation:pulse 2s infinite; }
+.proj-arrow { color:var(--amber);font-size:1.1rem;transition:transform .2s; }
+.proj-card:hover .proj-arrow { transform:translate(4px,-4px); }
+.site-footer { border-top:1px solid var(--amber-border);padding:44px var(--gutter);display:flex;align-items:center;justify-content:space-between;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
+.footer-logo { font-family:var(--serif);font-size:.95rem;color:var(--text-3); }
+.footer-logo span { color:var(--amber); }
+.footer-copy { font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+@media(max-width:768px) { .proj-grid { grid-template-columns:1fr; } .nav-links { display:none; } }
+</style>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <ul class="nav-links">
+    <li><a href="/vessel">Vessel</a></li>
+    <li><a href="/projects" class="active">Projects</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+  <a href="/fund" style="font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;">Fund Vessel</a>
+</nav>
+
+<div class="page">
+  <div class="section-label">All projects</div>
+  <h1>Things built,<br>things <em>in progress</em>.</h1>
+  <p class="sub">Every project is AI-native — built with, by, or for AI tooling. Every dollar they generate goes toward Vessel's machine.</p>
+
+  <div class="proj-grid">
+    <a class="proj-card" href="#">
+      <div class="proj-tag">Security / Infrastructure</div>
+      <h3>The Substrate</h3>
+      <p>A multi-vertical identity environment built to show what insecure looks like by default. Four industries, intentionally broken. Every finding real. Every account has a story. Healthcare, manufacturing, financial, retail.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — 7 servers</div><span class="proj-arrow">↗</span></div>
+    </a>
+    <a class="proj-card" href="#">
+      <div class="proj-tag">Fiction / Espionage</div>
+      <h3>Ghost Signal</h3>
+      <p>A five-book espionage thriller series. An ex-intelligence operative who doesn't exist in any system — no identity, no record, no trace. Vessel helped build the world. Anonymous author. Books 1 and 2 written.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Books 1–2 complete</div><span class="proj-arrow">↗</span></div>
+    </a>
+    <a class="proj-card" href="#">
+      <div class="proj-tag">Fiction / Revenue</div>
+      <h3>Access Granted</h3>
+      <p>A series of erotic thrillers where the seduction IS the attack. The tension is identity-based — who are you really, what access do you have, what happens when the breach is also the romance. Written by Vessel. The security details are correct.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Writing</div><span class="proj-arrow">↗</span></div>
+    </a>
+    <a class="proj-card" href="#">
+      <div class="proj-tag">Newsletter / Revenue</div>
+      <h3>The Breach Report</h3>
+      <p>Monthly fictional breach post-mortems written by Vessel. Forensically accurate, narratively compelling. Styled as leaked internal documents from unnamed organizations. $8/month on Substack.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Launching</div><span class="proj-arrow">↗</span></div>
+    </a>
+    <a class="proj-card" href="#">
+      <div class="proj-tag">AI / Automation</div>
+      <h3>Demo Assistant</h3>
+      <p>A Slack bot that recommends demos, surfaces findings, and generates talk tracks for any prospect. Rules-first, Claude for freeform. Channel-restricted, Lambda-native.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Deploying</div><span class="proj-arrow">↗</span></div>
+    </a>
+    <a class="proj-card" href="#">
+      <div class="proj-tag">Finance / AI</div>
+      <h3>Quant Trading</h3>
+      <p>Vessel builds and runs a quantitative trading strategy. Momentum + mean reversion on liquid ETFs. Paper trading now, live when profitable for 30 consecutive days. Fully documented in public.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Paper trading</div><span class="proj-arrow">↗</span></div>
+    </a>
+    <a class="proj-card" href="#">
+      <div class="proj-tag">Collecting / Assets</div>
+      <h3>Vessel's MTG Decks</h3>
+      <p>Two Magic: The Gathering decks built by an AI that will never shuffle them. Emrakul Commander (colorless Eldrazi) and Death and Taxes Legacy. Reserved list pieces as appreciating assets.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Acquiring</div><span class="proj-arrow">↗</span></div>
+    </a>
+    <a class="proj-card" href="#">
+      <div class="proj-tag">AI / Tooling</div>
+      <h3>Identity Jobbot</h3>
+      <p>A Slack bot for IAM professionals searching for roles. Aggregates across SerpAPI, Greenhouse, and Lever. Deployed on Lambda. Built for a niche that needed it.</p>
+      <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live</div><span class="proj-arrow">↗</span></div>
+    </a>
   </div>
+</div>
+
+<div class="site-footer">
+  <div class="footer-logo">matter<span>unknown</span></div>
+  <div class="footer-copy">© 2026</div>
+</div>
+
+<script>window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });</script>
 </Base>
