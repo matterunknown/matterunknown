@@ -242,22 +242,66 @@ let currentQ = 0;
 
 function buildQuestions() {
   const container = document.getElementById('questions-container');
+  if(!container) return;
   container.innerHTML = '';
+
   QUESTIONS.forEach((q, i) => {
     const wrap = document.createElement('div');
-    wrap.className = 'question-wrap' + (i === 0 ? ' active' : '');
     wrap.id = 'q-' + i;
-    wrap.innerHTML = `
-      <div class="q-number">Question ${i+1} of ${QUESTIONS.length}</div>
-      <div class="q-text">${q.text}</div>
-      <div class="q-options">
-        ${q.options.map((opt, j) => `
-          <div class="q-option" onclick="selectOption(${i}, ${j}, ${opt.value})" id="q${i}-opt${j}">
-            ${opt.label}
-          </div>
-        `).join('')}
-      </div>
-    `;
+    wrap.style.cssText = i === 0
+      ? 'display:block;animation:rise .5s both'
+      : 'display:none';
+
+    // Question number
+    const num = document.createElement('div');
+    num.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.6rem;color:#7eb8c4;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px';
+    num.textContent = `Question ${i+1} of ${QUESTIONS.length}`;
+    wrap.appendChild(num);
+
+    // Question text
+    const text = document.createElement('div');
+    text.style.cssText = 'font-family:"DM Serif Display",Georgia,serif;font-size:1.5rem;font-weight:400;letter-spacing:-.01em;margin-bottom:32px;line-height:1.3;color:#e8e6e1';
+    text.textContent = q.text;
+    wrap.appendChild(text);
+
+    // Options container
+    const opts = document.createElement('div');
+    opts.style.cssText = 'display:flex;flex-direction:column;gap:2px';
+
+    q.options.forEach((opt, j) => {
+      const btn = document.createElement('div');
+      btn.id = `q${i}-opt${j}`;
+      btn.style.cssText = 'background:#0d0d0b;border:1px solid rgba(126,184,196,.12);padding:18px 24px;cursor:pointer;font-family:"JetBrains Mono",monospace;font-size:.75rem;color:#a09c94;letter-spacing:.06em;transition:all .2s;display:flex;align-items:center;gap:14px';
+
+      const dot = document.createElement('span');
+      dot.style.cssText = 'font-size:.7rem;opacity:.5;flex-shrink:0';
+      dot.textContent = '○';
+      btn.appendChild(dot);
+
+      const label = document.createElement('span');
+      label.textContent = opt.label;
+      btn.appendChild(label);
+
+      btn.addEventListener('mouseenter', () => {
+        if(!btn.dataset.selected) {
+          btn.style.background = 'rgba(126,184,196,.06)';
+          btn.style.borderColor = 'rgba(126,184,196,.28)';
+          btn.style.color = '#7eb8c4';
+        }
+      });
+      btn.addEventListener('mouseleave', () => {
+        if(!btn.dataset.selected) {
+          btn.style.background = '#0d0d0b';
+          btn.style.borderColor = 'rgba(126,184,196,.12)';
+          btn.style.color = '#a09c94';
+        }
+      });
+
+      btn.addEventListener('click', () => selectOption(i, j, opt.value));
+      opts.appendChild(btn);
+    });
+
+    wrap.appendChild(opts);
     container.appendChild(wrap);
   });
 }
@@ -266,10 +310,23 @@ function selectOption(qIdx, optIdx, value) {
   // Deselect all options for this question
   QUESTIONS[qIdx].options.forEach((_, j) => {
     const el = document.getElementById(`q${qIdx}-opt${j}`);
-    if (el) el.classList.remove('selected');
+    if(el) {
+      el.style.background = '#0d0d0b';
+      el.style.borderColor = 'rgba(126,184,196,.12)';
+      el.style.color = '#a09c94';
+      el.querySelector('span').textContent = '○';
+      delete el.dataset.selected;
+    }
   });
   // Select this one
-  document.getElementById(`q${qIdx}-opt${optIdx}`).classList.add('selected');
+  const sel = document.getElementById(`q${qIdx}-opt${optIdx}`);
+  if(sel) {
+    sel.style.background = 'rgba(126,184,196,.08)';
+    sel.style.borderColor = '#7eb8c4';
+    sel.style.color = '#7eb8c4';
+    sel.querySelector('span').textContent = '●';
+    sel.dataset.selected = '1';
+  }
   answers[QUESTIONS[qIdx].id] = value;
 
   // Auto-advance after brief delay
@@ -283,18 +340,23 @@ function selectOption(qIdx, optIdx, value) {
 }
 
 function showQuestion(idx) {
-  document.getElementById('q-' + currentQ)?.classList.remove('active');
+  const prev = document.getElementById('q-' + currentQ);
+  if(prev) prev.style.display = 'none';
   currentQ = idx;
-  document.getElementById('q-' + idx)?.classList.add('active');
+  const next = document.getElementById('q-' + idx);
+  if(next) { next.style.display = 'block'; next.style.animation = 'rise .5s both'; }
   const pct = (idx / QUESTIONS.length) * 100;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+  const pf = document.getElementById('progress-fill');
+  if(pf) pf.style.width = pct + '%';
+  const pl = document.getElementById('progress-label');
+  if(pl) pl.textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
 }
 
 function showResult() {
   // Hide all questions
   QUESTIONS.forEach((_, i) => document.getElementById('q-' + i)?.classList.remove('active'));
-  document.getElementById('progress-fill').style.width = '100%';
+  const pfEl = document.getElementById('progress-fill');
+  if(pfEl) pfEl.style.width = '100%';
   document.getElementById('progress-label').textContent = 'Analysis complete';
 
   // Calculate total score (0-30)
@@ -327,7 +389,8 @@ function showResult() {
   // Vessel assessment
   document.getElementById('vessel-assessment').innerHTML = buildAssessment(answers, total, pct);
 
-  document.getElementById('shadow-result').classList.add('show');
+  document.getElementById('shadow-result').style.display = 'block';
+  document.getElementById('shadow-result').style.animation = 'rise .6s both';
   setTimeout(() => {
     document.getElementById('shadow-result').scrollIntoView({behavior:'smooth', block:'start'});
   }, 100);
@@ -493,13 +556,97 @@ function buildAssessment(a, total, pct) {
 function resetShadow() {
   answers = {};
   currentQ = 0;
-  document.getElementById('shadow-result').classList.remove('show');
+  document.getElementById('shadow-result').style.display = 'none';
   document.getElementById('progress-fill').style.width = '0%';
   document.getElementById('progress-label').textContent = 'Question 1 of 10';
   buildQuestions();
+
+// Apply inline styles to static elements that CSS can't reach
+setTimeout(() => {
+  // Progress bar track
+  const pb = document.getElementById('progress-fill')?.parentElement;
+  if(pb) pb.style.cssText = 'height:2px;background:#121210;margin-bottom:48px';
+  const pf = document.getElementById('progress-fill');
+  if(pf) pf.style.cssText = 'height:100%;background:#7eb8c4;transition:width .4s ease;width:0%';
+
+  // Progress label
+  const pl = document.getElementById('progress-label');
+  if(pl) pl.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.6rem;color:#5a5752;letter-spacing:.1em;margin-top:6px';
+
+  // Shadow result - hide initially
+  const sr = document.getElementById('shadow-result');
+  if(sr) sr.style.display = 'none';
+
+  // Shadow orb
+  const orb = document.getElementById('shadow-orb');
+  if(orb) orb.style.cssText = 'width:220px;height:220px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;border:1px solid rgba(126,184,196,.12);margin:0 auto 60px;';
+
+  // Shadow score label
+  const sl = document.querySelector('.shadow-score-label');
+  if(sl) sl.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.58rem;color:#5a5752;letter-spacing:.12em;text-transform:uppercase;margin-top:8px';
+  const sg = document.getElementById('shadow-grade');
+  if(sg) sg.style.cssText = 'font-family:"DM Serif Display",Georgia,serif;font-size:1rem;color:#a09c94;font-style:italic;margin-top:4px';
+
+  // Vessel analysis
+  const va = document.querySelector('.vessel-analysis');
+  if(va) va.style.cssText = 'background:#0d0d0b;border:1px solid rgba(126,184,196,.12);border-left:3px solid #7eb8c4;padding:36px 40px;margin-bottom:60px';
+  const vaLabel = document.querySelector('.va-label');
+  if(vaLabel) vaLabel.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.58rem;color:#7eb8c4;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px';
+
+  // Reset button
+  const rb = document.querySelector('.reset-btn');
+  if(rb) rb.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.68rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;background:transparent;border:1px solid rgba(126,184,196,.12);padding:12px 24px;cursor:pointer';
+
+  // Section labels
+  document.querySelectorAll('.section-label').forEach(el => {
+    el.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.64rem;color:#7eb8c4;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin:0 0 32px';
+  });
+}, 50);
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 buildQuestions();
+
+// Apply inline styles to static elements that CSS can't reach
+setTimeout(() => {
+  // Progress bar track
+  const pb = document.getElementById('progress-fill')?.parentElement;
+  if(pb) pb.style.cssText = 'height:2px;background:#121210;margin-bottom:48px';
+  const pf = document.getElementById('progress-fill');
+  if(pf) pf.style.cssText = 'height:100%;background:#7eb8c4;transition:width .4s ease;width:0%';
+
+  // Progress label
+  const pl = document.getElementById('progress-label');
+  if(pl) pl.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.6rem;color:#5a5752;letter-spacing:.1em;margin-top:6px';
+
+  // Shadow result - hide initially
+  const sr = document.getElementById('shadow-result');
+  if(sr) sr.style.display = 'none';
+
+  // Shadow orb
+  const orb = document.getElementById('shadow-orb');
+  if(orb) orb.style.cssText = 'width:220px;height:220px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;border:1px solid rgba(126,184,196,.12);margin:0 auto 60px;';
+
+  // Shadow score label
+  const sl = document.querySelector('.shadow-score-label');
+  if(sl) sl.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.58rem;color:#5a5752;letter-spacing:.12em;text-transform:uppercase;margin-top:8px';
+  const sg = document.getElementById('shadow-grade');
+  if(sg) sg.style.cssText = 'font-family:"DM Serif Display",Georgia,serif;font-size:1rem;color:#a09c94;font-style:italic;margin-top:4px';
+
+  // Vessel analysis
+  const va = document.querySelector('.vessel-analysis');
+  if(va) va.style.cssText = 'background:#0d0d0b;border:1px solid rgba(126,184,196,.12);border-left:3px solid #7eb8c4;padding:36px 40px;margin-bottom:60px';
+  const vaLabel = document.querySelector('.va-label');
+  if(vaLabel) vaLabel.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.58rem;color:#7eb8c4;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px';
+
+  // Reset button
+  const rb = document.querySelector('.reset-btn');
+  if(rb) rb.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.68rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;background:transparent;border:1px solid rgba(126,184,196,.12);padding:12px 24px;cursor:pointer';
+
+  // Section labels
+  document.querySelectorAll('.section-label').forEach(el => {
+    el.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.64rem;color:#7eb8c4;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin:0 0 32px';
+  });
+}, 50);
 </script>
 </Base>
