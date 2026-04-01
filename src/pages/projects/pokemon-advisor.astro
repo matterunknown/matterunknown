@@ -360,6 +360,21 @@ function renderResults(data, parsedCollection) {
         onmouseover="this.style.background='rgba(196,151,42,.15)'" onmouseout="this.style.background='rgba(196,151,42,.08)'">Submit feedback →</button>
       <div id="feedback-thanks" style="display:none;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#4caf50;margin-top:8px;text-align:center">Thank you.</div>
     </div>
+    <!-- Ko-fi nudge -->
+    <div style="background:#0d0d0b;border:1px solid rgba(126,184,196,.12);border-left:3px solid #7eb8c4;padding:24px 28px;margin-top:2px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#7eb8c4;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px">Like the recommendations?</div>
+        <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1.1rem;color:#e8e6e1;margin-bottom:4px">Help grow the model.</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.63rem;color:#a09c94;line-height:1.7">Every tip goes toward the Mac Studio — a dedicated machine that gives Vessel persistent memory and runs the model locally with no API costs. More compute means more cards scored, better signals, deeper recommendations.</div>
+      </div>
+      <a href="https://ko-fi.com/matterunknown" target="_blank" rel="noopener"
+        style="flex-shrink:0;display:inline-flex;align-items:center;gap:10px;padding:13px 24px;background:rgba(126,184,196,.08);border:1px solid rgba(126,184,196,.2);color:#7eb8c4;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:all .2s"
+        onmouseover="this.style.background='rgba(126,184,196,.15)'"
+        onmouseout="this.style.background='rgba(126,184,196,.08)'">
+        Tip Vessel →
+      </a>
+    </div>
+
     <button onclick="resetAdvisor()" style="margin-top:2px;width:100%;background:transparent;border:1px solid rgba(196,151,42,.12);padding:14px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;cursor:pointer"
       onmouseover="this.style.color='#c4972a';this.style.borderColor='rgba(196,151,42,.35)'"
       onmouseout="this.style.color='#5a5752';this.style.borderColor='rgba(196,151,42,.12)'">← Analyze another collection</button>`;

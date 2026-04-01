@@ -175,9 +175,11 @@ h1 em { font-style:italic;color:var(--vessel); }
   loadScript('https://storage.ko-fi.com/cdn/widget/Widget_2.js', function() {
     if (typeof kofiwidget2 !== 'undefined') {
       kofiwidget2.init('Tip Vessel', '#7eb8c4', 'matterunknown');
-      var widget = kofiwidget2.getHTML();
       var container = document.getElementById('kofi-widget-container');
-      if (container) container.innerHTML = widget;
+      if (container) {
+        // getHTML() returns the button markup — inject into our container
+        container.innerHTML = kofiwidget2.getHTML();
+      }
     }
   });
 
