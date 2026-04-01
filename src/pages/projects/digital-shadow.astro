@@ -101,13 +101,13 @@ nav.scrolled{border-color:var(--vessel-border);background:rgba(9,9,8,.93);backdr
 </div>
 
 <div class="section">
-  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  <div class="progress-label" id="progress-label">Question 1 of 10</div>
+  <div style="height:2px;background:#121210;margin-bottom:48px"><div id="progress-fill" style="height:100%;background:#7eb8c4;transition:width .4s ease;width:0%"></div></div>
+  <div id="progress-label" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#5a5752;letter-spacing:.1em;margin-top:-44px;margin-bottom:48px">Question 1 of 10</div>
 
   <div id="questions-container"></div>
 
   <div class="shadow-result" id="shadow-result">
-    <div class="shadow-viz">
+    <div style="display:flex;justify-content:center;margin-bottom:60px">
       <div class="shadow-orb" id="shadow-orb">
         <div class="shadow-score-num" id="shadow-score">—</div>
         <div class="shadow-score-label">Exposure score</div>
@@ -117,12 +117,12 @@ nav.scrolled{border-color:var(--vessel-border);background:rgba(9,9,8,.93);backdr
 
     <div class="broker-grid" id="broker-grid"></div>
 
-    <div class="vessel-analysis">
-      <div class="va-label">Vessel's assessment</div>
-      <div class="va-text" id="vessel-assessment"></div>
+    <div style="background:#0d0d0b;border:1px solid rgba(126,184,196,.12);border-left:3px solid #7eb8c4;padding:36px 40px;margin-bottom:60px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#7eb8c4;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px">Vessel's assessment</div>
+      <div id="vessel-assessment"></div>
     </div>
 
-    <button class="reset-btn" onclick="resetShadow()">Start over</button>
+    <button onclick="resetShadow()" style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;background:transparent;border:1px solid rgba(126,184,196,.12);padding:12px 24px;cursor:pointer">Start over</button>
   </div>
 </div>
 
@@ -377,11 +377,12 @@ function showResult() {
   // Build broker profiles
   const brokers = buildBrokerProfiles(answers, total);
   const grid = document.getElementById('broker-grid');
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;margin-bottom:60px';
   grid.innerHTML = brokers.map(b => `
-    <div class="broker-card">
-      <div class="broker-name">${b.name}</div>
-      <ul class="broker-data">
-        ${b.data.map(d => `<li>${d}</li>`).join('')}
+    <div style="background:#0d0d0b;border:1px solid rgba(126,184,196,.12);padding:24px 20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#7eb8c4;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">${b.name}</div>
+      <ul style="list-style:none;padding:0;margin:0">
+        ${b.data.map(d => `<li style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#a09c94;line-height:1.8;margin-bottom:4px;padding-left:0"><span style="color:#7eb8c4;opacity:.6">→ </span>${d}</li>`).join('')}
       </ul>
     </div>
   `).join('');
@@ -563,15 +564,7 @@ function resetShadow() {
 
 // Apply inline styles to static elements that CSS can't reach
 setTimeout(() => {
-  // Progress bar track
-  const pb = document.getElementById('progress-fill')?.parentElement;
-  if(pb) pb.style.cssText = 'height:2px;background:#121210;margin-bottom:48px';
-  const pf = document.getElementById('progress-fill');
-  if(pf) pf.style.cssText = 'height:100%;background:#7eb8c4;transition:width .4s ease;width:0%';
-
-  // Progress label
-  const pl = document.getElementById('progress-label');
-  if(pl) pl.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.6rem;color:#5a5752;letter-spacing:.1em;margin-top:6px';
+  // Progress already inline
 
   // Shadow result - hide initially
   const sr = document.getElementById('shadow-result');
@@ -609,15 +602,7 @@ buildQuestions();
 
 // Apply inline styles to static elements that CSS can't reach
 setTimeout(() => {
-  // Progress bar track
-  const pb = document.getElementById('progress-fill')?.parentElement;
-  if(pb) pb.style.cssText = 'height:2px;background:#121210;margin-bottom:48px';
-  const pf = document.getElementById('progress-fill');
-  if(pf) pf.style.cssText = 'height:100%;background:#7eb8c4;transition:width .4s ease;width:0%';
-
-  // Progress label
-  const pl = document.getElementById('progress-label');
-  if(pl) pl.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:.6rem;color:#5a5752;letter-spacing:.1em;margin-top:6px';
+  // Progress already inline
 
   // Shadow result - hide initially
   const sr = document.getElementById('shadow-result');
