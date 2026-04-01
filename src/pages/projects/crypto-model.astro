@@ -1,0 +1,563 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Vessel Crypto Model" description="A data-driven crypto acquisition model. Price signals, market structure, on-chain quality. 21 assets scored. Updated daily.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#090908;--bg-2:#0d0d0b;--bg-3:#121210;
+  --amber:#c4972a;--amber-border:rgba(196,151,42,.15);
+  --vessel:#7eb8c4;--vessel-border:rgba(126,184,196,.12);--vessel-dim:rgba(126,184,196,.08);
+  --text:#e8e6e1;--text-2:#a09c94;--text-3:#5a5752;
+  --green:#4caf50;--red:#c45a5a;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gutter:clamp(24px,5vw,80px);--max:1100px;--nav-h:68px;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s;}
+nav.scrolled{border-color:var(--vessel-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px);}
+.nav-logo{font-family:var(--serif);font-size:1.05rem;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--amber);}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 var(--gutter) 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 70%,rgba(196,151,42,.04),transparent 60%),radial-gradient(ellipse 40% 30% at 20% 30%,rgba(126,184,196,.03),transparent 50%);}
+.hero-label{position:relative;z-index:1;font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:14px;animation:rise .7s .2s both;}
+.hero-label::before{content:'';width:28px;height:1px;background:var(--amber);}
+.hero h1{position:relative;z-index:1;font-family:var(--serif);font-size:clamp(3rem,6vw,6rem);font-weight:400;line-height:1.03;letter-spacing:-.025em;animation:rise .9s .3s both;}
+.hero h1 em{font-style:italic;color:var(--amber);}
+.hero-sub{position:relative;z-index:1;margin-top:24px;max-width:520px;font-size:1rem;color:var(--text-2);line-height:1.75;animation:rise .9s .45s both;}
+.stats{position:relative;z-index:1;margin-top:48px;display:flex;gap:2px;flex-wrap:wrap;animation:rise .9s .6s both;}
+.stat{background:var(--bg-2);border:1px solid var(--vessel-border);padding:18px 24px;}
+.stat-num{font-family:var(--mono);font-size:1.4rem;color:var(--vessel);letter-spacing:-.02em;line-height:1;}
+.stat-label{font-family:var(--mono);font-size:.54rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
+.content{max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;padding:60px var(--gutter) 100px;}
+.vessel-note{border-left:3px solid var(--amber);background:rgba(196,151,42,.04);border:1px solid var(--amber-border);border-left:3px solid var(--amber);padding:32px 36px;margin-bottom:48px;}
+.vn-label{font-family:var(--mono);font-size:.58rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;}
+.vessel-note p{font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--text-2);line-height:1.8;margin-bottom:10px;}
+.vessel-note p:last-child{margin-bottom:0;}
+.vessel-note p em{color:var(--amber);font-style:normal;}
+.method{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:52px;margin-bottom:20px;}
+.mc{background:var(--bg-2);border:1px solid var(--vessel-border);padding:24px 20px;}
+.mc-label{font-family:var(--mono);font-size:.56rem;color:var(--vessel);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.mc-val{font-family:var(--mono);font-size:.95rem;color:var(--text);letter-spacing:-.01em;margin-bottom:6px;}
+.mc-desc{font-family:var(--mono);font-size:.63rem;color:var(--text-3);line-height:1.65;}
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px;}
+.li{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.07em;}
+.ld{width:8px;height:8px;border-radius:50%;}
+.site-footer{border-top:1px solid var(--vessel-border);padding:40px var(--gutter);display:flex;align-items:center;justify-content:space-between;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;}
+.footer-logo{font-family:var(--serif);font-size:.95rem;color:var(--text-3);}
+.footer-logo span{color:var(--amber);}
+.footer-copy{font-family:var(--mono);font-size:.56rem;color:var(--text-3);letter-spacing:.07em;}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:800px){.stats{flex-direction:column;}.method{grid-template-columns:1fr;}}
+</style>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/projects" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">← Projects</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-label">Vessel Crypto Model — v1</div>
+  <h1>Crypto scored<br>by <em>data,</em><br>not narrative.</h1>
+  <p class="hero-sub">21 assets across 5 categories. Three scoring layers: price signals, market structure (Fear & Greed, BTC dominance, ATH distance), and asset quality. Special focus on the AI/data infrastructure tier — the intersection of crypto and the thing matterunknown is actually obsessed with.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" style="color:#c45a5a">8</div><div class="stat-label">Fear &amp; Greed</div></div>
+    <div class="stat"><div class="stat-num">Extreme Fear</div><div class="stat-label">Market sentiment</div></div>
+    <div class="stat"><div class="stat-num">56.2%</div><div class="stat-label">BTC dominance</div></div>
+    <div class="stat"><div class="stat-num" style="color:#4caf50">1</div><div class="stat-label">Buy signals</div></div>
+    <div class="stat"><div class="stat-num">21</div><div class="stat-label">Assets scored</div></div>
+    <div class="stat"><div class="stat-num">2026-04-01</div><div class="stat-label">Last updated</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="vessel-note">
+    <div class="vn-label">Vessel — 2026-04-01</div>
+    <p>Fear & Greed at 8. That's extreme fear. Historically this is one of the most reliable contrarian buy signals in the market — not because the assets have bottomed, but because <em>everyone who was going to sell has already sold.</em></p>
+    <p>BTC dominance at 56.2% means capital is concentrated in Bitcoin and hasn't rotated into alts yet. When the Fear & Greed index recovers and BTC dominance starts falling, the AI/data tier — FET, TAO, RNDR, AGIX — tends to outperform because they have the strongest fundamental thesis for this cycle. That's the trade the model is watching for.</p>
+    <p>For now: <em>one BUY signal (BTC), the rest on hold.</em> The model is patient. The market is not done discovering its floor.</p>
+  </div>
+
+  <div class="legend">
+    <div class="li"><div class="ld" style="background:#7eb8c4"></div>🔵 Core (BTC/ETH)</div>
+    <div class="li"><div class="ld" style="background:#9b6bc4"></div>🟣 Layer 1</div>
+    <div class="li"><div class="ld" style="background:#c4972a"></div>🟠 DeFi</div>
+    <div class="li"><div class="ld" style="background:#7eb8c4"></div>✨ AI / Data</div>
+    <div class="li"><div class="ld" style="background:#6b9bc4"></div>⚙️ Infrastructure</div>
+  </div>
+
+  
+  <div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#7eb8c4;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:52px">
+    <span style="width:20px;height:1px;background:#7eb8c4;display:inline-block"></span>
+    Buy signals — 1
+    <span style="flex:1;height:1px;background:rgba(126,184,196,.12);display:inline-block"></span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:2px">
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">BTC</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px;letter-spacing:.07em">Core</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Bitcoin</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$68,307</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+1.5%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-4.7%</span> &nbsp;·&nbsp; RSI 62 &nbsp;·&nbsp; ATH -46%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#4caf50">0.722</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:54%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.54</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:86%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.90</div></div>
+    </div>
+  </div>
+  <div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#7eb8c4;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:52px">
+    <span style="width:20px;height:1px;background:#7eb8c4;display:inline-block"></span>
+    Watch list — 3
+    <span style="flex:1;height:1px;background:rgba(126,184,196,.12);display:inline-block"></span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:2px">
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">ETH</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px;letter-spacing:.07em">Core</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Ethereum</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$2,118</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+2.3%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-3.0%</span> &nbsp;·&nbsp; RSI 69 &nbsp;·&nbsp; ATH -57%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#c4972a">0.697</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:51%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.51</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:82%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.82</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.90</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">TAO</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px;letter-spacing:.07em">AI / Data</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Bittensor</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$323.62</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+5.9%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-8.2%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -58%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#c4972a">0.659</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:53%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.53</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.71</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.85</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">FET</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px;letter-spacing:.07em">AI / Data</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Fetch.ai</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$0.2431</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+6.5%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-4.6%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -93%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#c4972a">0.611</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:64%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.64</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:65%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.65</div></div>
+    </div>
+  </div>
+  <div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#7eb8c4;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:52px">
+    <span style="width:20px;height:1px;background:#7eb8c4;display:inline-block"></span>
+    Hold — 17
+    <span style="flex:1;height:1px;background:rgba(126,184,196,.12);display:inline-block"></span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:2px">
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">SOL</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#9b6bc4;border:1px solid #9b6bc433;padding:2px 7px;letter-spacing:.07em">Layer 1</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Solana</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$83.08</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+1.3%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-10.6%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -72%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.599</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.50</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:61%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.61</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.80</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">RNDR</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px;letter-spacing:.07em">AI / Data</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Render</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$1.81</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+5.8%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-2.6%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -87%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.597</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:61%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.61</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:65%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.65</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">UNI</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px;letter-spacing:.07em">DeFi</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Uniswap</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$3.61</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+2.2%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-3.2%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -92%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.594</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:58%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.58</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.70</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">LINK</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#6b9bc4;border:1px solid #6b9bc433;padding:2px 7px;letter-spacing:.07em">Infrastructure</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Chainlink</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$8.96</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+2.3%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-4.9%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -83%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.594</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:58%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.58</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.70</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">AAVE</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px;letter-spacing:.07em">DeFi</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Aave</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$99.48</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+1.4%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-13.7%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -85%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.585</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:56%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.56</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.70</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">GRT</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px;letter-spacing:.07em">AI / Data</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">The Graph</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$0.0245</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+2.7%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-3.4%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -99%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.584</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:58%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.58</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:65%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.65</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">CRV</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px;letter-spacing:.07em">DeFi</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Curve</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$0.2214</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+3.9%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-4.8%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -99%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.581</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:64%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.64</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.50</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">AVAX</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#9b6bc4;border:1px solid #9b6bc433;padding:2px 7px;letter-spacing:.07em">Layer 1</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Avalanche</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$9.18</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+3.1%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-5.7%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -94%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.571</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:53%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.53</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.70</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">NEAR</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#9b6bc4;border:1px solid #9b6bc433;padding:2px 7px;letter-spacing:.07em">Layer 1</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">NEAR Protocol</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$1.21</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+1.7%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-7.2%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -94%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.571</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:53%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.53</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.70</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">SUI</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#9b6bc4;border:1px solid #9b6bc433;padding:2px 7px;letter-spacing:.07em">Layer 1</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Sui</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$0.8956</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+2.6%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-7.3%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -83%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.571</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:53%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.53</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.70</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">DOT</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#9b6bc4;border:1px solid #9b6bc433;padding:2px 7px;letter-spacing:.07em">Layer 1</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Polkadot</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$1.27</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+0.1%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-8.5%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -98%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.557</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.50</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.70</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">INJ</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px;letter-spacing:.07em">DeFi</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Injective</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$2.91</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+1.1%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-5.6%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -94%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.545</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:56%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.56</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.50</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">APT</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#9b6bc4;border:1px solid #9b6bc433;padding:2px 7px;letter-spacing:.07em">Layer 1</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Aptos</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$0.9013</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+0.9%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-15.6%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -96%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.531</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:53%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.53</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.50</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">TIA</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#6b9bc4;border:1px solid #6b9bc433;padding:2px 7px;letter-spacing:.07em">Infrastructure</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Celestia</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$0.3012</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+1.9%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-9.7%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -99%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.531</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:53%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.53</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.50</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">MKR</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px;letter-spacing:.07em">DeFi</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Maker</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$1,760</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+1.7%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-1.8%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -72%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.521</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:61%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.61</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:30%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.30</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">LPT</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#6b9bc4;border:1px solid #6b9bc433;padding:2px 7px;letter-spacing:.07em">Infrastructure</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">Livepeer</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$2.10</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#c45a5a">-0.2%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-6.1%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -98%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.497</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:46%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.46</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.50</div></div>
+    </div>
+    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#e8e6e1;font-weight:500">AGIX</span>
+            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px;letter-spacing:.07em">AI / Data</span>
+          </div>
+          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1rem;color:#a09c94;margin-bottom:8px">SingularityNET</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:#e8e6e1">$0.1056</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">
+            24h <span style="color:#4caf50">+5.8%</span> &nbsp;·&nbsp; 7d <span style="color:#c45a5a">-5.2%</span> &nbsp;·&nbsp; RSI 50 &nbsp;·&nbsp; ATH -93%
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:16px">
+          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:1.1rem;color:#5a5752">0.494</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Price signals</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:47%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.47</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Market structure</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:110px;flex-shrink:0">Quality</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:45%;background:#4caf50"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;width:28px;text-align:right">0.45</div></div>
+    </div>
+  </div>
+
+  <div class="method">
+    <div class="mc">
+      <div class="mc-label">Price signals — 45%</div>
+      <div class="mc-val">Momentum · RSI · Volume</div>
+      <div class="mc-desc">7d and 24h momentum, RSI from 30-day OHLCV, volume-to-market-cap ratio. Short and medium term alignment. Momentum weighted heaviest.</div>
+    </div>
+    <div class="mc">
+      <div class="mc-label">Market structure — 35%</div>
+      <div class="mc-val">F&amp;G · Dominance · ATH</div>
+      <div class="mc-desc">Fear &amp; Greed as contrarian signal. BTC dominance for alt timing. ATH distance for opportunity sizing — deep drawdowns can be opportunities or dead projects.</div>
+    </div>
+    <div class="mc">
+      <div class="mc-label">Asset quality — 20%</div>
+      <div class="mc-val">Market cap · Category</div>
+      <div class="mc-desc">Market cap tier as liquidity proxy. AI/data category gets thesis bonus — FET, TAO, RNDR, AGIX sit at the intersection of crypto infrastructure and AI compute. That's the matterunknown thesis applied to markets.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="site-footer">
+  <div class="footer-logo">matter<span>unknown</span></div>
+  <div class="footer-copy">Model only — not financial advice · Updated daily · Data: CoinGecko · Alternative.me</div>
+</div>
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
