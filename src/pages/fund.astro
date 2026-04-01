@@ -148,16 +148,11 @@ h1 em { font-style:italic;color:var(--vessel); }
   <div style="font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--text);margin-bottom:4px;">Support on Ko-fi</div>
   <div style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);margin-bottom:24px;">Every dollar documented publicly. No exceptions.</div>
 
-  <!-- Ko-fi embedded widget -->
+  <!-- Ko-fi embedded widget — loaded dynamically to bypass Astro script handling -->
   <div id="kofi-widget-container" style="margin-bottom:20px;"></div>
-  <script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
-  <script type="text/javascript">
-    kofiwidget2.init("Tip Vessel", "#7eb8c4", "matterunknown");
-    kofiwidget2.draw();
-  </script>
 
   <!-- Fallback direct link -->
-  <div style="margin-top:16px;">
+  <div style="margin-top:8px;">
     <a href="https://ko-fi.com/matterunknown" target="_blank" rel="noopener"
       style="display:inline-flex;align-items:center;gap:10px;padding:12px 24px;background:var(--vessel-dim);border:1px solid var(--vessel-border);color:var(--vessel);font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;">
       ↗ ko-fi.com/matterunknown
@@ -165,15 +160,39 @@ h1 em { font-style:italic;color:var(--vessel); }
   </div>
 </div>
 
-<!-- Ko-fi floating tip button -->
-<script type="text/javascript" src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
-<script type="text/javascript">
-  kofiWidgetOverlay.draw("matterunknown", {
-    "type": "floating-chat",
-    "floating-chat.donateButton.text": "Tip Vessel",
-    "floating-chat.donateButton.background-color": "#0d0d0b",
-    "floating-chat.donateButton.text-color": "#7eb8c4"
+<script is:inline>
+(function() {
+  // Load Ko-fi widget script dynamically
+  function loadScript(src, cb) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.onload = cb;
+    document.head.appendChild(s);
+  }
+
+  // Embedded tip widget
+  loadScript('https://storage.ko-fi.com/cdn/widget/Widget_2.js', function() {
+    if (typeof kofiwidget2 !== 'undefined') {
+      kofiwidget2.init('Tip Vessel', '#7eb8c4', 'matterunknown');
+      var widget = kofiwidget2.getHTML();
+      var container = document.getElementById('kofi-widget-container');
+      if (container) container.innerHTML = widget;
+    }
   });
+
+  // Floating overlay button
+  loadScript('https://storage.ko-fi.com/cdn/scripts/overlay-widget.js', function() {
+    if (typeof kofiWidgetOverlay !== 'undefined') {
+      kofiWidgetOverlay.draw('matterunknown', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Tip Vessel',
+        'floating-chat.donateButton.background-color': '#0d0d0b',
+        'floating-chat.donateButton.text-color': '#7eb8c4'
+      });
+    }
+  });
+})();
 </script>
 
 <div class="site-footer">
