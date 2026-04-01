@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 ---
-<Base title="Vessel Pokémon Advisor" description="Enter your current collection and Vessel recommends what to buy next — powered by the live acquisition model.">
+<Base title="Vessel Pokémon Advisor" description="Enter your current collection and Vessel recommends what to buy next — powered by the live acquisition model covering every Pokemon set ever printed.">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -9,8 +9,8 @@ import Base from '../../layouts/Base.astro';
   --amber:#c4972a;--amber-border:rgba(196,151,42,.15);--amber-dim:rgba(196,151,42,.08);
   --vessel:#7eb8c4;--vessel-border:rgba(126,184,196,.12);--vessel-dim:rgba(126,184,196,.08);
   --text:#e8e6e1;--text-2:#a09c94;--text-3:#5a5752;
-  --green:#4caf50;--green-dim:rgba(76,175,80,.08);--green-border:rgba(76,175,80,.2);
-  --red:#c45a5a;--red-dim:rgba(196,90,90,.08);
+  --green:#4caf50;--green-dim:rgba(76,175,80,.08);
+  --red:#c45a5a;--purple:#9b6bc4;
   --serif:'DM Serif Display',Georgia,serif;
   --sans:'DM Sans',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
@@ -28,12 +28,13 @@ nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.93);backdro
 .hero h1{position:relative;z-index:1;font-family:var(--serif);font-size:clamp(3rem,6vw,6rem);font-weight:400;line-height:1.03;letter-spacing:-.025em;animation:rise .9s .3s both;}
 .hero h1 em{font-style:italic;color:var(--amber);}
 .hero-sub{position:relative;z-index:1;margin-top:24px;max-width:520px;font-size:1rem;color:var(--text-2);line-height:1.75;animation:rise .9s .45s both;}
-.privacy-note{position:relative;z-index:1;margin-top:16px;font-family:var(--mono);font-size:.6rem;color:var(--green);letter-spacing:.08em;display:flex;align-items:center;gap:8px;animation:rise .9s .55s both;}
-.privacy-note::before{content:'●';font-size:.5rem;}
+.hero-meta{position:relative;z-index:1;margin-top:12px;font-family:var(--mono);font-size:.62rem;color:var(--green);letter-spacing:.08em;display:flex;align-items:center;gap:8px;animation:rise .9s .55s both;}
+.hero-meta::before{content:'●';font-size:.5rem;}
 .content{max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;padding:72px var(--gutter) 100px;}
-.section-label{font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.section-label{font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;}
 .section-label::before{content:'';width:20px;height:1px;background:var(--amber);}
 .section-label::after{content:'';flex:1;height:1px;background:var(--amber-border);}
+.site-footer{border-top:1px solid var(--amber-border);padding:40px var(--gutter);display:flex;align-items:center;justify-content:space-between;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;}
 @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 </style>
 
@@ -46,632 +47,346 @@ nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.93);backdro
   <div class="hero-bg"></div>
   <div class="hero-label">Vessel / Pokémon Advisor</div>
   <h1>What should you<br>buy <em>next?</em></h1>
-  <p class="hero-sub">Enter your current collection — raw cards, graded slabs, sealed product. Vessel maps it against the live acquisition model and tells you exactly what to target next, what gaps to fill, and what upgrade paths exist in what you already own.</p>
-  <div class="privacy-note">Nothing is stored. Your collection never leaves your browser.</div>
+  <p class="hero-sub">Enter your current collection. Vessel searches across every Pokémon set ever printed — 172 sets, 10,000+ scored cards — and tells you exactly what to target next, what gaps to fill, and what you should already be grading.</p>
+  <div class="hero-meta">Live database · Nothing stored · Your collection never leaves your browser</div>
 </div>
 
 <div class="content" id="main-content">
+
+  <!-- DB status bar -->
+  <div id="db-status" style="background:var(--bg-2);border:1px solid var(--amber-border);padding:16px 24px;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.08em">Loading database...</div>
+  </div>
+
   <!-- Input section -->
   <div id="input-section">
-    <div class="section-label">Your collection</div>
 
     <!-- Format guide -->
-    <div id="format-guide" style="background:var(--bg-2);border:1px solid var(--amber-border);padding:28px 32px;margin-bottom:2px;">
+    <div style="background:var(--bg-2);border:1px solid var(--amber-border);padding:28px 32px;margin-bottom:2px;">
       <div style="font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">How to enter your collection</div>
       <div style="font-family:var(--mono);font-size:.68rem;color:var(--text-2);line-height:1.9">
-        List one card per line. Include the card name, set, and condition if known.<br>
+        One card per line. Card name and set are enough — condition and grade are optional but improve recommendations.<br><br>
         <span style="color:var(--text-3)">Examples:</span><br>
-        <span style="color:var(--text)">Ho-Oh Neo Revelation PSA 9</span><br>
+        <span style="color:var(--text)">Charizard Base Set PSA 9</span><br>
         <span style="color:var(--text)">Shining Mewtwo Neo Destiny raw NM</span><br>
-        <span style="color:var(--text)">Blaine's Charizard Gym Challenge ungraded</span><br>
+        <span style="color:var(--text)">Blaine's Charizard Gym Challenge</span><br>
+        <span style="color:var(--text)">Umbreon VMAX Evolving Skies PSA 10</span><br>
         <span style="color:var(--text)">Evolving Skies ETB sealed</span><br>
-        <span style="color:var(--text)">Umbreon VMAX alt art PSA 10</span><br><br>
-        <span style="color:var(--text-3)">No strict format required — Vessel will parse whatever you write.</span>
+        <span style="color:var(--text)">Lugia Neo Genesis</span>
       </div>
     </div>
 
-    <!-- Text input -->
     <div style="position:relative;margin-bottom:2px;">
       <textarea
         id="collection-input"
-        placeholder="Ho-Oh Neo Revelation PSA 9&#10;Entei Neo Revelation raw NM&#10;Raikou Neo Revelation raw&#10;Evolving Skies ETB sealed&#10;..."
-        style="width:100%;background:var(--bg-2);border:1px solid var(--amber-border);padding:24px 28px;font-family:var(--mono);font-size:.75rem;color:var(--text);line-height:1.8;outline:none;resize:vertical;min-height:220px;display:block;"
+        placeholder="Charizard Base Set PSA 9&#10;Blastoise Base Set raw NM&#10;Ho-Oh Neo Revelation&#10;Shining Mewtwo Neo Destiny raw&#10;..."
+        style="width:100%;background:var(--bg-2);border:1px solid var(--amber-border);padding:24px 28px;font-family:var(--mono);font-size:.75rem;color:var(--text);line-height:1.8;outline:none;resize:vertical;min-height:220px;display:block;letter-spacing:.04em"
       ></textarea>
     </div>
 
-    <!-- Example collections -->
+    <!-- Quick examples -->
     <div style="display:flex;gap:2px;margin-bottom:2px;">
-      <button onclick="loadExample('beginner')" style="flex:1;background:var(--bg-2);border:1px solid var(--amber-border);padding:12px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.08em;cursor:pointer;text-transform:uppercase;">Try: Beginner collection</button>
-      <button onclick="loadExample('neo')" style="flex:1;background:var(--bg-2);border:1px solid var(--amber-border);padding:12px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.08em;cursor:pointer;text-transform:uppercase;">Try: Neo-focused</button>
-      <button onclick="loadExample('modern')" style="flex:1;background:var(--bg-2);border:1px solid var(--amber-border);padding:12px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.08em;cursor:pointer;text-transform:uppercase;">Try: Modern collector</button>
+      <button onclick="loadExample('beginner')" style="flex:1;background:var(--bg-2);border:1px solid var(--amber-border);padding:12px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.08em;cursor:pointer;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-3)'">Try: Beginner</button>
+      <button onclick="loadExample('neo')" style="flex:1;background:var(--bg-2);border:1px solid var(--amber-border);padding:12px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.08em;cursor:pointer;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-3)'">Try: Neo era</button>
+      <button onclick="loadExample('modern')" style="flex:1;background:var(--bg-2);border:1px solid var(--amber-border);padding:12px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.08em;cursor:pointer;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-3)'">Try: Modern</button>
+      <button onclick="loadExample('mixed')" style="flex:1;background:var(--bg-2);border:1px solid var(--amber-border);padding:12px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.08em;cursor:pointer;text-transform:uppercase;transition:all .2s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-3)'">Try: Mixed</button>
     </div>
 
-    <button
-      onclick="analyzeCollection()"
+    <button id="analyze-btn" onclick="analyzeCollection()"
       style="width:100%;background:var(--amber-dim);border:1px solid var(--amber-border);padding:20px;font-family:var(--mono);font-size:.75rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;"
-      onmouseover="this.style.background='rgba(196,151,42,.15)'"
-      onmouseout="this.style.background='var(--amber-dim)'"
-    >
+      onmouseover="this.style.background='rgba(196,151,42,.15)'" onmouseout="this.style.background='var(--amber-dim)'">
       Analyze my collection →
     </button>
+
+    <!-- Loading state -->
+    <div id="loading-state" style="display:none;text-align:center;padding:60px 0">
+      <div style="font-family:var(--mono);font-size:.7rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px">Searching 10,000+ cards...</div>
+      <div style="font-family:var(--mono);font-size:.65rem;color:var(--text-3)">Mapping your collection against the model</div>
+    </div>
   </div>
 
-  <!-- Results section -->
+  <!-- Results -->
   <div id="results-section" style="display:none"></div>
+
 </div>
 
-<div class="site-footer" style="border-top:1px solid var(--amber-border);padding:40px var(--gutter);display:flex;align-items:center;justify-content:space-between;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;">
+<div class="site-footer">
   <div style="font-family:var(--serif);font-size:.95rem;color:var(--text-3)">matter<span style="color:var(--amber)">unknown</span></div>
-  <div style="font-family:var(--mono);font-size:.56rem;color:var(--text-3);letter-spacing:.07em">Powered by the Vessel acquisition model · Nothing stored</div>
+  <div style="font-family:var(--mono);font-size:.56rem;color:var(--text-3);letter-spacing:.07em">Powered by live database · 172 sets · Updated daily</div>
 </div>
 
 <script is:inline>
+const API = 'https://automation.houseofidentity.io';
+const SIG_COLOR   = {BUY:'#4caf50',WATCH:'#c4972a',HOLD:'#5a5752',AVOID:'#c45a5a'};
+const REC_COLORS  = {
+  upgrade:         {border:'#7eb8c4', label:'Grade this now'},
+  set_completion:  {border:'#c4972a', label:'Set completion'},
+  gap_fill:        {border:'#4caf50', label:'Buy signal gap'},
+  watch:           {border:'#5a5752', label:'Watch list'},
+  diversification: {border:'#9b6bc4', label:'Diversification'},
+};
+
+const EXAMPLES = {
+  beginner: `Charizard Base Set raw\nBlastoise Base Set raw\nVenusaur Base Set raw`,
+  neo: `Ho-Oh Neo Revelation PSA 9\nRaikou Neo Revelation raw NM\nEntei Neo Revelation raw\nSuicune Neo Revelation raw`,
+  modern: `Umbreon VMAX Evolving Skies PSA 9\nGardevoir ex Scarlet & Violet raw\nMega Gengar ex Ascended Heroes raw`,
+  mixed: `Charizard Base Set PSA 8\nShining Mewtwo Neo Destiny raw NM\nUmbreon VMAX Evolving Skies PSA 10\nCrown Zenith ETB sealed`,
+};
+
 window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
 
-// ─── Model data (embedded from last run) ────────────────────────
-const MODEL = [
-  {rank:1,  name:"Blaine's Charizard",           set:"Gym Challenge",         type:"vintage_single", signal:"BUY",   score:0.875, psa9_market:520,  all_in:103, psa9_pop:187,  psa10_pop:23,  cm_trend:110.6, notes:"Set completion demand. 110% CM 7d spike."},
-  {rank:2,  name:"Shining Mewtwo",                set:"Neo Destiny",           type:"vintage_single", signal:"BUY",   score:0.852, psa9_market:993,  all_in:117, psa9_pop:134,  psa10_pop:23,  cm_trend:17.0,  notes:"Near 10x raw-to-PSA9 return. Extremely low pop."},
-  {rank:3,  name:"Ho-Oh",                         set:"Neo Revelation",        type:"vintage_single", signal:"BUY",   score:0.819, psa9_market:236,  all_in:69,  psa9_pop:234,  psa10_pop:45,  cm_trend:44.0,  notes:"Gen 2 wave actively rising. Best entry of the beasts."},
-  {rank:4,  name:"Crown Zenith Mew VSTAR Rainbow",set:"Crown Zenith",          type:"modern_single",  signal:"BUY",   score:0.815, psa9_market:40,   all_in:90,  psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"PSA 10s at $375+. 30th anniversary supply drying up."},
-  {rank:5,  name:"Raikou",                        set:"Neo Revelation",        type:"vintage_single", signal:"BUY",   score:0.799, psa9_market:202,  all_in:68,  psa9_pop:289,  psa10_pop:54,  cm_trend:32.0,  notes:"Sacred beasts. Strong 30d trend."},
-  {rank:6,  name:"Entei",                         set:"Neo Revelation",        type:"vintage_single", signal:"BUY",   score:0.787, psa9_market:150,  all_in:64,  psa9_pop:312,  psa10_pop:67,  cm_trend:18.0,  notes:"Lowest entry of the three beasts."},
-  {rank:7,  name:"Evolving Skies ETB",            set:"Evolving Skies",        type:"sealed",         signal:"WATCH", score:0.757, psa9_market:2600, all_in:2600,psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"The gold standard comp. Ship sailed on entry."},
-  {rank:8,  name:"Suicune",                       set:"Neo Revelation",        type:"vintage_single", signal:"WATCH", score:0.744, psa9_market:135,  all_in:62,  psa9_pop:445,  psa10_pop:89,  cm_trend:35.0,  notes:"Most liquid of the beasts."},
-  {rank:9,  name:"Shining Charizard",             set:"Neo Destiny",           type:"vintage_single", signal:"WATCH", score:0.730, psa9_market:3999, all_in:530, psa9_pop:89,   psa10_pop:12,  cm_trend:-43.0, notes:"Shining era extremely scarce. High entry."},
-  {rank:10, name:"Ascended Heroes ETB",           set:"Ascended Heroes",       type:"sealed",         signal:"WATCH", score:0.727, psa9_market:108,  all_in:108, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"Prismatic Evolutions setup. Cases cheap now."},
-  {rank:11, name:"Shining Gyarados",              set:"Neo Destiny",           type:"vintage_single", signal:"WATCH", score:0.705, psa9_market:0,    all_in:0,   psa9_pop:78,   psa10_pop:11,  cm_trend:0,     notes:"Lowest pop of the Shining cards."},
-  {rank:12, name:"Mega Gengar ex SIR",            set:"Ascended Heroes",       type:"modern_single",  signal:"WATCH", score:0.705, psa9_market:280,  all_in:330, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"First Mega Gengar in 10 years. PSA 10 at 2.5x raw."},
-  {rank:13, name:"Lugia",                         set:"Aquapolis",             type:"vintage_single", signal:"WATCH", score:0.695, psa9_market:0,    all_in:0,   psa9_pop:45,   psa10_pop:6,   cm_trend:0,     notes:"e-Card era. Extremely undergraded."},
-  {rank:14, name:"Shining Magikarp",              set:"Neo Destiny",           type:"vintage_single", signal:"WATCH", score:0.685, psa9_market:0,    all_in:0,   psa9_pop:67,   psa10_pop:8,   cm_trend:0,     notes:"Lowest absolute pop in Neo Destiny."},
-  {rank:15, name:"Charizard",                     set:"Skyridge",              type:"vintage_single", signal:"WATCH", score:0.685, psa9_market:0,    all_in:0,   psa9_pop:34,   psa10_pop:4,   cm_trend:0,     notes:"e-Card era. Barely graded. First mover opportunity."},
-  {rank:16, name:"Ho-Oh",                         set:"Aquapolis",             type:"vintage_single", signal:"WATCH", score:0.685, psa9_market:0,    all_in:0,   psa9_pop:38,   psa10_pop:5,   cm_trend:0,     notes:"Lowest pop Ho-Oh across all sets."},
-  {rank:17, name:"Destined Rivals ETB",           set:"Destined Rivals",       type:"sealed",         signal:"HOLD",  score:0.665, psa9_market:146,  all_in:146, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"Team Rocket nostalgia. Undervalued."},
-  {rank:18, name:"Mega Dragonite ex SIR",         set:"Ascended Heroes",       type:"modern_single",  signal:"HOLD",  score:0.657, psa9_market:180,  all_in:230, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"Second chase of Ascended Heroes. Lower entry."},
-  {rank:19, name:"Dark Charizard",                set:"Team Rocket",           type:"vintage_single", signal:"HOLD",  score:0.645, psa9_market:334,  all_in:80,  psa9_pop:523,  psa10_pop:98,  cm_trend:-6.0,  notes:"Cult following. Steady."},
-  {rank:20, name:"Crown Zenith ETB",              set:"Crown Zenith",          type:"sealed",         signal:"HOLD",  score:0.641, psa9_market:230,  all_in:230, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"SWSH rotation locks in scarcity."},
-  {rank:21, name:"Umbreon ex SIR 161",            set:"Prismatic Evolutions",  type:"modern_single",  signal:"HOLD",  score:0.630, psa9_market:1005, all_in:1055,psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"Moonbreon successor. PSA 10 at $3,850."},
-  {rank:22, name:"Team Rocket's Mewtwo ex SIR",   set:"Destined Rivals",       type:"modern_single",  signal:"HOLD",  score:0.620, psa9_market:500,  all_in:550, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"Gen 1 nostalgia + Team Rocket."},
-  {rank:23, name:"Gengar VMAX Alt Art",           set:"Fusion Strike",         type:"modern_single",  signal:"HOLD",  score:0.610, psa9_market:700,  all_in:750, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"Gengar tax. SWSH rotation amplifies scarcity."},
-  {rank:24, name:"Prismatic Evolutions ETB",      set:"Prismatic Evolutions",  type:"sealed",         signal:"HOLD",  score:0.597, psa9_market:190,  all_in:190, psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"Already reprinted heavily."},
-  {rank:25, name:"Moonbreon (Umbreon VMAX Alt Art)",set:"Evolving Skies",      type:"modern_single",  signal:"HOLD",  score:0.595, psa9_market:1771, all_in:1821,psa9_pop:0,    psa10_pop:0,   cm_trend:0,     notes:"449% long-term appreciation. Blue chip but high entry."},
-];
-
-// Aliases for fuzzy matching
-const ALIASES = {
-  "moonbreon": "Moonbreon (Umbreon VMAX Alt Art)",
-  "umbreon vmax": "Moonbreon (Umbreon VMAX Alt Art)",
-  "umbreon vmax alt art": "Moonbreon (Umbreon VMAX Alt Art)",
-  "umbreon ex": "Umbreon ex SIR 161",
-  "bubble mew": "Crown Zenith Mew VSTAR Rainbow",
-  "mew vstar": "Crown Zenith Mew VSTAR Rainbow",
-  "blaines charizard": "Blaine's Charizard",
-  "blaine charizard": "Blaine's Charizard",
-  "shining mewtwo": "Shining Mewtwo",
-  "shining charizard": "Shining Charizard",
-  "shining gyarados": "Shining Gyarados",
-  "shining magikarp": "Shining Magikarp",
-  "neo lugia": "Lugia",
-  "neo genesis lugia": "Lugia",
-  "dark charizard": "Dark Charizard",
-  "mega gengar": "Mega Gengar ex SIR",
-  "mega dragonite": "Mega Dragonite ex SIR",
-  "team rockets mewtwo": "Team Rocket's Mewtwo ex SIR",
-  "rockets mewtwo": "Team Rocket's Mewtwo ex SIR",
-  "gengar vmax": "Gengar VMAX Alt Art",
-  "evolving skies etb": "Evolving Skies ETB",
-  "ascended heroes etb": "Ascended Heroes ETB",
-  "destined rivals etb": "Destined Rivals ETB",
-  "crown zenith etb": "Crown Zenith ETB",
-  "prismatic evolutions etb": "Prismatic Evolutions ETB",
-  "ho-oh": "Ho-Oh",
-  "hooh": "Ho-Oh",
-};
-
-const SET_ALIASES = {
-  "neo rev": "Neo Revelation",
-  "neo dest": "Neo Destiny",
-  "neo gen": "Neo Genesis",
-  "gym chall": "Gym Challenge",
-  "gym heroes": "Gym Heroes",
-  "aqua": "Aquapolis",
-  "sky": "Skyridge",
-  "es": "Evolving Skies",
-  "cz": "Crown Zenith",
-  "pe": "Prismatic Evolutions",
-  "dr": "Destined Rivals",
-  "ah": "Ascended Heroes",
-  "fs": "Fusion Strike",
-};
-
-// Example collections
-const EXAMPLES = {
-  beginner: `Ho-Oh Neo Revelation raw NM
-Entei Neo Revelation raw
-Raikou Neo Revelation raw
-Evolving Skies ETB sealed`,
-
-  neo: `Ho-Oh Neo Revelation PSA 9
-Suicune Neo Revelation PSA 9
-Raikou Neo Revelation raw NM
-Entei Neo Revelation raw NM
-Shining Magikarp Neo Destiny raw
-Lugia Neo Genesis raw`,
-
-  modern: `Moonbreon PSA 9
-Umbreon ex SIR 161 raw
-Evolving Skies ETB sealed
-Prismatic Evolutions ETB sealed
-Mega Gengar ex SIR raw`,
-};
+// Load DB stats on page load
+async function loadStats() {
+  try {
+    const r = await fetch(`${API}/api/pokemon/summary`);
+    if (!r.ok) throw new Error('API unavailable');
+    const d = await r.json();
+    const buys = d.signals?.BUY || 0;
+    document.getElementById('db-status').innerHTML = `
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a5752;letter-spacing:.08em;display:flex;gap:24px;flex-wrap:wrap">
+        <span><span style="color:#c4972a">${(d.total_cards||0).toLocaleString()}</span> cards scored</span>
+        <span><span style="color:#4caf50">${buys}</span> BUY signals</span>
+        <span>172 sets · Updated daily</span>
+        <span style="color:#4caf50">● API live</span>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#5a5752;letter-spacing:.08em">All calls HTTPS · Read-only · Nothing stored</div>`;
+  } catch(e) {
+    document.getElementById('db-status').innerHTML = `
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#c45a5a">API unavailable — please try again shortly</div>`;
+  }
+}
+loadStats();
 
 function loadExample(type) {
-  document.getElementById('collection-input').value = EXAMPLES[type];
+  document.getElementById('collection-input').value = EXAMPLES[type] || '';
 }
 
-// ─── Collection parser ───────────────────────────────────────────
+// ── Parser ────────────────────────────────────────────────────────
 function parseCollection(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 2);
-  const parsed = [];
+  return lines.map(line => {
+    const lower = line.toLowerCase();
+    let grade = 'unknown', graded = false;
+    if (/psa\s*10/.test(lower))       { grade = 'PSA 10'; graded = true; }
+    else if (/psa\s*9\.5/.test(lower)){ grade = 'PSA 9.5'; graded = true; }
+    else if (/psa\s*9/.test(lower))   { grade = 'PSA 9'; graded = true; }
+    else if (/psa\s*8/.test(lower))   { grade = 'PSA 8'; graded = true; }
+    else if (/psa\s*[0-9]/.test(lower)){ grade = 'PSA graded'; graded = true; }
+    else if (/bgs|beckett/.test(lower)){ grade = 'BGS'; graded = true; }
+    else if (/cgc/.test(lower))        { grade = 'CGC'; graded = true; }
+    else if (/sealed|unopened/.test(lower)) { grade = 'Sealed'; }
+    else if (/nm|near.?mint/.test(lower))   { grade = 'NM raw'; }
+    else if (/lp|lightly.?played/.test(lower)) { grade = 'LP raw'; }
+    else if (/raw|ungraded/.test(lower))    { grade = 'raw'; }
 
-  for (const line of lines) {
-    const lower = line.toLowerCase()
-      .replace(/['']/g, "'")
-      .replace(/[^a-z0-9\s'\-\.]/g, ' ')
-      .replace(/\s+/g, ' ')
+    // Extract name — remove grade/condition words
+    const cleanLine = line
+      .replace(/psa\s*\d+\.?\d*/gi, '')
+      .replace(/\b(bgs|cgc|raw|nm|near mint|mint|sealed|ungraded|lp|lightly played|graded|holo|unlimited|1st edition|first edition)\b/gi, '')
       .trim();
 
-    // Extract grade/condition
-    let grade = 'unknown';
-    let graded = false;
-    if (/psa\s*10/.test(lower)) { grade = 'PSA 10'; graded = true; }
-    else if (/psa\s*9\.5/.test(lower)) { grade = 'PSA 9.5'; graded = true; }
-    else if (/psa\s*9/.test(lower)) { grade = 'PSA 9'; graded = true; }
-    else if (/psa\s*8/.test(lower)) { grade = 'PSA 8'; graded = true; }
-    else if (/psa\s*[0-9]/.test(lower)) { grade = 'PSA graded'; graded = true; }
-    else if (/bgs|beckett/.test(lower)) { grade = 'BGS'; graded = true; }
-    else if (/cgc/.test(lower)) { grade = 'CGC'; graded = true; }
-    else if (/sealed|unopened/.test(lower)) { grade = 'Sealed'; }
-    else if (/nm|near mint|mint/.test(lower)) { grade = 'NM raw'; }
-    else if (/lp|lightly played/.test(lower)) { grade = 'LP raw'; }
-    else if (/raw|ungraded/.test(lower)) { grade = 'raw'; }
+    // Split name vs set — sets are usually last 1-3 words
+    const words = cleanLine.split(/\s+/).filter(Boolean);
+    const name = words.slice(0, Math.max(2, words.length - 2)).join(' ') || cleanLine;
+    const set_name = words.length > 2 ? words.slice(-2).join(' ') : '';
 
-    // Try alias match first
-    let matched = null;
-    for (const [alias, canonical] of Object.entries(ALIASES)) {
-      if (lower.includes(alias)) {
-        // Find in model
-        const modelCard = MODEL.find(m =>
-          m.name.toLowerCase() === canonical.toLowerCase()
-        );
-        if (modelCard) {
-          // Try to match set if specified
-          let setMatch = modelCard.set;
-          for (const [sa, sf] of Object.entries(SET_ALIASES)) {
-            if (lower.includes(sa)) setMatch = sf;
-          }
-          // Check if a different card with same name but different set
-          const setSpecific = MODEL.find(m =>
-            m.name.toLowerCase() === canonical.toLowerCase() &&
-            (lower.includes(m.set.toLowerCase()) || lower.includes(setMatch.toLowerCase()))
-          );
-          matched = {
-            raw: line,
-            name: modelCard.name,
-            set: (setSpecific || modelCard).set,
-            grade,
-            graded,
-            modelCard: setSpecific || modelCard,
-            inModel: true,
-          };
-          break;
-        }
-      }
-    }
-
-    // Direct name match if no alias hit
-    if (!matched) {
-      for (const card of MODEL) {
-        const cardLower = card.name.toLowerCase();
-        if (lower.includes(cardLower) || cardLower.includes(lower.split(' ').slice(0,2).join(' '))) {
-          // Check set match
-          const setMatch = lower.includes(card.set.toLowerCase()) ||
-            Object.entries(SET_ALIASES).some(([alias, full]) =>
-              lower.includes(alias) && full.toLowerCase() === card.set.toLowerCase()
-            );
-          matched = {
-            raw: line,
-            name: card.name,
-            set: card.set,
-            grade,
-            graded,
-            modelCard: card,
-            inModel: true,
-          };
-          if (setMatch) break; // prefer set-specific match
-        }
-      }
-    }
-
-    // Unrecognized card — still track it
-    if (!matched) {
-      matched = {
-        raw: line,
-        name: line.replace(/psa\s*\d+\.?\d*|raw|nm|near mint|sealed|ungraded|lp|graded/gi, '').trim(),
-        set: 'Unknown',
-        grade,
-        graded,
-        modelCard: null,
-        inModel: false,
-      };
-    }
-
-    parsed.push(matched);
-  }
-
-  return parsed;
+    return { raw: line, name: name || cleanLine, set_name, grade, graded };
+  });
 }
 
-// ─── Recommendation engine ───────────────────────────────────────
-function generateRecommendations(collection) {
-  const ownedNames = new Set(collection.filter(c => c.inModel).map(c => `${c.name}|${c.set}`));
-  const ownedRaw   = new Set(collection.filter(c => c.inModel && !c.graded && c.grade !== 'Sealed').map(c => `${c.name}|${c.set}`));
-  const ownedGraded = new Set(collection.filter(c => c.inModel && c.graded).map(c => `${c.name}|${c.set}`));
-
-  const recs = [];
-
-  // 1. Upgrade paths — raw cards that should be graded
-  const upgradeTargets = collection.filter(c =>
-    c.inModel && !c.graded && c.grade !== 'Sealed' &&
-    (c.modelCard.signal === 'BUY' || c.modelCard.signal === 'WATCH') &&
-    c.modelCard.psa9_market > 100
-  );
-  for (const card of upgradeTargets) {
-    const m = card.modelCard;
-    const roi = m.psa9_market > 0 ? ((m.psa9_market - m.all_in) / m.all_in * 100).toFixed(0) : null;
-    recs.push({
-      type: 'upgrade',
-      priority: 1,
-      card: m,
-      owned: card,
-      headline: `Grade your ${m.name} (${m.set})`,
-      reason: `You own this raw — it's a ${m.signal} signal with PSA 9 market at $${m.psa9_market.toLocaleString()}. ${roi ? `Potential ${roi}% return on grading cost.` : ''} Submit to PSA now.`,
-      action: 'PSA submission',
-    });
-  }
-
-  // 2. Set completion — cards in the same set/theme
-  const neoRevOwned = collection.filter(c => c.set === 'Neo Revelation' || (c.inModel && c.modelCard?.set === 'Neo Revelation'));
-  const neoRevCards = MODEL.filter(m => m.set === 'Neo Revelation');
-  const neoRevMissing = neoRevCards.filter(m => !ownedNames.has(`${m.name}|${m.set}`));
-  if (neoRevOwned.length > 0 && neoRevMissing.length > 0) {
-    for (const m of neoRevMissing) {
-      recs.push({
-        type: 'set_completion',
-        priority: m.signal === 'BUY' ? 2 : m.signal === 'WATCH' ? 3 : 4,
-        card: m,
-        owned: null,
-        headline: `Complete Neo Revelation: add ${m.name}`,
-        reason: `You own ${neoRevOwned.length} Neo Revelation card${neoRevOwned.length > 1 ? 's' : ''}. ${m.name} is missing — ${m.signal} signal, score ${m.score.toFixed(3)}. ${m.psa9_market > 0 ? `PSA 9 at $${m.psa9_market}.` : ''} Completing the legendary beasts set adds coherence and value.`,
-        action: `Buy ${m.grade !== 'unknown' ? 'raw on eBay or TCGplayer' : 'on eBay'}`,
-      });
-    }
-  }
-
-  const neoDestOwned = collection.filter(c => c.set === 'Neo Destiny' || (c.inModel && c.modelCard?.set === 'Neo Destiny'));
-  const neoDestCards = MODEL.filter(m => m.set === 'Neo Destiny');
-  const neoDestMissing = neoDestCards.filter(m => !ownedNames.has(`${m.name}|${m.set}`));
-  if (neoDestOwned.length > 0 && neoDestMissing.length > 0) {
-    for (const m of neoDestMissing) {
-      recs.push({
-        type: 'set_completion',
-        priority: m.signal === 'BUY' ? 2 : 3,
-        card: m,
-        owned: null,
-        headline: `Complete Neo Destiny Shinings: add ${m.name}`,
-        reason: `You have Neo Destiny cards. The Shining series (${neoDestCards.map(c=>c.name).join(', ')}) is the highest-scarcity tier in the Neo era. ${m.name} — ${m.signal}, score ${m.score.toFixed(3)}.`,
-        action: 'Buy raw on eBay',
-      });
-    }
-  }
-
-  // 3. Gap fills — BUY signals not in collection
-  const buyGaps = MODEL.filter(m =>
-    m.signal === 'BUY' && !ownedNames.has(`${m.name}|${m.set}`)
-  );
-  for (const m of buyGaps) {
-    recs.push({
-      type: 'gap_fill',
-      priority: 2,
-      card: m,
-      owned: null,
-      headline: `${m.name} (${m.set}) — not in your collection`,
-      reason: `Model's #${m.rank} pick. Score ${m.score.toFixed(3)}. ${m.psa9_market > 0 ? `PSA 9 at $${m.psa9_market.toLocaleString()}, ~$${m.all_in} all-in to grade.` : ''} ${m.notes}`,
-      action: m.type === 'sealed' ? 'Buy sealed' : 'Buy raw and grade',
-    });
-  }
-
-  // 4. WATCH signals not in collection
-  const watchGaps = MODEL.filter(m =>
-    m.signal === 'WATCH' && !ownedNames.has(`${m.name}|${m.set}`)
-  ).slice(0, 4);
-  for (const m of watchGaps) {
-    recs.push({
-      type: 'watch',
-      priority: 4,
-      card: m,
-      owned: null,
-      headline: `Watch: ${m.name} (${m.set})`,
-      reason: `Not in your collection yet. WATCH signal — score ${m.score.toFixed(3)}. ${m.notes}`,
-      action: 'Monitor price',
-    });
-  }
-
-  // 5. Diversification — if heavily vintage, suggest modern or sealed
-  const vintageCount = collection.filter(c => c.inModel && c.modelCard?.type === 'vintage_single').length;
-  const modernCount  = collection.filter(c => c.inModel && c.modelCard?.type === 'modern_single').length;
-  const sealedCount  = collection.filter(c => c.inModel && c.modelCard?.type === 'sealed').length;
-
-  if (vintageCount >= 3 && modernCount === 0) {
-    const bestModern = MODEL.find(m => m.type === 'modern_single' && m.signal === 'BUY' && !ownedNames.has(`${m.name}|${m.set}`));
-    if (bestModern) {
-      recs.push({
-        type: 'diversification',
-        priority: 3,
-        card: bestModern,
-        owned: null,
-        headline: `Diversify: add a modern card`,
-        reason: `Your collection is vintage-heavy (${vintageCount} cards). Adding ${bestModern.name} (${bestModern.set}) gives you exposure to the modern market and a PSA 10 grading play. Raw at $${bestModern.psa9_market}, PSA 10s trading at 3-9x raw.`,
-        action: 'Buy raw on TCGplayer',
-      });
-    }
-  }
-
-  if (sealedCount === 0 && (vintageCount + modernCount) >= 2) {
-    const bestSealed = MODEL.find(m => m.type === 'sealed' && m.signal !== 'HOLD' && !ownedNames.has(`${m.name}|${m.set}`));
-    if (bestSealed) {
-      recs.push({
-        type: 'diversification',
-        priority: 4,
-        card: bestSealed,
-        owned: null,
-        headline: `Consider sealed: ${bestSealed.name}`,
-        reason: `No sealed product in your collection. ${bestSealed.name} at $${bestSealed.all_in} is the hold-and-appreciate play — buy sealed, store properly, sell when print run ends. Different risk profile to singles.`,
-        action: 'Buy sealed, store flat',
-      });
-    }
-  }
-
-  // Sort by priority then score
-  recs.sort((a, b) => a.priority - b.priority || b.card.score - a.card.score);
-  return recs;
+// ── Render helpers ────────────────────────────────────────────────
+function fmtPrice(p) {
+  if (!p) return '—';
+  return p >= 1000 ? `$${p.toLocaleString('en',{maximumFractionDigits:0})}` : `$${p.toFixed(2)}`;
 }
 
-// ─── Render ──────────────────────────────────────────────────────
-const SIG_COLOR  = {BUY:'#4caf50',WATCH:'#c4972a',HOLD:'#5a5752',AVOID:'#c45a5a'};
-const TYPE_LABEL = {vintage_single:'🏛 Vintage',modern_single:'✨ Modern',sealed:'📦 Sealed'};
-const REC_COLORS = {
-  upgrade:        {border:'#7eb8c4', label:'Upgrade opportunity', labelColor:'#7eb8c4'},
-  set_completion: {border:'#c4972a', label:'Set completion',      labelColor:'#c4972a'},
-  gap_fill:       {border:'#4caf50', label:'Buy signal gap',      labelColor:'#4caf50'},
-  watch:          {border:'#5a5752', label:'Watch list',          labelColor:'#5a5752'},
-  diversification:{border:'#9b6bc4', label:'Diversification',     labelColor:'#9b6bc4'},
-};
+function sectionLabel(color, text) {
+  return `<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:${color};letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:48px">
+    <span style="width:20px;height:1px;background:${color};display:inline-block"></span>${text}
+    <span style="flex:1;height:1px;background:${color}33;display:inline-block"></span>
+  </div>`;
+}
 
-function renderCollectionCard(item) {
-  const sig_c = item.inModel ? SIG_COLOR[item.modelCard.signal] : '#5a5752';
-  const type_l = item.inModel ? TYPE_LABEL[item.modelCard.type] : '';
-  const score  = item.inModel ? item.modelCard.score.toFixed(3) : '—';
-  const signal = item.inModel ? item.modelCard.signal : '—';
-  const grade_color = item.graded ? '#4caf50' : item.grade === 'Sealed' ? '#c4972a' : '#a09c94';
-
-  return `<div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid ${sig_c};padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+function cardRow(card, inputGrade) {
+  const sc = card.signal;
+  const sig_c = SIG_COLOR[sc] || '#5a5752';
+  const grade_c = inputGrade && (inputGrade.includes('PSA') || inputGrade.includes('BGS')) ? '#4caf50' : '#a09c94';
+  return `<div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid ${sig_c};padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px">
     <div>
-      <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1rem;color:#e8e6e1;margin-bottom:3px">${item.name}</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;letter-spacing:.07em">${item.set} &nbsp;·&nbsp; <span style="color:${grade_color}">${item.grade}</span> &nbsp;·&nbsp; ${type_l}</div>
+      <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1rem;color:#e8e6e1">${card.name}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;margin-top:3px">
+        ${card.set_name} &nbsp;·&nbsp; <span style="color:${grade_c}">${inputGrade || 'unknown'}</span>
+        ${card.tcg_market ? ` &nbsp;·&nbsp; Market ${fmtPrice(card.tcg_market)}` : ''}
+      </div>
     </div>
     <div style="text-align:right;flex-shrink:0">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:${sig_c};border:1px solid ${sig_c}44;padding:2px 8px;letter-spacing:.1em;margin-bottom:4px">${signal}</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:${sig_c}">${score}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:${sig_c};border:1px solid ${sig_c}44;padding:2px 8px;letter-spacing:.1em;margin-bottom:3px">${sc}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:${sig_c}">${card.score?.toFixed(3)}</div>
     </div>
   </div>`;
 }
 
-function renderRecCard(rec) {
-  const rc = REC_COLORS[rec.type];
-  const m  = rec.card;
-  const price_str = m.psa9_market > 0 && m.type !== 'sealed'
-    ? `<span style="color:#5a5752">PSA 9 ~$${m.psa9_market.toLocaleString()} &nbsp;·&nbsp; All-in ~$${m.all_in}</span>`
-    : m.type === 'sealed' ? `<span style="color:#5a5752">Current ~$${m.all_in.toLocaleString()}</span>` : '';
-
+function recCard(rec) {
+  const rc  = REC_COLORS[rec.type] || REC_COLORS.gap_fill;
+  const m   = rec.card;
+  const sc  = m.signal;
+  const sig_c = SIG_COLOR[sc] || '#5a5752';
+  const price = m.tcg_market ? `Market ${fmtPrice(m.tcg_market)}` : m.cm_avg7 ? `CM avg ${fmtPrice(m.cm_avg7)}` : '';
   return `<div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid ${rc.border};padding:24px 22px;margin-bottom:2px">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px">
       <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;color:${rc.labelColor};letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">${rc.label}</div>
-        <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1.15rem;color:#e8e6e1;letter-spacing:-.01em">${rec.headline}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;color:${rc.border};letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">${rc.label}</div>
+        <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1.1rem;color:#e8e6e1;letter-spacing:-.01em">${m.name}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;margin-top:4px">${m.set_name}${price ? ' &nbsp;·&nbsp; ' + price : ''}</div>
       </div>
-      <div style="text-align:right;flex-shrink:0;margin-left:16px">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;color:${SIG_COLOR[m.signal]};border:1px solid ${SIG_COLOR[m.signal]}44;padding:2px 8px;letter-spacing:.1em;margin-bottom:4px">${m.signal}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:${SIG_COLOR[m.signal]}">${m.score.toFixed(3)}</div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;color:${sig_c};border:1px solid ${sig_c}44;padding:2px 8px;letter-spacing:.1em;margin-bottom:4px">${sc}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:${sig_c}">${m.score?.toFixed(3)}</div>
       </div>
     </div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#a09c94;line-height:1.75;margin-bottom:10px">${rec.reason}</div>
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      ${price_str}
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:${rc.labelColor};letter-spacing:.08em;text-transform:uppercase">${rec.action} →</div>
-    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#a09c94;line-height:1.75">${rec.reason}</div>
   </div>`;
 }
 
-// ─── Main analyze function ───────────────────────────────────────
-function analyzeCollection() {
+// ── Main analyze ──────────────────────────────────────────────────
+async function analyzeCollection() {
   const text = document.getElementById('collection-input').value.trim();
   if (!text) return;
 
-  const collection = parseCollection(text);
-  const recs = generateRecommendations(collection);
+  // Show loading
+  document.getElementById('input-section').querySelector('textarea').disabled = true;
+  document.getElementById('analyze-btn').style.display = 'none';
+  document.getElementById('loading-state').style.display = 'block';
 
-  const recognized = collection.filter(c => c.inModel);
-  const unrecognized = collection.filter(c => !c.inModel);
-  const upgrades  = recs.filter(r => r.type === 'upgrade');
-  const gaps      = recs.filter(r => r.type === 'gap_fill');
-  const setComps  = recs.filter(r => r.type === 'set_completion');
-  const watches   = recs.filter(r => r.type === 'watch');
-  const divers    = recs.filter(r => r.type === 'diversification');
+  try {
+    const collection = parseCollection(text);
+    if (!collection.length) {
+      showError('No cards detected. Please enter at least one card name.');
+      return;
+    }
 
-  // Score the collection
-  const collectionValue = recognized.reduce((sum, c) => {
-    if (!c.modelCard) return sum;
-    if (c.grade === 'PSA 9') return sum + c.modelCard.psa9_market;
-    if (c.graded) return sum + c.modelCard.psa9_market * 0.7;
-    if (c.grade === 'Sealed') return sum + c.modelCard.all_in;
-    return sum + c.modelCard.all_in;
-  }, 0);
-  const avgScore = recognized.length > 0
-    ? (recognized.reduce((s, c) => s + (c.modelCard?.score || 0), 0) / recognized.length).toFixed(3)
-    : 0;
+    // Call the API
+    const response = await fetch(`${API}/api/pokemon/advisor`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ collection }),
+    });
 
-  // Training data — log to console (eventually we'll collect this)
-  console.log('VESSEL_ADVISOR_SUBMISSION', {
-    timestamp: new Date().toISOString(),
-    collection_size: collection.length,
-    recognized: recognized.length,
-    cards: collection.map(c => ({name: c.name, set: c.set, grade: c.grade})),
-    top_rec: recs[0]?.card?.name,
-    session: Math.random().toString(36).slice(2,8),
-  });
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    const data = await response.json();
+
+    renderResults(data, collection);
+
+  } catch(e) {
+    showError(`Could not reach the API: ${e.message}. Please try again.`);
+  } finally {
+    document.getElementById('loading-state').style.display = 'none';
+  }
+}
+
+function renderResults(data, parsedCollection) {
+  const { recognized, unrecognized, recommendations } = data;
+
+  const upgrades  = recommendations.filter(r => r.type === 'upgrade');
+  const gaps      = recommendations.filter(r => r.type === 'gap_fill');
+  const setComps  = recommendations.filter(r => r.type === 'set_completion');
+  const divers    = recommendations.filter(r => r.type === 'diversification');
+
+  // Avg score
+  const avgScore = recognized.length
+    ? (recognized.reduce((s,c) => s + (c.score||0), 0) / recognized.length).toFixed(3)
+    : '—';
 
   let html = `
-    <!-- Stats bar -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:48px">
-      <div style="background:#0d0d0b;border:1px solid rgba(196,151,42,.15);padding:20px 18px;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:#c4972a;letter-spacing:-.02em">${collection.length}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-top:4px">Cards entered</div>
-      </div>
-      <div style="background:#0d0d0b;border:1px solid rgba(196,151,42,.15);padding:20px 18px;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:#c4972a;letter-spacing:-.02em">${recognized.length}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-top:4px">In model</div>
-      </div>
-      <div style="background:#0d0d0b;border:1px solid rgba(196,151,42,.15);padding:20px 18px;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:#c4972a;letter-spacing:-.02em">${avgScore}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-top:4px">Avg model score</div>
-      </div>
-      <div style="background:#0d0d0b;border:1px solid rgba(196,151,42,.15);padding:20px 18px;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:#c4972a;letter-spacing:-.02em">${recs.length}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-top:4px">Recommendations</div>
-      </div>
+      ${[
+        [recognized.length, 'Cards mapped'],
+        [avgScore, 'Avg model score'],
+        [recommendations.length, 'Recommendations'],
+        [unrecognized.length, 'Not in model'],
+      ].map(([n,l]) => `<div style="background:#0d0d0b;border:1px solid rgba(196,151,42,.15);padding:20px 18px;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;color:#c4972a;letter-spacing:-.02em;line-height:1">${n}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-top:6px">${l}</div>
+      </div>`).join('')}
     </div>`;
 
-  // Recognized collection
-  if (recognized.length > 0) {
-    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#c4972a;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <span style="width:20px;height:1px;background:#c4972a;display:inline-block"></span>
-      Your collection — ${recognized.length} cards mapped
-      <span style="flex:1;height:1px;background:rgba(196,151,42,.15);display:inline-block"></span>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:2px;margin-bottom:48px">
-      ${recognized.map(c => renderCollectionCard(c)).join('')}
-    </div>`;
+  // Recognized
+  if (recognized.length) {
+    html += sectionLabel('#c4972a', `Your collection — ${recognized.length} cards mapped`);
+    html += recognized.map(c => cardRow(c, c.input_grade)).join('');
   }
 
   // Unrecognized
-  if (unrecognized.length > 0) {
-    html += `<div style="background:#0d0d0b;border:1px solid rgba(90,87,82,.2);padding:20px 24px;margin-bottom:48px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Not in current model universe (${unrecognized.length})</div>
-      ${unrecognized.map(c => `<div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a5752;padding:4px 0">${c.raw}</div>`).join('')}
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;margin-top:10px;padding-top:10px;border-top:1px solid rgba(90,87,82,.15)">These cards aren't in the model yet. The model covers 28 assets — submit feedback below to help expand it.</div>
+  if (unrecognized.length) {
+    html += `<div style="background:#0d0d0b;border:1px solid rgba(90,87,82,.2);padding:20px 24px;margin-top:2px;margin-bottom:48px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Not found in database (${unrecognized.length})</div>
+      ${unrecognized.map(c=>`<div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a5752;padding:3px 0">${c.name}${c.set_name?' — '+c.set_name:''}</div>`).join('')}
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;margin-top:12px;padding-top:10px;border-top:1px solid rgba(90,87,82,.15)">These cards may be in the model under a different name. Try the exact card name from the set. The database covers 172 sets and 10,000+ cards — use the feedback box below to help expand it.</div>
     </div>`;
   }
 
-  // Recommendations
-  if (upgrades.length > 0) {
-    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#7eb8c4;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <span style="width:20px;height:1px;background:#7eb8c4;display:inline-block"></span>
-      Upgrade paths — ${upgrades.length}
-      <span style="flex:1;height:1px;background:rgba(126,184,196,.12);display:inline-block"></span>
-    </div>
-    <div style="margin-bottom:48px">${upgrades.map(r => renderRecCard(r)).join('')}</div>`;
+  // Recs
+  if (upgrades.length) {
+    html += sectionLabel('#7eb8c4', `Grade these now — ${upgrades.length} upgrade paths`);
+    html += upgrades.map(r => recCard(r)).join('');
+  }
+  if (gaps.length) {
+    html += sectionLabel('#4caf50', `Buy signal gaps — ${gaps.length} missing`);
+    html += gaps.map(r => recCard(r)).join('');
+  }
+  if (setComps.length) {
+    html += sectionLabel('#c4972a', `Set completion — ${setComps.length} cards`);
+    html += setComps.map(r => recCard(r)).join('');
+  }
+  if (divers.length) {
+    html += sectionLabel('#9b6bc4', 'Diversification');
+    html += divers.map(r => recCard(r)).join('');
   }
 
-  if (gaps.length > 0) {
-    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#4caf50;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <span style="width:20px;height:1px;background:#4caf50;display:inline-block"></span>
-      Buy signal gaps — ${gaps.length}
-      <span style="flex:1;height:1px;background:rgba(76,175,80,.12);display:inline-block"></span>
-    </div>
-    <div style="margin-bottom:48px">${gaps.map(r => renderRecCard(r)).join('')}</div>`;
+  if (!recommendations.length) {
+    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#5a5752;text-align:center;padding:48px 0">
+      No specific recommendations — your collection looks well-positioned. Check the full model for WATCH signals.
+    </div>`;
   }
 
-  if (setComps.length > 0) {
-    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#c4972a;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <span style="width:20px;height:1px;background:#c4972a;display:inline-block"></span>
-      Set completion — ${setComps.length}
-      <span style="flex:1;height:1px;background:rgba(196,151,42,.12);display:inline-block"></span>
-    </div>
-    <div style="margin-bottom:48px">${setComps.map(r => renderRecCard(r)).join('')}</div>`;
-  }
-
-  if (divers.length > 0) {
-    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#9b6bc4;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <span style="width:20px;height:1px;background:#9b6bc4;display:inline-block"></span>
-      Diversification
-      <span style="flex:1;height:1px;background:rgba(155,107,196,.12);display:inline-block"></span>
-    </div>
-    <div style="margin-bottom:48px">${divers.map(r => renderRecCard(r)).join('')}</div>`;
-  }
-
-  if (watches.length > 0) {
-    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#5a5752;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-      <span style="width:20px;height:1px;background:#5a5752;display:inline-block"></span>
-      Watch list additions
-      <span style="flex:1;height:1px;background:rgba(90,87,82,.2);display:inline-block"></span>
-    </div>
-    <div style="margin-bottom:48px">${watches.map(r => renderRecCard(r)).join('')}</div>`;
-  }
-
-  // Training feedback section
+  // Feedback
   html += `
-    <div style="background:#0d0d0b;border:1px solid rgba(196,151,42,.15);border-left:3px solid #c4972a;padding:32px 36px;margin-bottom:48px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#c4972a;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px">Help train the model</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#a09c94;line-height:1.8;margin-bottom:18px">
-        Cards not in the model universe, collection patterns, and what people actually own are all useful signals. 
-        If you own cards that weren't recognized, or if the recommendations miss the mark, let us know.
-      </div>
-      <div style="display:flex;gap:2px">
-        <textarea id="feedback-input" placeholder="Cards I own that aren't in the model: &#10;Feedback on recommendations: &#10;Sets I'm focused on collecting: " 
-          style="flex:1;background:#121210;border:1px solid rgba(196,151,42,.12);padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#e8e6e1;line-height:1.7;outline:none;resize:vertical;min-height:100px"></textarea>
-      </div>
-      <button onclick="submitFeedback()" style="margin-top:2px;width:100%;background:rgba(196,151,42,.08);border:1px solid rgba(196,151,42,.15);padding:12px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#c4972a;letter-spacing:.1em;text-transform:uppercase;cursor:pointer" 
-        onmouseover="this.style.background='rgba(196,151,42,.15)'" onmouseout="this.style.background='rgba(196,151,42,.08)'">
-        Submit feedback →
-      </button>
-      <div id="feedback-thanks" style="display:none;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#4caf50;margin-top:10px;text-align:center">Thank you — this helps improve the model.</div>
+    <div style="background:#0d0d0b;border:1px solid rgba(196,151,42,.15);border-left:3px solid #c4972a;padding:32px 36px;margin-top:48px;margin-bottom:2px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#c4972a;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px">Help train the model</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#a09c94;line-height:1.8;margin-bottom:16px">Cards not found, wrong recommendations, sets you focus on — all useful signal for expanding the model.</div>
+      <textarea id="feedback-input" placeholder="Cards not recognized: &#10;What I was expecting: &#10;Sets I'm focused on: "
+        style="width:100%;background:#121210;border:1px solid rgba(196,151,42,.12);padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#e8e6e1;line-height:1.7;outline:none;resize:vertical;min-height:80px;display:block"></textarea>
+      <button onclick="submitFeedback()" style="margin-top:2px;width:100%;background:rgba(196,151,42,.08);border:1px solid rgba(196,151,42,.15);padding:12px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#c4972a;letter-spacing:.1em;text-transform:uppercase;cursor:pointer"
+        onmouseover="this.style.background='rgba(196,151,42,.15)'" onmouseout="this.style.background='rgba(196,151,42,.08)'">Submit feedback →</button>
+      <div id="feedback-thanks" style="display:none;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#4caf50;margin-top:8px;text-align:center">Thank you.</div>
     </div>
+    <button onclick="resetAdvisor()" style="margin-top:2px;width:100%;background:transparent;border:1px solid rgba(196,151,42,.12);padding:14px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;cursor:pointer"
+      onmouseover="this.style.color='#c4972a';this.style.borderColor='rgba(196,151,42,.35)'"
+      onmouseout="this.style.color='#5a5752';this.style.borderColor='rgba(196,151,42,.12)'">← Analyze another collection</button>`;
 
-    <!-- Start over -->
-    <button onclick="resetAdvisor()" style="width:100%;background:transparent;border:1px solid rgba(196,151,42,.15);padding:16px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;cursor:pointer"
-      onmouseover="this.style.borderColor='rgba(196,151,42,.35)';this.style.color='#c4972a'" 
-      onmouseout="this.style.borderColor='rgba(196,151,42,.15)';this.style.color='#5a5752'">
-      ← Analyze a different collection
-    </button>`;
-
-  const resultsEl = document.getElementById('results-section');
-  resultsEl.innerHTML = html;
-  resultsEl.style.display = 'block';
+  const el = document.getElementById('results-section');
+  el.innerHTML = html;
+  el.style.display = 'block';
   document.getElementById('input-section').style.display = 'none';
+  setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 100);
+}
 
-  setTimeout(() => resultsEl.scrollIntoView({behavior:'smooth', block:'start'}), 100);
+function showError(msg) {
+  document.getElementById('analyze-btn').style.display = 'block';
+  document.getElementById('collection-input').disabled = false;
+  const el = document.getElementById('results-section');
+  el.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#c45a5a;padding:40px 0;text-align:center">${msg}</div>`;
+  el.style.display = 'block';
 }
 
 function submitFeedback() {
-  const feedback = document.getElementById('feedback-input').value.trim();
-  if (!feedback) return;
-  // Log feedback — training signal for model expansion
-  console.log('VESSEL_ADVISOR_FEEDBACK', {
+  const fb = document.getElementById('feedback-input').value.trim();
+  if (!fb) return;
+  // Log locally for now — API endpoint for training data coming soon
+  console.log('POKEMON_ADVISOR_FEEDBACK', {
     timestamp: new Date().toISOString(),
-    feedback,
+    feedback: fb,
   });
-  document.getElementById('feedback-input').value = '';
   document.getElementById('feedback-thanks').style.display = 'block';
 }
 
@@ -679,7 +394,9 @@ function resetAdvisor() {
   document.getElementById('results-section').style.display = 'none';
   document.getElementById('results-section').innerHTML = '';
   document.getElementById('input-section').style.display = 'block';
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.getElementById('analyze-btn').style.display = 'block';
+  document.getElementById('collection-input').disabled = false;
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 </script>
 </Base>
