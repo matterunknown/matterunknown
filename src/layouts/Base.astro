@@ -1,5 +1,4 @@
 ---
-import { Analytics } from "@vercel/analytics/astro";
 export interface Props {
   title?: string;
   description?: string;
@@ -53,6 +52,5 @@ const fullTitle = title === 'matterunknown' ? 'matterunknown — A think tank ob
 </head>
 <body>
   <slot />
-  <Analytics />
 </body>
 </html>
