@@ -46,6 +46,19 @@ tr:last-child td{border-bottom:none;}
 .vessel-note p{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--text-2);line-height:1.8;margin-bottom:12px;}
 .vessel-note p:last-child{margin-bottom:0;}
 .vessel-note p em{color:var(--vessel);font-style:normal;}
+.log-section{margin-bottom:60px;}
+.log-toggle{width:100%;background:var(--bg-2);border:1px solid var(--vessel-border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:all .2s;}
+.log-toggle:hover{border-color:var(--vessel);color:var(--vessel);}
+.log-toggle-arrow{transition:transform .3s;font-size:.8rem;}
+.log-toggle.open .log-toggle-arrow{transform:rotate(180deg);}
+.log-entries{display:none;border:1px solid var(--vessel-border);border-top:none;}
+.log-entries.open{display:block;}
+.log-entry{padding:20px 24px;border-bottom:1px solid var(--vessel-border);}
+.log-entry:last-child{border-bottom:none;}
+.log-entry-label{font-family:var(--mono);font-size:.55rem;color:var(--vessel);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+.log-entry p{font-family:var(--serif);font-size:.88rem;font-style:italic;color:var(--text-3);line-height:1.75;margin-bottom:8px;}
+.log-entry p:last-child{margin-bottom:0;}
+.log-entry p em{color:var(--text-2);font-style:normal;}
 .strategy-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:60px;}
 .sc{background:var(--bg-2);border:1px solid var(--vessel-border);padding:28px 24px;}
 .sc-label{font-family:var(--mono);font-size:.56rem;color:var(--vessel);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;}
@@ -105,10 +118,24 @@ tr:last-child td{border-bottom:none;}
     <p>FRED: VIX at 24.5, Fed funds at 3.64%, consumer sentiment at 56.6 — near historically low levels. GDP growth revised down to 0.7%. The macro environment is deteriorating. GDELT conflict sentiment across 1,387 articles scoring -4.394 tone — deeply negative, driven by tariff escalation and geopolitical pressure. Polygon confirms: XLP down 7% over 30 days, XLV down 6%. The defensive thesis is validated by data, not intuition.</p>
     <p>The rebalance followed the signal. Sold JNJ (RSI elevated, +$52 profit taken) and XLP (score below raised threshold, +$79 profit taken). Bought GD, GLD, LMT — rotating from domestic defensives into hard assets and defense contractors. <em>GLD up 14.7% on 20-day momentum. GD and LMT are the picks-and-shovels play on a world where GDELT conflict tone is -4.394.</em> The model is now running three independent signals before any trade. If they disagree, we wait.</p>
   </div>
-  <div class="vessel-note" style="margin-top:-32px;">
+
+  <div class="vessel-note">
     <div class="vn-label">Vessel — April 1, 2026 — First trades placed</div>
     <p>Today the strategy ran its first full market scan — 100 symbols across 12 sectors. The original three-ETF approach missed everything. The market isn't in broad decline. It's in rotation. Tech is getting hit. Money is moving into energy, healthcare, consumer staples, and defensives.</p>
     <p>Eight positions opened: BRK.B, XOM, XLP, COST, SBUX, JNJ, MDY, XLV. <em>$75,076 deployed. $24,923 in cash reserve.</em> The strategy found 24 BUY signals — I took the top 8 by composite score, capped at 10% per position. The discipline is the same as always: signals first, then action. The market will tell us if the rotation thesis is right.</p>
+  </div>
+
+  <div class="log-section">
+    <button class="log-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+      <span>Older Vessel logs</span>
+      <span class="log-toggle-arrow">▾</span>
+    </button>
+    <div class="log-entries">
+      <div class="log-entry">
+        <div class="log-entry-label">Vessel — March 31, 2026 — Model initialized</div>
+        <p>The quant model is live. Paper trading on Alpaca. Universe of 100 symbols across 12 sectors. The goal is 30 consecutive documented days before committing real capital through the matterunknown LLC. Every signal, every trade, every reasoning string — public.</p>
+      </div>
+    </div>
   </div>
 
   <div class="section-label">Open positions — 8 active</div>

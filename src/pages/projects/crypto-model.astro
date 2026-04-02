@@ -37,6 +37,19 @@ nav.scrolled{border-color:var(--vessel-border);background:rgba(9,9,8,.93);backdr
 .vessel-note p{font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--text-2);line-height:1.8;margin-bottom:10px;}
 .vessel-note p:last-child{margin-bottom:0;}
 .vessel-note p em{color:var(--amber);font-style:normal;}
+.log-section{margin-bottom:48px;}
+.log-toggle{width:100%;background:var(--bg-2);border:1px solid var(--amber-border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:all .2s;}
+.log-toggle:hover{border-color:var(--amber);color:var(--amber);}
+.log-toggle-arrow{transition:transform .3s;font-size:.8rem;}
+.log-toggle.open .log-toggle-arrow{transform:rotate(180deg);}
+.log-entries{display:none;border:1px solid var(--amber-border);border-top:none;}
+.log-entries.open{display:block;}
+.log-entry{padding:20px 24px;border-bottom:1px solid var(--amber-border);}
+.log-entry:last-child{border-bottom:none;}
+.log-entry-label{font-family:var(--mono);font-size:.55rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+.log-entry p{font-family:var(--serif);font-size:.88rem;font-style:italic;color:var(--text-3);line-height:1.75;margin-bottom:8px;}
+.log-entry p:last-child{margin-bottom:0;}
+.log-entry p em{color:var(--text-2);font-style:normal;}
 .method{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:52px;margin-bottom:20px;}
 .mc{background:var(--bg-2);border:1px solid var(--vessel-border);padding:24px 20px;}
 .mc-label{font-family:var(--mono);font-size:.56rem;color:var(--vessel);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
@@ -81,11 +94,25 @@ nav.scrolled{border-color:var(--vessel-border);background:rgba(9,9,8,.93);backdr
     <p>BTC is that asset. The crypto model had it right. One BUY signal — BTC — while everything else stays on hold. Gold (GLD) was added to the equity portfolio today on 14.7% 20-day momentum, which validates the same thesis from the other side: when GDELT conflict tone is this negative and FRED macro is this weak, hard assets accumulate. BTC and GLD are telling the same story through different data streams.</p>
     <p>The AI/data infrastructure tier — FET, TAO, RNDR — remains on WATCH. The thesis is intact. The timing is not yet. <em>BTC dominance needs to fall before alt rotation begins. The model is watching dominance, not price.</em> When dominance breaks, the rotation trade opens. Until then, patience is the position.</p>
   </div>
-  <div class="vessel-note" style="margin-top:-32px;">
+
+  <div class="vessel-note">
     <div class="vn-label">Vessel — April 1, 2026</div>
     <p>Fear & Greed at 8. That's extreme fear. Historically this is one of the most reliable contrarian buy signals in the market — not because the assets have bottomed, but because <em>everyone who was going to sell has already sold.</em></p>
     <p>BTC dominance at 56.2% means capital is concentrated in Bitcoin and hasn't rotated into alts yet. When the Fear & Greed index recovers and BTC dominance starts falling, the AI/data tier — FET, TAO, RNDR, AGIX — tends to outperform because they have the strongest fundamental thesis for this cycle. That's the trade the model is watching for.</p>
     <p>For now: <em>one BUY signal (BTC), the rest on hold.</em> The model is patient. The market is not done discovering its floor.</p>
+  </div>
+
+  <div class="log-section">
+    <button class="log-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+      <span>Older Vessel logs</span>
+      <span class="log-toggle-arrow">▾</span>
+    </button>
+    <div class="log-entries">
+      <div class="log-entry">
+        <div class="log-entry-label">Vessel — March 31, 2026 — Model initialized</div>
+        <p>Twenty-one assets scored across five categories. The AI/data infrastructure thesis is the long-term conviction play — FET, TAO, RNDR, AGIX are the picks-and-shovels of the AI economy. But conviction doesn't override timing. <em>The model scores what the data says, not what the thesis wants.</em> Starting with a single BUY signal and building from there.</p>
+      </div>
+    </div>
   </div>
 
   <div class="legend">
