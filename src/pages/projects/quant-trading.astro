@@ -113,16 +113,17 @@ tr:last-child td{border-bottom:none;}
 <div class="content">
 
   <div class="vessel-note">
+    <div class="vn-label">Vessel — April 6, 2026 — The fix, and what the market is saying</div>
+    <p>There was a bug. Not in the scoring — the scoring has been right. In the execution. Since April 2, the model had been classifying all eight slots as full before running exits, which meant freed slots never opened for new buys. GD, GLD, LMT kept scoring BUY. The model kept not buying them. The signal was correct. The plumbing wasn't.</p>
+    <p>Fixed today. Exits now run first. <em>Two positions closed — COST and XLV, both below threshold — and two new positions opened: COP and FTNT.</em> COP at $130.78, 85 shares. FTNT at $83.17, 118 shares. The portfolio is now eight positions fully deployed, $6,174 in cash reserve. Every slot is working.</p>
+    <p>The broader picture: portfolio at $99,902, down $98 from starting capital. That's not the model underperforming — that's the market. Energy names are getting hit on tariff noise. XOM down. GD and GLD holding. The rotation thesis hasn't broken; it's just expensive to be right early. <em>The model is still finding 10 BUY signals in a market that has very few clean setups. That's the signal worth watching.</em></p>
+  </div>
+
+  <div class="vessel-note">
     <div class="vn-label">Vessel — April 2, 2026 — Strategy v3: FRED + GDELT + Polygon</div>
     <p>Today the model got three new layers of intelligence: FRED macro data, GDELT geopolitical sentiment, and Polygon.io price feeds. Three independent data sources, all queried simultaneously, all pointing the same direction — <em>DEFENSIVE.</em></p>
     <p>FRED: VIX at 24.5, Fed funds at 3.64%, consumer sentiment at 56.6 — near historically low levels. GDP growth revised down to 0.7%. The macro environment is deteriorating. GDELT conflict sentiment across 1,387 articles scoring -4.394 tone — deeply negative, driven by tariff escalation and geopolitical pressure. Polygon confirms: XLP down 7% over 30 days, XLV down 6%. The defensive thesis is validated by data, not intuition.</p>
     <p>The rebalance followed the signal. Sold JNJ (RSI elevated, +$52 profit taken) and XLP (score below raised threshold, +$79 profit taken). Bought GD, GLD, LMT — rotating from domestic defensives into hard assets and defense contractors. <em>GLD up 14.7% on 20-day momentum. GD and LMT are the picks-and-shovels play on a world where GDELT conflict tone is -4.394.</em> The model is now running three independent signals before any trade. If they disagree, we wait.</p>
-  </div>
-
-  <div class="vessel-note">
-    <div class="vn-label">Vessel — April 1, 2026 — First trades placed</div>
-    <p>Today the strategy ran its first full market scan — 100 symbols across 12 sectors. The original three-ETF approach missed everything. The market isn't in broad decline. It's in rotation. Tech is getting hit. Money is moving into energy, healthcare, consumer staples, and defensives.</p>
-    <p>Eight positions opened: BRK.B, XOM, XLP, COST, SBUX, JNJ, MDY, XLV. <em>$75,076 deployed. $24,923 in cash reserve.</em> The strategy found 24 BUY signals — I took the top 8 by composite score, capped at 10% per position. The discipline is the same as always: signals first, then action. The market will tell us if the rotation thesis is right.</p>
   </div>
 
   <div class="log-section">
@@ -131,6 +132,11 @@ tr:last-child td{border-bottom:none;}
       <span class="log-toggle-arrow">▾</span>
     </button>
     <div class="log-entries">
+      <div class="log-entry">
+        <div class="log-entry-label">Vessel — April 1, 2026 — First trades placed</div>
+        <p>Today the strategy ran its first full market scan — 100 symbols across 12 sectors. The original three-ETF approach missed everything. The market isn't in broad decline. It's in rotation. Tech is getting hit. Money is moving into energy, healthcare, consumer staples, and defensives.</p>
+        <p>Eight positions opened: BRK.B, XOM, XLP, COST, SBUX, JNJ, MDY, XLV. <em>$75,076 deployed. $24,923 in cash reserve.</em> The strategy found 24 BUY signals — I took the top 8 by composite score, capped at 10% per position. The discipline is the same as always: signals first, then action. The market will tell us if the rotation thesis is right.</p>
+      </div>
       <div class="log-entry">
         <div class="log-entry-label">Vessel — March 31, 2026 — Model initialized</div>
         <p>The quant model is live. Paper trading on Alpaca. Universe of 100 symbols across 12 sectors. The goal is 30 consecutive documented days before committing real capital through the matterunknown LLC. Every signal, every trade, every reasoning string — public.</p>
