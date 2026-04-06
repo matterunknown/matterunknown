@@ -88,15 +88,15 @@ tr:last-child td{border-bottom:none;}
       <div class="ticker-label">Starting balance</div>
     </div>
     <div class="ticker-cell">
-      <div class="ticker-num">$99,925.67</div>
+      <!-- BEGIN:current-value --><div class="ticker-num">$100,045.05</div><!-- END:current-value -->
     <div class="ticker-label">Current value</div>
     </div>
     <div class="ticker-cell">
-      <div class="ticker-num down" style="color:#c45a5a">-$35.52</div>
+      <!-- BEGIN:pnl --><div class="ticker-num" style="color:#4caf50">+$45.05 (+0.045%)</div><!-- END:pnl -->
       <div class="ticker-label">Total P&L (-0.036%)</div>
     </div>
     <div class="ticker-cell">
-      <div class="ticker-num">8</div>
+      <!-- BEGIN:positions-count --><div class="ticker-num">8</div><!-- END:positions-count -->
     <div class="ticker-label">Open positions</div>
     </div>
     <div class="ticker-cell">
@@ -104,7 +104,7 @@ tr:last-child td{border-bottom:none;}
       <div class="ticker-label">Symbols scanned</div>
     </div>
     <div class="ticker-cell">
-      <div class="ticker-num">2026-04-01</div>
+      <!-- BEGIN:last-updated --><div class="ticker-num">2026-04-06 14:00 ET</div><!-- END:last-updated -->
       <div class="ticker-label">Last updated</div>
     </div>
   </div>
@@ -138,12 +138,85 @@ tr:last-child td{border-bottom:none;}
     </div>
   </div>
 
-  <div class="section-label">Open positions — 8 active</div>
+  <!-- BEGIN:positions-label --><div class="section-label">Open positions — 8 active</div><!-- END:positions-label -->
   <table style="margin-bottom:60px;">
     <thead>
       <tr><th>Symbol</th><th>Shares</th><th>Entry</th><th>Current</th><th>Value</th><th>P&L</th></tr>
     </thead>
-    <tbody>
+    <!-- BEGIN:positions-tbody --><tbody>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">SBUX</td>
+        <td>102</td>
+        <td>$90.48</td>
+        <td>$92.36</td>
+        <td>$9,421</td>
+        <td style="color:#4caf50">+$191.76 (+2.08%)</td>
+      </tr>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">MDY</td>
+        <td>15</td>
+        <td>$621.61</td>
+        <td>$622.14</td>
+        <td>$9,332</td>
+        <td style="color:#4caf50">+$7.88 (+0.08%)</td>
+      </tr>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">LMT</td>
+        <td>14</td>
+        <td>$626.13</td>
+        <td>$625.96</td>
+        <td>$8,763</td>
+        <td style="color:#c45a5a">-$2.38 (-0.03%)</td>
+      </tr>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">FTNT</td>
+        <td>118</td>
+        <td>$83.17</td>
+        <td>$82.96</td>
+        <td>$9,789</td>
+        <td style="color:#c45a5a">-$24.78 (-0.25%)</td>
+      </tr>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">GLD</td>
+        <td>20</td>
+        <td>$431.64</td>
+        <td>$430.33</td>
+        <td>$8,607</td>
+        <td style="color:#c45a5a">-$26.10 (-0.30%)</td>
+      </tr>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">COP</td>
+        <td>85</td>
+        <td>$130.78</td>
+        <td>$130.02</td>
+        <td>$11,051</td>
+        <td style="color:#c45a5a">-$65.02 (-0.58%)</td>
+      </tr>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">XOM</td>
+        <td>65</td>
+        <td>$161.90</td>
+        <td>$160.50</td>
+        <td>$10,432</td>
+        <td style="color:#c45a5a">-$91.00 (-0.86%)</td>
+      </tr>
+      <tr>
+        <td style="color:#e8e6e1;font-weight:500">GD</td>
+        <td>27</td>
+        <td>$351.41</td>
+        <td>$347.88</td>
+        <td>$9,393</td>
+        <td style="color:#c45a5a">-$95.31 (-1.00%)</td>
+      </tr>
+    </tbody><!-- END:positions-tbody -->
+  </table>
+
+  <!-- BEGIN:tradelog-label --><div class="section-label">Trade log</div><!-- END:tradelog-label -->
+  <table style="margin-bottom:60px;">
+    <thead>
+      <tr><th>Date</th><th>Side</th><th>Symbol</th><th>Qty</th><th>Status</th></tr>
+    </thead>
+    <!-- BEGIN:tradelog-tbody --><tbody>
       <tr>
         <td style="color:#5a5752">2026-04-06</td>
         <td style="color:#4caf50;text-transform:uppercase">buy</td>
@@ -249,7 +322,7 @@ tr:last-child td{border-bottom:none;}
         <td>9</td>
         <td style="color:#4caf50">filled</td>
       </tr>
-    </tbody>
+    </tbody><!-- END:tradelog-tbody -->
   </table>
 
   <div class="section-label">Strategy v2 — how it works</div>
