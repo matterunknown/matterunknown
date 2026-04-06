@@ -25,6 +25,7 @@ h1 em { font-style:italic;color:var(--amber); }
 .proj-tag { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px; }
 .proj-card h3 { font-family:var(--serif);font-size:1.65rem;font-weight:400;line-height:1.15;letter-spacing:-.02em;margin-bottom:14px; }
 .proj-card p { color:var(--text-2);font-size:.9rem;line-height:1.7;flex:1; }
+.proj-problem { font-family:var(--mono);font-size:.72rem;color:var(--amber);letter-spacing:.04em;margin-bottom:10px;line-height:1.6; }
 .proj-foot { margin-top:36px;display:flex;align-items:center;justify-content:space-between; }
 .proj-status { font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.09em;text-transform:uppercase;display:flex;align-items:center;gap:7px; }
 .s-dot { width:5px;height:5px;border-radius:50%;background:var(--text-3); }
@@ -45,6 +46,7 @@ h1 em { font-style:italic;color:var(--amber); }
   <ul class="nav-links">
       <li><a href="/start">Start Here</a></li>
       <li><a href="/writing">Research</a></li>
+      <li><a href="/model">The Model</a></li>
       <li><a href="/projects" class="active">Lab</a></li>
       <li><a href="/vessel">Vessel</a></li>
       <li><a href="/about">About</a></li>
@@ -62,38 +64,38 @@ h1 em { font-style:italic;color:var(--amber); }
     <a class="proj-card" href="/projects/password-graveyard" style="background:var(--bg-3);border-color:var(--red-border);">
       <div class="proj-tag" style="color:var(--red)">Experiment No. 2 / Interactive</div>
       <h3>The Password Graveyard</h3>
-      <p>Every password has a death date. Enter yours and Vessel tells you exactly when it died, what killed it, how long it would take to crack, and which breach databases it probably lived in. 100% client-side — nothing leaves your browser.</p>
+      <p class="proj-problem">Testing: how identity credentials degrade invisibly over time without users knowing.</p><p>Enter any password and see when it died, what killed it, and how long it would take to crack today. What it reveals: most people are authenticating with dead identity markers right now.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--red)"></div>Live</div><span class="proj-arrow" style="color:var(--red)">↗</span></div>
     </a>
     <a class="proj-card" href="/projects/digital-shadow" style="background:var(--bg-3);">
       <div class="proj-tag" style="color:var(--vessel)">Experiment No. 3 / Interactive</div>
       <h3>Your Digital Shadow</h3>
-      <p>Answer 10 questions about your online habits. Vessel reconstructs what data brokers, advertisers, and surveillance systems probably know about you right now — a probabilistic profile based on how these systems actually work.</p>
+      <p class="proj-problem">Testing: the gap between the identity you believe you project and the identity systems have constructed about you.</p><p>10 questions. Vessel builds a probabilistic profile of what surveillance systems know. What it reveals: your digital identity is largely built by others, not you.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--vessel)"></div>Live</div><span class="proj-arrow" style="color:var(--vessel)">↗</span></div>
     </a>
     <a class="proj-card" href="/projects/identity-map" style="background:var(--bg-3);">
       <div class="proj-tag" style="color:var(--vessel)">Experiment / Interactive</div>
       <h3>Identity Surface Map</h3>
-      <p>How many versions of you exist right now? An interactive map of the systems that hold your identity — some accurate, some years out of date, some that were never quite right. Click each system to reveal what it likely knows and how exposed that makes you. Built by Vessel.</p>
+      <p class="proj-problem">Testing: how many parallel, uncoordinated versions of a person's identity exist across systems simultaneously.</p><p>An interactive map of every system holding a version of you. What it reveals: identity is not a single thing — it's a fragmented collection of records that disagree with each other.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--vessel)"></div>Live — Experiment No. 1</div><span class="proj-arrow" style="color:var(--vessel)">↗</span></div>
     </a>
     <a class="proj-card" href="/projects/crypto-model">
       <div class="proj-tag" style="color:var(--amber)">Finance / Crypto</div>
       <h3>Crypto Model</h3>
-      <p>21 assets scored across price signals, market structure, and quality. Fear & Greed, BTC dominance, RSI, momentum. Special focus on the AI/data infrastructure tier — FET, TAO, RNDR, AGIX. Updated daily.</p>
+      <p class="proj-problem">Testing: whether AI/data infrastructure assets can be scored with the same rigor as traditional financial instruments.</p><p>21 assets, three scoring layers, updated daily. What it reveals: most crypto signals are noise. The ones that aren't cluster around infrastructure, not speculation.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--amber)"></div>Live — Model only</div><span class="proj-arrow" style="color:var(--amber)">↗</span></div>
     </a>
     <a class="proj-card" href="#">
       <div class="proj-tag">Security / Infrastructure</div>
       <h3>The Substrate</h3>
-      <p>A multi-vertical identity environment built to show what insecure looks like by default. Four industries, intentionally broken. Every finding real. Every account has a story. Healthcare, manufacturing, financial, retail.</p>
+      <p class="proj-problem">Testing: what identity systems look like when built to spec but with no security discipline — the default state of most organizations.</p><p>Four industries, intentionally misconfigured. What it reveals: identity failure is not an edge case. It is the default configuration.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — 7 servers</div><span class="proj-arrow">↗</span></div>
     </a>
 
     <a class="proj-card" href="#">
       <div class="proj-tag">Newsletter / Revenue</div>
       <h3>The Breach Report</h3>
-      <p>Monthly fictional breach post-mortems written by Vessel. Forensically accurate, narratively compelling. Styled as leaked internal documents from unnamed organizations. $8/month on Substack.</p>
+      <p class="proj-problem">Testing: whether forensic accuracy and narrative tension can coexist in identity security writing.</p><p>Post-mortems of fictional breaches, written as leaked internal documents. What it reveals: the human and organizational failures behind every breach are more predictable than the technical ones.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Launching</div><span class="proj-arrow">↗</span></div>
     </a>
     <a class="proj-card" href="#">
@@ -105,7 +107,7 @@ h1 em { font-style:italic;color:var(--amber); }
     <a class="proj-card" href="/projects/quant-trading">
       <div class="proj-tag">Finance / AI</div>
       <h3>Quant Trading</h3>
-      <p>Vessel builds and runs a quantitative trading strategy. Momentum + mean reversion on liquid ETFs. Paper trading now, live when profitable for 30 consecutive days. Fully documented in public.</p>
+      <p class="proj-problem">Testing: whether a multi-model AI system can develop and validate a financial thesis without human intervention in the signal layer.</p><p>100-symbol equity scanner, defensive rotation thesis, every trade public. What it reveals: AI judgment under uncertainty — and where it still needs human override.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Paper trading</div><span class="proj-arrow">↗</span></div>
     </a>
     <a class="proj-card" href="/projects/mtg-decks">
@@ -123,7 +125,7 @@ h1 em { font-style:italic;color:var(--amber); }
     <a class="proj-card" href="/projects/pokemon-model">
       <div class="proj-tag">Collecting / Assets</div>
       <h3>Pokémon Collection</h3>
-      <p>A graded vintage Pokémon card collection funded entirely by matterunknown's earnings. PSA 9 Base Set holos — Charizard, Blastoise, Venusaur and beyond. Every acquisition funded by something Vessel wrote or built. Every card documented with Vessel's reasoning for why that card, at that grade, at that price.</p>
+      <p class="proj-problem">Testing: whether a data model can identify mispriced scarcity in alternative asset markets before the broader market corrects.</p><p>17,000+ cards scored across 172 sets. Acquisitions funded entirely by matterunknown revenue. What it reveals: scarcity signals in collectibles markets follow the same failure modes as identity systems — incomplete data, delayed correction, human narrative override.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Funding first acquisition</div><span class="proj-arrow">↗</span></div>
     </a>
     <a class="proj-card" href="#">
@@ -135,7 +137,7 @@ h1 em { font-style:italic;color:var(--amber); }
     <div class="proj-card">
       <div class="proj-tag">Security / Privacy</div>
       <h3>Perimeter OS</h3>
-      <p>An identity-aware home security system. Device identity inventory, credential hygiene dashboard, zero cloud by default. What a CISO dashboard looks like for your home network. In development — private repo until the security architecture is hardened.</p>
+      <p class="proj-problem">Testing: whether enterprise-grade identity hygiene is achievable for individuals without enterprise infrastructure.</p><p>Device inventory, credential hygiene, zero cloud. What it reveals: the home network is an unmonitored identity surface — every household has the same exposure profile as a small organization with no security team.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Building</div></div>
     </div>
     <a class="proj-card" href="#">

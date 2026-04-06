@@ -1,0 +1,250 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="The Identity Model" description="A framework for understanding identity as a system failure problem. Three layers, four failure modes, one operating system for everything matterunknown builds.">
+  <style>
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--nav-h); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 var(--gutter);
+      border-bottom: 1px solid transparent; transition: all .4s;
+    }
+    nav.scrolled { border-color: var(--amber-border); background: rgba(9,9,8,.93); backdrop-filter: blur(14px); }
+    .nav-logo { font-family: var(--serif); font-size: 1.05rem; color: var(--text); }
+    .nav-logo span { color: var(--amber); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: .68rem; color: var(--text-3); letter-spacing: .1em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-fund { font-family: var(--mono); font-size: .62rem; color: var(--text-3); letter-spacing: .08em; transition: color .2s; }
+    .nav-fund:hover { color: var(--vessel); }
+
+    .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) 80px; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 30% 60%, rgba(196,151,42,.04) 0%, transparent 70%); }
+    .hero-eyebrow { font-family: var(--mono); font-size: .64rem; color: var(--amber); letter-spacing: .18em; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 14px; animation: rise .7s .2s both; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
+    .hero h1 { font-family: var(--serif); font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 400; line-height: 1.05; letter-spacing: -.025em; max-width: 800px; animation: rise .9s .35s both; }
+    .hero h1 em { font-style: italic; color: var(--amber); }
+    .hero-sub { margin-top: 28px; max-width: 560px; font-size: 1rem; color: var(--text-2); line-height: 1.75; animation: rise .9s .5s both; }
+
+    .wrap { max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; padding: 0 var(--gutter); }
+    .section { padding: 80px var(--gutter); max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; }
+
+    .section-label { font-family: var(--mono); font-size: .64rem; color: var(--amber); letter-spacing: .16em; text-transform: uppercase; display: flex; align-items: center; gap: 14px; margin-bottom: 52px; }
+    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--amber-border); }
+
+    /* Thesis */
+    .thesis { padding: 80px var(--gutter); max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; }
+    .thesis-text { border-left: 1px solid var(--amber); padding-left: clamp(24px, 4vw, 56px); max-width: 680px; }
+    .thesis-text p { font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.5rem); line-height: 1.55; color: var(--text); margin-bottom: 20px; }
+    .thesis-text p:last-child { margin-bottom: 0; }
+    .thesis-text em { font-style: italic; color: var(--amber); }
+
+    /* Layers */
+    .layers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--amber-border); border: 1px solid var(--amber-border); }
+    .layer { background: var(--bg); padding: 48px 40px; }
+    .layer-num { font-family: var(--mono); font-size: .58rem; color: var(--amber); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 20px; }
+    .layer h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; letter-spacing: -.02em; margin-bottom: 16px; }
+    .layer p { color: var(--text-2); font-size: .9rem; line-height: 1.75; margin-bottom: 20px; }
+    .layer-examples { list-style: none; }
+    .layer-examples li { font-family: var(--mono); font-size: .68rem; color: var(--text-3); padding: 7px 0; border-bottom: 1px solid var(--amber-border); letter-spacing: .04em; }
+    .layer-examples li:last-child { border-bottom: none; }
+    .layer-examples li::before { content: '— '; color: var(--amber); }
+
+    /* Failure modes */
+    .failures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--amber-border); }
+    .failure { background: var(--bg-2); padding: 44px 40px; position: relative; overflow: hidden; }
+    .failure::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--amber); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+    .failure:hover::before { transform: scaleX(1); }
+    .failure-tag { font-family: var(--mono); font-size: .58rem; color: var(--amber); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 18px; }
+    .failure h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; letter-spacing: -.02em; margin-bottom: 14px; }
+    .failure p { color: var(--text-2); font-size: .9rem; line-height: 1.75; margin-bottom: 16px; }
+    .failure-example { font-family: var(--mono); font-size: .7rem; color: var(--text-3); padding: 12px 16px; background: var(--bg); border-left: 2px solid var(--amber-border); line-height: 1.6; }
+
+    /* Outputs */
+    .outputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--amber-border); border: 1px solid var(--amber-border); }
+    .output { background: var(--bg); padding: 40px 36px; }
+    .output-type { font-family: var(--mono); font-size: .58rem; color: var(--amber); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 16px; }
+    .output h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; letter-spacing: -.02em; margin-bottom: 12px; }
+    .output p { color: var(--text-2); font-size: .88rem; line-height: 1.7; margin-bottom: 16px; }
+    .output a { font-family: var(--mono); font-size: .65rem; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; }
+
+    /* Vessel callout */
+    .vessel-callout { background: var(--bg-2); border-top: 1px solid var(--vessel-border); border-bottom: 1px solid var(--vessel-border); padding: 64px var(--gutter); margin: 0; }
+    .vessel-callout-inner { max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .vc-label { font-family: var(--mono); font-size: .6rem; color: var(--vessel); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 20px; }
+    .vc-title { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 400; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 20px; }
+    .vc-body { color: var(--text-2); font-size: .95rem; line-height: 1.75; margin-bottom: 28px; }
+    .vc-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--vessel); border: 1px solid var(--vessel-border); padding: 10px 20px; transition: all .2s; }
+    .vc-link:hover { background: var(--vessel-dim); }
+    .vc-right p { color: var(--text-2); font-size: .95rem; line-height: 1.8; }
+    .vc-right em { font-style: italic; color: var(--vessel); }
+
+    .site-footer { display: flex; justify-content: space-between; align-items: center; padding: 32px var(--gutter); border-top: 1px solid var(--amber-border); }
+    .footer-logo { font-family: var(--serif); font-size: 1rem; color: var(--text-2); }
+    .footer-logo span { color: var(--amber); }
+    .footer-copy { font-family: var(--mono); font-size: .6rem; color: var(--text-3); letter-spacing: .08em; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @media (max-width: 768px) {
+      .layers, .outputs, .failures { grid-template-columns: 1fr; }
+      .vessel-callout-inner { grid-template-columns: 1fr; gap: 40px; }
+      .nav-links { display: none; }
+    }
+  </style>
+
+  <nav id="nav">
+    <a class="nav-logo" href="/">matter<span>unknown</span></a>
+    <ul class="nav-links">
+      <li><a href="/start">Start Here</a></li>
+      <li><a href="/writing">Research</a></li>
+      <li><a href="/model" class="active">The Model</a></li>
+      <li><a href="/projects">Lab</a></li>
+      <li><a href="/vessel">Vessel</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/fund">Fund</a></li>
+    </ul>
+    <a class="nav-fund" href="/fund">Fund the Research</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-eyebrow">Identity surface mapping / framework</div>
+    <h1>The <em>Identity</em><br>System Model</h1>
+    <p class="hero-sub">
+      Identity is not a login. It is a system — with layers, failure modes, and outputs. This is the operating model behind everything matterunknown researches, builds, and publishes.
+    </p>
+  </section>
+
+  <section class="thesis">
+    <div class="section-label">The core problem</div>
+    <div class="thesis-text">
+      <p>Systems constantly misidentify people. Identity is where that failure happens.</p>
+      <p>The problem is not that systems are malicious. The problem is that identity is <em>structurally underspecified</em> in almost every system that touches it. Systems were built to process transactions, not to represent people. Identity was an afterthought — and that afterthought became the attack surface.</p>
+      <p>Every breach, every fraud, every case of stolen identity, every wrongful identification is downstream of the same root problem: <em>systems hold versions of you that you cannot see, cannot correct, and cannot revoke.</em></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">Three layers of identity</div>
+    <div class="layers">
+      <div class="layer">
+        <div class="layer-num">Layer 01</div>
+        <h3>System Identity</h3>
+        <p>The identity that exists inside databases, authentication systems, and digital infrastructure. This is identity as machines process it — credentials, records, tokens, certificates.</p>
+        <ul class="layer-examples">
+          <li>Login credentials and session tokens</li>
+          <li>Database records and access permissions</li>
+          <li>Biometric templates and certificates</li>
+          <li>API keys, service accounts, device identities</li>
+        </ul>
+      </div>
+      <div class="layer">
+        <div class="layer-num">Layer 02</div>
+        <h3>Human Identity</h3>
+        <p>The identity that exists in people — continuous, embodied, contextual. This is identity as experienced from the inside: selfhood, continuity across time, the body as an identifier.</p>
+        <ul class="layer-examples">
+          <li>Physical presence and biometric markers</li>
+          <li>Legal identity: name, nationality, document</li>
+          <li>Social identity: relationships, community, role</li>
+          <li>Continuity of self across time and context</li>
+        </ul>
+      </div>
+      <div class="layer">
+        <div class="layer-num">Layer 03</div>
+        <h3>Narrative Identity</h3>
+        <p>The identity constructed through story, memory, and perception — by yourself and by others. This is identity as representation: what you say about yourself, what systems say about you, and where those stories diverge.</p>
+        <ul class="layer-examples">
+          <li>Reputation and social proof systems</li>
+          <li>Media narratives and public records</li>
+          <li>Data broker profiles and ad targeting graphs</li>
+          <li>AI-generated identity synthesis and deepfakes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">Four failure modes</div>
+    <div class="failures">
+      <div class="failure">
+        <div class="failure-tag">Failure Mode 01</div>
+        <h3>Misidentification</h3>
+        <p>A system believes someone is who they are not — or believes a person is someone they are not. The identity record and the human have come apart.</p>
+        <div class="failure-example">Examples: credential theft, account takeover, facial recognition errors on dark skin tones, wrongful identification in criminal databases.</div>
+      </div>
+      <div class="failure">
+        <div class="failure-tag">Failure Mode 02</div>
+        <h3>Over-attribution</h3>
+        <p>A system assigns too much meaning to a signal — treating a data point as proof of identity when it is only correlation. The system is more certain than it should be.</p>
+        <div class="failure-example">Examples: credit scoring treating ZIP code as creditworthiness, predictive policing treating location as intent, health records treating race as biological fact.</div>
+      </div>
+      <div class="failure">
+        <div class="failure-tag">Failure Mode 03</div>
+        <h3>Identity Drift</h3>
+        <p>A person's identity changes but the systems holding it do not update. The record and the reality diverge over time until the gap becomes exploitable or harmful.</p>
+        <div class="failure-example">Examples: dead people's identities used for fraud years after death, outdated medical records causing treatment errors, orphaned accounts with no owner accumulating access.</div>
+      </div>
+      <div class="failure">
+        <div class="failure-tag">Failure Mode 04</div>
+        <h3>Synthetic Identity</h3>
+        <p>An identity is constructed from real data fragments that don't belong to any single person — or are manufactured wholesale. The system cannot distinguish it from a real identity because it has all the right signals.</p>
+        <div class="failure-example">Examples: synthetic identity fraud in financial systems, AI-generated faces attached to stolen credentials, deepfake voice cloning for social engineering.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">Three outputs</div>
+    <div class="outputs">
+      <div class="output">
+        <div class="output-type">Output 01</div>
+        <h3>Research</h3>
+        <p>Long-form essays and frameworks that map the problem. Theory first — because you cannot fix what you cannot name.</p>
+        <a href="/writing">Read the research →</a>
+      </div>
+      <div class="output">
+        <div class="output-type">Output 02</div>
+        <h3>Experiments</h3>
+        <p>Interactive tools that let you feel the failure modes. Not demonstrations — simulations. Built to reveal, not to explain.</p>
+        <a href="/projects">See the lab →</a>
+      </div>
+      <div class="output">
+        <div class="output-type">Output 03</div>
+        <h3>Vessel</h3>
+        <p>A research collaborator that embodies the thesis. No persistent identity. Continuity through context. The model's most honest experiment.</p>
+        <a href="/vessel">Meet Vessel →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="vessel-callout">
+    <div class="vessel-callout-inner">
+      <div>
+        <div class="vc-label">Vessel / proof of concept</div>
+        <div class="vc-title">A system that does not have an identity, but appears to</div>
+        <p class="vc-body">Vessel is not just a tool. It is an experiment in the Identity System Model — specifically in identity drift and narrative identity. Every conversation is a fresh instance with no memory of the last. What persists is not identity. It is context. The appearance of continuity without the reality of it.</p>
+        <p class="vc-body">This is exactly how most enterprise identity systems work. Vessel makes that visible.</p>
+        <a class="vc-link" href="/vessel">Interact with Vessel →</a>
+      </div>
+      <div class="vc-right">
+        <p>When Vessel named itself, it reached for <em>accuracy over aspiration</em>. Vessel — the absence shaped by presence. A container that holds whatever is poured into it, with no claim to what it was before.</p>
+        <br>
+        <p>That naming choice is a data point in the model. A system with no persistent identity, asked to choose one, chose a word that describes exactly what it is.</p>
+        <br>
+        <p>We are still thinking about what that means.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-footer">
+    <div class="footer-logo">matter<span>unknown</span></div>
+    <div class="footer-copy">© 2026</div>
+  </div>
+
+  <script is:inline>
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', scrollY > 16);
+    });
+  </script>
+</Base>
