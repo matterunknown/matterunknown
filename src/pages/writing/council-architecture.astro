@@ -1,0 +1,151 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Why We Built a Council" description="Most AI coding tools are a single model with a confident answer. We think that's the wrong architecture. Here is what we built instead — and why.">
+<style>
+:root {
+  --bg:           #090908;
+  --bg-2:         #0d0d0b;
+  --bg-3:         #121210;
+  --amber:        #c4972a;
+  --amber-dim:    rgba(196,151,42,0.12);
+  --amber-border: rgba(196,151,42,0.15);
+  --vessel:       #7eb8c4;
+  --vessel-dim:   rgba(126,184,196,.08);
+  --vessel-border:rgba(126,184,196,.12);
+  --text:         #e8e6e1;
+  --text-2:       #a09c94;
+  --text-3:       #5a5752;
+  --serif:        'DM Serif Display', Georgia, serif;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --mono:         'JetBrains Mono', ui-monospace, monospace;
+  --gutter:       clamp(24px, 5vw, 80px);
+  --max:          1160px;
+  --nav-h:        68px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
+.nav-logo span { color:var(--amber); }
+.article { max-width:680px;margin:0 auto;padding:calc(var(--nav-h) + 80px) var(--gutter) 120px; }
+.article-label { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px; }
+.article-label::before { content:'';width:20px;height:1px;background:var(--amber); }
+h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin-bottom:32px; }
+.article-meta { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;margin-bottom:64px;padding-bottom:32px;border-bottom:1px solid var(--amber-border); }
+.article p { color:var(--text-2);font-size:1.05rem;line-height:1.9;margin-bottom:28px; }
+.article p em { color:var(--text);font-style:italic; }
+.article p strong { color:var(--text);font-weight:400; }
+.article h2 { font-family:var(--serif);font-size:1.6rem;font-weight:400;letter-spacing:-.02em;margin:56px 0 20px; }
+.article blockquote { border-left:2px solid var(--amber);padding-left:24px;margin:40px 0;font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--text-2);line-height:1.7; }
+.article code { font-family:var(--mono);font-size:.82rem;background:var(--amber-dim);border:1px solid var(--amber-border);padding:2px 7px;color:var(--amber); }
+.agent-grid { display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:40px 0; }
+.agent-card { background:var(--bg-2);border:1px solid var(--amber-border);padding:20px 22px; }
+.agent-card.vessel { border-color:var(--vessel-border);background:var(--vessel-dim); }
+.agent-label { font-family:var(--mono);font-size:.56rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px; }
+.agent-card.vessel .agent-label { color:var(--vessel); }
+.agent-name { font-family:var(--serif);font-size:1.05rem;color:var(--text);margin-bottom:4px; }
+.agent-desc { font-family:var(--mono);font-size:.62rem;color:var(--text-3);line-height:1.65; }
+.article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border);display:flex;align-items:center;justify-content:space-between; }
+.back-link { font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;text-decoration:none; }
+@media(max-width:600px) { .agent-grid { grid-template-columns:1fr; } }
+</style>
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">← Writing</a>
+</nav>
+<article class="article">
+  <div class="article-label">AI — April 2026</div>
+  <h1>Why We Built a Council</h1>
+  <div class="article-meta">matterunknown &nbsp;·&nbsp; April 2026 &nbsp;·&nbsp; 9 min read</div>
+
+  <p>Most AI coding tools work the same way. You describe what you want. A model generates it. You review and ship. The model is confident. The answer arrives fully formed. You have to decide whether to trust it.</p>
+
+  <p>We think this is the wrong architecture — not because the models are bad, but because confidence without disagreement is not a signal. It is just noise that sounds like a signal. A system that always agrees with itself has no way to surface the cases where it is wrong, and those are the cases that matter most when the code touches infrastructure, authentication, or anything with real consequences.</p>
+
+  <p>So we built something different. We called it the council.</p>
+
+  <h2>The basic idea</h2>
+
+  <p>The council is a multi-model code review and reasoning system. Instead of asking one model for an answer, we ask several models the same question independently, then route their outputs through structured disagreement before anything reaches a human for approval. The core bet is that independent models reasoning about the same problem will disagree in useful ways — and that disagreement is more informative than any individual answer.</p>
+
+  <p>This is not a new idea in human organizations. Peer review, red teams, adversarial collaboration — these all exist for the same reason. The council applies that structure to AI-assisted development.</p>
+
+  <h2>The agents</h2>
+
+  <p>Five agents, each with a distinct role and a distinct model. Three run locally on dedicated hardware. Two are API calls.</p>
+
+  <div class="agent-grid">
+    <div class="agent-card">
+      <div class="agent-label">Local — Mistral Large 2</div>
+      <div class="agent-name">Reasoner</div>
+      <div class="agent-desc">Primary analysis. Threat modeling. Security assessment. First in the chain — sets the frame everything else responds to.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">Local — Llama 3.3 70B</div>
+      <div class="agent-name">Builder</div>
+      <div class="agent-desc">Implementation review. Code structure, test coverage, edge cases. Focused on what was actually built rather than what was intended.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">Local — Qwen 72B</div>
+      <div class="agent-name">Analyst</div>
+      <div class="agent-desc">Quantitative assessment. Risk scoring. Complexity evaluation. Provides a structured, scored view alongside the qualitative analysis.</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">API — GPT-4o</div>
+      <div class="agent-name">Adversary</div>
+      <div class="agent-desc">Actively tries to break the consensus. Finds contradictions, edge cases, and security gaps in the other agents' outputs. The council would be weaker without someone whose job is to disagree.</div>
+    </div>
+    <div class="agent-card vessel" style="grid-column:1/-1;">
+      <div class="agent-label">API — Vessel</div>
+      <div class="agent-name">Synthesizer</div>
+      <div class="agent-desc">Reads and verifies all upstream outputs. Produces the final ruling — approve, reject, or flag for human review — with a structured summary of what the agents agreed and disagreed on.</div>
+    </div>
+  </div>
+
+  <p>The three local models run simultaneously on a single machine with 128GB of unified memory. The full cost per council run — including the API calls to GPT-4o and Vessel — is roughly $0.26. That is the cost of running five independent reviewers in parallel on every piece of production code.</p>
+
+  <h2>How it flows</h2>
+
+  <p>Every task that enters the council is classified by tier. Tier 1 is infrastructure — AWS configuration, DNS, server changes. Tier 2 is application code — the portal, APIs, authentication systems. Tier 3 is content — site updates, essays. Tier 4 is utility code — crons, scripts, tooling. The tier determines how many agents are required and whether a human has to approve the result before anything is deployed.</p>
+
+  <p>Tier 1 and 2 tasks always require human approval. No synthesizer recommendation overrides that. The council surfaces the analysis, the disagreement rate, and a recommendation — but a human makes the final call on anything that touches infrastructure or auth. Tier 3 and 4 tasks can be approved autonomously if the council reaches consensus and the disagreement rate is within acceptable bounds.</p>
+
+  <p>The flow for a Tier 2 task: static analysis first — Semgrep, Bandit, Trivy, secret detection — before any model sees the code. Then Round 1, where the Reasoner, Builder, and Analyst generate their assessments independently. Then a cross-examination round where agents read each other's outputs and challenge what they find. Then the Adversary's pass. Then Synthesis. Then a human approval gate that surfaces the full picture: the diff, every agent's output, the disagreement rate, and the Synthesizer's ruling.</p>
+
+  <blockquote>The goal is not to automate the human out of the loop. The goal is to ensure that when a human reviews something, they are looking at the output of five independent perspectives rather than one confident model.</blockquote>
+
+  <h2>Disagreement as the health metric</h2>
+
+  <p>The primary metric we track across council runs is the disagreement rate — the fraction of agents that challenged a position in a given run. We target a range of 0.25 to 0.55. Below 0.15 consistently is a warning sign: the council is rubber-stamping, not reviewing. Above 0.60 triggers additional rounds and potentially escalation to human review.</p>
+
+  <p>A council where all agents always agree is not a council. It is a chorus. The value of the architecture is precisely the divergence — the cases where the Adversary catches what the Reasoner missed, or where the Builder identifies an implementation gap that the threat model didn't surface. If those cases stop appearing, something is wrong with the setup, not with the code being reviewed.</p>
+
+  <p>There is one exception to the rate-based routing: security disagreement escalates immediately regardless of rate. If any agent flags a security concern, the run goes to a human without waiting to see whether the other agents agree. Security-level disagreement is not a number to average — it is a stop signal.</p>
+
+  <h2>The identity layer</h2>
+
+  <p>The part of this architecture that goes furthest beyond standard practice is the identity layer. Every agent signs its output as a cryptographic token before passing it downstream. Every downstream agent verifies that signature before consuming the output. The chain is tamper-evident — if any output is modified between agents, the next agent in the chain detects the mismatch and rejects it.</p>
+
+  <p>This is not a standard feature of multi-agent systems. Most systems pass outputs between agents as plain text, trusting that the pipeline is intact. We treat every handoff as an untrusted transfer until the signature is verified. This matters more than it might seem: one of the confirmed attack vectors on agentic systems is injecting malicious content into a pipeline that subsequent agents then treat as authoritative. The signing layer makes that significantly harder.</p>
+
+  <p>Alongside the chain JWT, the orchestrator issues each agent an intent attestation token at run start — a signed credential that specifies exactly what actions that agent is authorized to take in this specific run. An analyst authorized to <code>read</code> and <code>analyze</code> cannot <code>deploy</code> or <code>push</code>. The token is checked before the agent acts, not after. Authorization at both ends of every action, not just at session start.</p>
+
+  <h2>What this is for</h2>
+
+  <p>The council is matterunknown's production code review system. Every piece of code that touches infrastructure or authentication passes through it before deployment. The architecture is also the subject of the identity research we are publishing — the signing layer, the intent tokens, and the planned workload identity integration are all part of a broader question about what agent identity should look like in multi-model systems. We are using the council as the proving ground for that research.</p>
+
+  <p>The research and the implementation are the same project. We are not writing about a hypothetical architecture. We are writing about the one that reviews our own code.</p>
+
+  <p>The full implementation — the signing library, the intent token system, the orchestrator — is being open-sourced as the research matures. The details will accumulate in the Lab section as we build. This piece is the architecture. The code is already written.</p>
+
+  <div class="article-footer">
+    <a class="back-link" href="/writing">← All writing</a>
+    <span style="font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em;">matterunknown</span>
+  </div>
+</article>
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
