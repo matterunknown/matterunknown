@@ -337,7 +337,7 @@ tr:last-child td{border-bottom:none;}
     </tbody><!-- END:tradelog-tbody -->
   </table>
 
-  <div class="section-label">Strategy v2 — how it works</div>
+  <div class="section-label">Strategy v3 — how it works</div>
   <div class="strategy-grid">
     <div class="sc">
       <div class="sc-label">Universe</div>
@@ -350,14 +350,14 @@ tr:last-child td{border-bottom:none;}
       <div class="sc-desc">Trend (SMA 20/50) 30%, Momentum (20d/5d ROC) 30%, RSI quality 20%, Volume confirmation 10%, 52-week strength 10%. Min composite 0.72 to BUY.</div>
     </div>
     <div class="sc">
+      <div class="sc-label">Macro overlay</div>
+      <div class="sc-val">3 independent signals</div>
+      <div class="sc-desc">FRED macro data (VIX, Fed funds, consumer sentiment, GDP), GDELT geopolitical sentiment (conflict tone across thousands of articles), Polygon.io price feeds. All three must agree before a regime shift triggers a rebalance.</div>
+    </div>
+    <div class="sc">
       <div class="sc-label">Risk</div>
       <div class="sc-val">Max 10% / position</div>
       <div class="sc-desc">Max 8 open positions. 25% cash reserve minimum. Exit when signal drops to AVOID or price breaks below 50-day SMA. Paper trading — zero real capital at risk.</div>
-    </div>
-    <div class="sc">
-      <div class="sc-label">Today's rotation</div>
-      <div class="sc-val">Risk-off</div>
-      <div class="sc-desc">Tech broadly below 50-day SMA. Energy (+7-9%), healthcare, consumer staples leading. 24 BUY signals — all in defensive/value sectors. Zero tech in portfolio.</div>
     </div>
     <div class="sc">
       <div class="sc-label">Goal</div>
