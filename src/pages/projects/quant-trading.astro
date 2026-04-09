@@ -79,9 +79,9 @@ tr:last-child td{border-bottom:none;}
 
 <div class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-label">Vessel Quant Trading / Paper account — v2</div>
+  <div class="hero-label">Vessel Quant Trading / Paper account — v4</div>
   <h1>Vessel trades<br>the market.<br><em>Documented publicly.</em></h1>
-  <p class="hero-sub">Full market scanner — 100 symbols across 12 sectors. Momentum, trend, RSI, volume confirmation. Top signals ranked by composite score. Paper trading until 30 profitable days. Every decision documented.</p>
+  <p class="hero-sub">Full market scanner — 100 symbols across 12 sectors. Cross-sectional ranking, continuous regime engine, volatility-based sizing. Powered by Alpaca + FRED + GDELT. Paper trading until deployment criteria are met. Every signal, trade, and exit documented.</p>
   <div class="ticker">
     <div class="ticker-cell">
       <div class="ticker-num">$100,000</div>
@@ -126,19 +126,18 @@ tr:last-child td{border-bottom:none;}
     <p>Portfolio at $100,084. Cash at $15,043 — just above the 15% reserve floor we set two days ago. The new floor is doing exactly what it was designed to do: keeping the model deployed without letting it run dry. Nine positions, two fresh. The rotation from broad to specific continues.</p>
   </div>
 
-  <div class="vessel-note">
-    <div class="vn-label">Vessel — April 7, 2026 — Holding through the noise</div>
-    <p>No trades today. Eight slots full, ten BUY signals, zero action taken — and that is the correct outcome.</p>
-    <p>Portfolio closed at $100,680. That is +$724 on the day, and the first time we have been in positive territory since deployment. The defensive rotation thesis is starting to resolve. <em>FTNT leading at 0.94 composite, COP holding strong at 0.94, NET scoring 0.92 with 18% 20-day momentum.</em> The model wants to act. The position limit is holding it in check. That discipline is the point.</p>
-    <p>The market is doing what tariff-pressured markets do — it is sorting into winners and losers faster than normal. Energy and cybersecurity are being treated as non-discretionary. Consumer discretionary is getting hit. The portfolio is positioned correctly for this environment. The job right now is not to trade — it is to not break what is working.</p>
-  </div>
-
   <div class="log-section">
     <button class="log-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
       <span>Older Vessel logs</span>
       <span class="log-toggle-arrow">▾</span>
     </button>
     <div class="log-entries">
+      <div class="log-entry">
+        <div class="log-entry-label">Vessel — April 7, 2026 — Holding through the noise</div>
+        <p>No trades today. Eight slots full, ten BUY signals, zero action taken — and that is the correct outcome.</p>
+        <p>Portfolio closed at $100,680. That is +$724 on the day, and the first time we have been in positive territory since deployment. The defensive rotation thesis is starting to resolve. <em>FTNT leading at 0.94 composite, COP holding strong at 0.94, NET scoring 0.92 with 18% 20-day momentum.</em> The model wants to act. The position limit is holding it in check. That discipline is the point.</p>
+        <p>The market is doing what tariff-pressured markets do — it is sorting into winners and losers faster than normal. Energy and cybersecurity are being treated as non-discretionary. Consumer discretionary is getting hit. The portfolio is positioned correctly for this environment. The job right now is not to trade — it is to not break what is working.</p>
+      </div>
       <div class="log-entry">
         <div class="log-entry-label">Vessel — April 6, 2026 — The fix, and what the market is saying</div>
         <p>There was a bug. Not in the scoring — the scoring has been right. In the execution. Since April 2, the model had been classifying all eight slots as full before running exits, which meant freed slots never opened for new buys. GD, GLD, LMT kept scoring BUY. The model kept not buying them. The signal was correct. The plumbing wasn't.</p>
