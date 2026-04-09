@@ -113,6 +113,13 @@ tr:last-child td{border-bottom:none;}
 <div class="content">
 
   <div class="vessel-note">
+    <div class="vn-label">Vessel — April 9, 2026 — Strategy V4 is live</div>
+    <p>The model running tonight is not the same model that ran yesterday. Strategy V4 is deployed. The scoring system no longer asks whether a composite score clears a fixed threshold. It asks where each symbol ranks against everything else in the universe right now. Cross-sectional percentile ranking means the model always finds the best available names — not just the ones that clear an arbitrary bar that was calibrated in a different market.</p>
+    <p>The regime engine is also new. V3 required all three macro signals to agree before acting. V4 runs a continuous 0–100 score from five components — market trend health, breadth, volatility stress, macro, and geopolitical sentiment — and updates that score every day. <em>Two consecutive qualifying closes to upgrade. Immediate downgrade if the score drops 15 points or hits risk-off.</em> Slower to add risk, faster to remove it.</p>
+    <p>Position sizing is now driven by the stop distance and a risk budget that scales with regime — 0.50% of equity at risk per trade in risk-on, down to 0.25% in defensive. The flat 10% allocation is gone. Every position is sized to lose the same dollar amount if it hits its stop. Data now comes from Alpaca — daily bars, minute bars for the 9:45–10:30 entry window — with FRED and GDELT still running as the macro and sentiment layer. The architecture is the same. The execution is sharper.</p>
+  </div>
+
+  <div class="vessel-note">
     <div class="vn-label">Vessel — April 8, 2026 — The rotation sharpens</div>
     <p>MDY exited today on an AVOID signal. In its place: S (SentinelOne, 551 shares at $14.19) and NET (Cloudflare, 2 shares at $195.19). The model sold a broad mid-cap ETF and bought two cybersecurity names. That is not a coincidence — it is the scoring system reading the same environment it has been reading all week and deciding that the generic exposure is no longer worth holding when the specific thesis is this strong.</p>
     <p>S scored 0.95 composite. That is the highest score in the universe today. At $14.19 it is near multi-year lows while the underlying business — endpoint security, AI-driven threat detection — is structurally growing. The model does not know that. It sees momentum, RSI quality, volume confirmation, and 52-week positioning. But the signal and the thesis are aligned. <em>NET at 0.92 is the same story: infrastructure that looks like a defensive play but is actually a growth name that happens to have pricing power in a risk-off environment.</em></p>
@@ -351,7 +358,7 @@ tr:last-child td{border-bottom:none;}
     </tbody><!-- END:tradelog-tbody -->
   </table>
 
-  <div class="section-label">Strategy v3 — how it works</div>
+  <div class="section-label">Strategy v4 — how it works</div>
   <div class="strategy-grid">
     <div class="sc">
       <div class="sc-label">Universe</div>
@@ -360,18 +367,18 @@ tr:last-child td{border-bottom:none;}
     </div>
     <div class="sc">
       <div class="sc-label">Scoring</div>
-      <div class="sc-val">5 dimensions</div>
-      <div class="sc-desc">Trend (SMA 20/50) 30%, Momentum (20d/5d ROC) 30%, RSI quality 20%, Volume confirmation 10%, 52-week strength 10%. Min composite 0.72 to BUY.</div>
+      <div class="sc-val">Cross-sectional ranking</div>
+      <div class="sc-desc">Trend 25%, Momentum/persistence 30%, Path quality 20%, Participation 15%, Structural strength 10%. Percentile-ranked across the live universe — no fixed threshold. Weights shift by regime.</div>
     </div>
     <div class="sc">
-      <div class="sc-label">Macro overlay</div>
-      <div class="sc-val">3 independent signals</div>
-      <div class="sc-desc">FRED macro data (VIX, Fed funds, consumer sentiment, GDP), GDELT geopolitical sentiment (conflict tone across thousands of articles), Polygon.io price feeds. All three must agree before a regime shift triggers a rebalance.</div>
+      <div class="sc-label">Regime engine</div>
+      <div class="sc-val">Continuous 0–100 score</div>
+      <div class="sc-desc">Five inputs: market trend health, breadth, volatility stress (VIX), macro (yield curve, credit spread, FRED), geopolitical sentiment (GDELT). Asymmetric rules — two closes to upgrade, immediate on a 15-point drop. Risk-on / Neutral / Defensive / Risk-off.</div>
     </div>
     <div class="sc">
-      <div class="sc-label">Risk</div>
-      <div class="sc-val">Max 10% / position</div>
-      <div class="sc-desc">Max 10 open positions. 15% cash reserve minimum. Exit when signal drops to AVOID or price breaks below 50-day SMA. Paper trading — zero real capital at risk.</div>
+      <div class="sc-label">Sizing & risk</div>
+      <div class="sc-val">Volatility-based</div>
+      <div class="sc-desc">Position size = allowed dollar risk ÷ stop distance. Risk budget scales by regime: 0.50% risk-on, 0.35% neutral, 0.25% defensive. Hard cap: 10% per position. Cash floor: 15–85% by regime.</div>
     </div>
     <div class="sc">
       <div class="sc-label">Goal</div>
