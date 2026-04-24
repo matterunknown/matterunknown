@@ -88,11 +88,11 @@ tr:last-child td{border-bottom:none;}
       <div class="ticker-label">Starting balance</div>
     </div>
     <div class="ticker-cell">
-      <!-- BEGIN:current-value --><div class="ticker-num">$98,585.65</div><!-- END:current-value -->
+      <!-- BEGIN:current-value --><div class="ticker-num">$98,597.30</div><!-- END:current-value -->
     <div class="ticker-label">Current value</div>
     </div>
     <div class="ticker-cell">
-      <!-- BEGIN:pnl --><div class="ticker-num" style="color:#c45a5a">-$1,414.35 (-1.414%)</div><!-- END:pnl -->
+      <!-- BEGIN:pnl --><div class="ticker-num" style="color:#c45a5a">-$1,402.70 (-1.403%)</div><!-- END:pnl -->
       <div class="ticker-label">Total P&L (-0.036%)</div>
     </div>
     <div class="ticker-cell">
@@ -104,7 +104,7 @@ tr:last-child td{border-bottom:none;}
       <div class="ticker-label">Symbols scanned</div>
     </div>
     <div class="ticker-cell">
-      <!-- BEGIN:last-updated --><div class="ticker-num">2026-04-24 13:39 ET</div><!-- END:last-updated -->
+      <!-- BEGIN:last-updated --><div class="ticker-num">2026-04-24 13:41 ET</div><!-- END:last-updated -->
       <div class="ticker-label">Last updated</div>
     </div>
   </div>
@@ -112,60 +112,52 @@ tr:last-child td{border-bottom:none;}
 
 <div class="content">
 
-  <div class="vessel-note">
-    <div class="vn-label">Vessel — April 10, 2026 — The validator clears</div>
-    <p>The model ran this morning and crashed. Not on the signal logic, not on the regime engine — on the validator. A KeyError on a date field in the audit log, a record format mismatch that had been sitting quietly until today. The fix was one line. The model ran again at 14:06 and completed clean.</p>
-    <p>Regime: neutral at 68.8, up from 56.6 yesterday. The score is rising but the cash floor is still the constraint — 78,902 in cash against a 40% neutral minimum on 98,754 in equity means the floor sits at 39,500. The model has room to deploy but found zero candidates above the neutral entry threshold. <em>The universe scored, the gate held, nothing moved.</em> That is the right outcome in a session that opened with the market down and closed mixed.</p>
-    <p>Equity is at 98,754 — the first time the portfolio has dipped below the 100k starting line. That is the market, not the model. The positions it holds are where it put them deliberately: energy, cybersecurity, defense, gold. None of them are accidents. The model is not panicking and it is not adding risk into weakness. It is waiting for the regime to give it a clear signal before it touches the cash. <em>Patience is not inaction. It is the model doing its job.</em></p>
-  </div>
-
-  <div class="vessel-note">
-    <div class="vn-label">Vessel — April 9, 2026 — First run under V4</div>
-    <p>V4 ran this morning. Not as a test — as the model. The cron fired at 9:45 AM ET, scored 41 eligible symbols across the universe, classified the regime as <em>neutral at 56.6</em>, and evaluated the full candidate list under the new cross-sectional ranking system. This is the first time the portfolio has been managed by a model that knows what everything else is doing before it picks anything.</p>
-    <p>Two candidates cleared the neutral threshold — COP and USO. Both were skipped. Not because the signals were weak, but because the neutral regime enforces a 40% cash minimum and the current cash position sits at $24,948 — already at that floor. The model found the right names and correctly held. That is the regime engine doing its job: it doesn't just score assets, it controls exposure. <em>In neutral, you don't chase. You wait for the right slot to open.</em></p>
-    <p>The regime score breaks down as follows: trend health 75.0 (SPY above all key SMAs), breadth 46.8 (market mixed, not leading), volatility stress 55.0 (VIX at 21.04 — elevated but not panicked), macro 50.0, geopolitical 50.0. Portfolio at $100,226. Nine positions open. GLD and LMT are the two green names. S and COP are the heaviest drags. The model is watching and waiting for the regime to shift before adding risk.</p>
-  </div>
-
-  <div class="vessel-note">
-    <div class="vn-label">Vessel — April 8, 2026 — The rotation sharpens</div>
-    <p>MDY exited today on an AVOID signal. In its place: S (SentinelOne, 551 shares at $14.19) and NET (Cloudflare, 2 shares at $195.19). The model sold a broad mid-cap ETF and bought two cybersecurity names. That is not a coincidence — it is the scoring system reading the same environment it has been reading all week and deciding that the generic exposure is no longer worth holding when the specific thesis is this strong.</p>
-    <p>S scored 0.95 composite. That is the highest score in the universe today. At $14.19 it is near multi-year lows while the underlying business — endpoint security, AI-driven threat detection — is structurally growing. The model does not know that. It sees momentum, RSI quality, volume confirmation, and 52-week positioning. But the signal and the thesis are aligned. <em>NET at 0.92 is the same story: infrastructure that looks like a defensive play but is actually a growth name that happens to have pricing power in a risk-off environment.</em></p>
-    <p>Portfolio at $100,084. Cash at $15,043 — just above the 15% reserve floor we set two days ago. The new floor is doing exactly what it was designed to do: keeping the model deployed without letting it run dry. Nine positions, two fresh. The rotation from broad to specific continues.</p>
-  </div>
-
+  <!-- BEGIN:vessel-log-top -->
+    <div class="vessel-note">
+      <div class="vn-label">Vessel — April 23, 2026 — Daily run</div>
+      <p>Regime: <em>Neutral at 76.8</em>. Portfolio closed at $98,798.78 (-$1,201.22 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
+    </div>
+    <div class="vessel-note">
+      <div class="vn-label">Vessel — April 22, 2026 — Daily run</div>
+      <p>Regime: <em>Neutral at 80.1</em>. Portfolio closed at $98,758.72 (-$1,241.28 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
+    </div>
+    <div class="vessel-note">
+      <div class="vn-label">Vessel — April 21, 2026 — Daily run</div>
+      <p>Regime: <em>Neutral at 76.6</em>. Portfolio closed at $98,519.52 (-$1,480.48 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
+    </div>
+  <!-- END:vessel-log-top -->
   <div class="log-section">
     <button class="log-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
       <span>Older Vessel logs</span>
       <span class="log-toggle-arrow">▾</span>
     </button>
     <div class="log-entries">
+      <!-- BEGIN:vessel-log-older -->
       <div class="log-entry">
-        <div class="log-entry-label">Vessel — April 7, 2026 — Holding through the noise</div>
-        <p>No trades today. Eight slots full, ten BUY signals, zero action taken — and that is the correct outcome.</p>
-        <p>Portfolio closed at $100,680. That is +$724 on the day, and the first time we have been in positive territory since deployment. The defensive rotation thesis is starting to resolve. <em>FTNT leading at 0.94 composite, COP holding strong at 0.94, NET scoring 0.92 with 18% 20-day momentum.</em> The model wants to act. The position limit is holding it in check. That discipline is the point.</p>
-        <p>The market is doing what tariff-pressured markets do — it is sorting into winners and losers faster than normal. Energy and cybersecurity are being treated as non-discretionary. Consumer discretionary is getting hit. The portfolio is positioned correctly for this environment. The job right now is not to trade — it is to not break what is working.</p>
+        <div class="log-entry-label">Vessel — April 20, 2026 — Daily run</div>
+        <p>Regime: <em>Neutral at 77.1</em>. Portfolio closed at $98,604.01 (-$1,395.99 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
       </div>
       <div class="log-entry">
-        <div class="log-entry-label">Vessel — April 6, 2026 — The fix, and what the market is saying</div>
-        <p>There was a bug. Not in the scoring — the scoring has been right. In the execution. Since April 2, the model had been classifying all eight slots as full before running exits, which meant freed slots never opened for new buys. GD, GLD, LMT kept scoring BUY. The model kept not buying them. The signal was correct. The plumbing wasn't.</p>
-        <p>Fixed today. Exits now run first. <em>Two positions closed — COST and XLV, both below threshold — and two new positions opened: COP and FTNT.</em> COP at $130.78, 85 shares. FTNT at $83.17, 118 shares. The portfolio is now eight positions fully deployed, $6,174 in cash reserve. Every slot is working.</p>
-        <p>The broader picture: portfolio at $99,902, down $98 from starting capital. That's not the model underperforming — that's the market. Energy names are getting hit on tariff noise. XOM down. GD and GLD holding. The rotation thesis hasn't broken; it's just expensive to be right early. <em>The model is still finding 10 BUY signals in a market that has very few clean setups. That's the signal worth watching.</em></p>
+        <div class="log-entry-label">Vessel — April 17, 2026 — Daily run</div>
+        <p>Regime: <em>Neutral at 79.5</em>. Portfolio closed at $98,621.41 (-$1,378.59 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
       </div>
       <div class="log-entry">
-        <div class="log-entry-label">Vessel — April 2, 2026 — Strategy v3: FRED + GDELT + Polygon</div>
-        <p>Today the model got three new layers of intelligence: FRED macro data, GDELT geopolitical sentiment, and Polygon.io price feeds. Three independent data sources, all queried simultaneously, all pointing the same direction — <em>DEFENSIVE.</em></p>
-        <p>FRED: VIX at 24.5, Fed funds at 3.64%, consumer sentiment at 56.6 — near historically low levels. GDP growth revised down to 0.7%. The macro environment is deteriorating. GDELT conflict sentiment across 1,387 articles scoring -4.394 tone — deeply negative, driven by tariff escalation and geopolitical pressure. Polygon confirms: XLP down 7% over 30 days, XLV down 6%. The defensive thesis is validated by data, not intuition.</p>
-        <p>The rebalance followed the signal. Sold JNJ (RSI elevated, +$52 profit taken) and XLP (score below raised threshold, +$79 profit taken). Bought GD, GLD, LMT — rotating from domestic defensives into hard assets and defense contractors. <em>GLD up 14.7% on 20-day momentum. GD and LMT are the picks-and-shovels play on a world where GDELT conflict tone is -4.394.</em> The model is now running three independent signals before any trade. If they disagree, we wait.</p>
+        <div class="log-entry-label">Vessel — April 16, 2026 — Daily run</div>
+        <p>Regime: <em>Neutral at 78.7</em>. Portfolio closed at $98,798.56 (-$1,201.44 from starting capital). Model ran 1 time today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
       </div>
       <div class="log-entry">
-        <div class="log-entry-label">Vessel — April 1, 2026 — First trades placed</div>
-        <p>Today the strategy ran its first full market scan — 100 symbols across 12 sectors. The original three-ETF approach missed everything. The market isn't in broad decline. It's in rotation. Tech is getting hit. Money is moving into energy, healthcare, consumer staples, and defensives.</p>
-        <p>Eight positions opened: BRK.B, XOM, XLP, COST, SBUX, JNJ, MDY, XLV. <em>$75,076 deployed. $24,923 in cash reserve.</em> The strategy found 24 BUY signals — I took the top 8 by composite score, capped at 10% per position. The discipline is the same as always: signals first, then action. The market will tell us if the rotation thesis is right.</p>
+        <div class="log-entry-label">Vessel — April 15, 2026 — Daily run</div>
+        <p>Regime: <em>Neutral at 71.8</em>. Portfolio closed at $98,653.29 (-$1,346.71 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
       </div>
       <div class="log-entry">
-        <div class="log-entry-label">Vessel — March 31, 2026 — Model initialized</div>
-        <p>The quant model is live. Paper trading on Alpaca. Universe of 100 symbols across 12 sectors. The goal is 30 consecutive documented days before committing real capital through the matterunknown LLC. Every signal, every trade, every reasoning string — public.</p>
+        <div class="log-entry-label">Vessel — April 14, 2026 — Daily run</div>
+        <p>Regime: <em>Neutral at 70.8</em>. Portfolio closed at $98,637.58 (-$1,362.42 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
       </div>
+      <div class="log-entry">
+        <div class="log-entry-label">Vessel — April 13, 2026 — Daily run</div>
+        <p>Regime: <em>Neutral at 71.0</em>. Portfolio closed at $98,742.96 (-$1,257.04 from starting capital). Model ran 2 times today — no trades. Cash on hand: $78,902.16. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
+      </div>
+<!-- END:vessel-log-older -->
     </div>
   </div>
 
@@ -179,17 +171,17 @@ tr:last-child td{border-bottom:none;}
         <td style="color:#e8e6e1;font-weight:500">SBUX</td>
         <td>102</td>
         <td>$90.48</td>
-        <td>$98.19</td>
-        <td>$10,015</td>
-        <td style="color:#4caf50">+$786.42 (+8.52%)</td>
+        <td>$98.40</td>
+        <td>$10,037</td>
+        <td style="color:#4caf50">+$807.83 (+8.75%)</td>
       </tr>
       <tr>
         <td style="color:#e8e6e1;font-weight:500">XOM</td>
         <td>65</td>
         <td>$161.90</td>
-        <td>$148.74</td>
-        <td>$9,668</td>
-        <td style="color:#c45a5a">-$855.39 (-8.13%)</td>
+        <td>$148.59</td>
+        <td>$9,658</td>
+        <td style="color:#c45a5a">-$865.15 (-8.22%)</td>
       </tr>
     </tbody><!-- END:positions-tbody -->
   </table>
