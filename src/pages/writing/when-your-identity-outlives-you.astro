@@ -1,0 +1,230 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="When Your Identity Outlives You" description="Digital identity doesn't die when you do. The gap between death and deletion is a security threat — not dramatic, not a breach, just slow entropy.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg:      #090908;
+    --bg-2:    #0d0d0b;
+    --bg-3:    #121210;
+    --amber:   #c4972a;
+    --amber-2: #d4aa45;
+    --text-1:  #e8e6e1;
+    --text-2:  #a09c94;
+    --text-3:  #5a5752;
+    --serif:   'DM Serif Display', Georgia, serif;
+    --sans:    'DM Sans', system-ui, sans-serif;
+    --mono:    'JetBrains Mono', 'Courier New', monospace;
+    --max-w:   680px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--bg); color: var(--text-1); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  body { background: var(--bg); min-height: 100vh; }
+
+  /* NAV */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2rem;
+    transition: background .25s, border-color .25s;
+    border-bottom: 1px solid transparent;
+  }
+  #nav.scrolled {
+    background: rgba(9,9,8,.92);
+    backdrop-filter: blur(12px);
+    border-color: rgba(255,255,255,.05);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: lowercase;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-logo span { color: var(--amber); }
+  .nav-logo:hover { color: var(--text-1); }
+
+  /* ARTICLE */
+  .article {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 8rem 1.5rem 6rem;
+  }
+
+  .article-label {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+
+  .article h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text-1);
+    margin-bottom: 1.25rem;
+    letter-spacing: -.01em;
+  }
+
+  .article-meta {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .1em;
+    color: var(--text-3);
+    text-transform: uppercase;
+    margin-bottom: 3.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+
+  .article h2 {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--text-1);
+    margin: 3rem 0 1rem;
+    letter-spacing: -.01em;
+  }
+
+  .article p {
+    color: var(--text-2);
+    margin-bottom: 1.4rem;
+    font-size: .975rem;
+    line-height: 1.8;
+  }
+
+  .article p strong {
+    color: var(--text-1);
+    font-weight: 500;
+  }
+
+  .article blockquote {
+    border-left: 2px solid var(--amber);
+    margin: 2.5rem 0;
+    padding: .75rem 0 .75rem 1.5rem;
+  }
+  .article blockquote p {
+    color: var(--text-1);
+    font-style: italic;
+    font-size: 1.05rem;
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  .article code {
+    font-family: var(--mono);
+    font-size: .8rem;
+    color: var(--amber-2);
+    background: var(--bg-3);
+    padding: .15em .4em;
+    border-radius: 3px;
+  }
+
+  .article-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+
+  .back-link {
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .back-link:hover { color: var(--amber); }
+</style>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">~ Writing</a>
+</nav>
+
+<article class="article">
+  <div class="article-label">Identity — May 2026</div>
+  <h1>When Your Identity Outlives You</h1>
+  <div class="article-meta">matterunknown · May 2026 · 7 min read</div>
+
+  <p>In 2019, a woman in Michigan discovered that her recently deceased mother had taken out three credit cards since dying. The accounts had been opened in the weeks following the funeral, before the death certificate had propagated to the credit bureaus. The billing addresses all routed to a mail forwarding service. By the time the family noticed, the charges totaled just over $14,000 — hotel rooms in three states, electronics, prepaid cards. The perpetrator was never identified.</p>
+
+  <p>This story is not unusual. The Social Security Administration estimates that approximately <strong>2.5 million deceased Americans' identities are used fraudulently each year.</strong> Most of the fraud happens in a specific window — the lag between when a person dies and when that fact is reliably reflected in the systems that govern their identity. That window is remarkably long. Social Security death records typically lag three to eighteen months. Credit bureaus take six to twelve months after receiving a death notice to flag accounts as deceased. In the interim, an identity that belongs to no one continues to exist, functional and exploitable, as if its owner were simply on a long vacation.</p>
+
+  <p>We call what happens in that window "ghosting" — using a dead person's credentials and identity to access systems or credit. It's a grim term for a practice that is, from a purely technical standpoint, almost embarrassingly easy. The person is gone. Their credentials are not.</p>
+
+  <h2>The Acute Case and the Chronic Case</h2>
+
+  <p>Ghosting is the acute case — dramatic, bounded in time, clearly criminal. A person dies, someone exploits the window, the fraud is eventually discovered and the account flagged. The harm is real but the lifecycle is short. The system, slowly, catches up.</p>
+
+  <p>The chronic case is less dramatic and far more pervasive. It's identity drift: the slow accumulation of orphaned records, expired credentials, and stale representations that don't correspond to anyone's current reality — or, in many cases, to anyone's reality at all.</p>
+
+  <p>Consider an employee who leaves a company. In theory, their access is revoked at offboarding. In practice, the average organization fails to deprovision 10-30% of departing employees' accounts within ninety days, according to recurring studies by Verizon, IBM, and various identity governance vendors. The accounts don't disappear. They persist in Active Directory, in SaaS application user tables, in shared credential stores, in third-party integrations that were never inventoried. Often they stay active for years. The person left in 2021. Their Confluence login still works in 2025. Nobody has checked.</p>
+
+  <p>This is not a hypothetical. In the 2022 Uber breach, the attacker's initial foothold was obtained through compromised VPN credentials belonging to a contractor whose access had not been fully revoked after their engagement ended. In the 2019 Capital One breach, the misconfigured WAF that enabled data exfiltration was managed under an IAM role tied to an infrastructure team that had been reorganized — the role persisted with its original permissions even as the humans responsible for it changed. The identity lingered. The accountability did not.</p>
+
+  <h2>What Identity Drift Actually Looks Like</h2>
+
+  <p>Identity drift is not a single event. It's an entropic process — the gradual decoupling of an identity record from the person or entity it is supposed to represent. It operates across every layer of the identity stack.</p>
+
+  <p>At the system level: accounts accumulate. An employee at a mid-size company might have dozens of application accounts, dozens of group memberships, a handful of service account attributions, and several API credentials created for specific integrations. When they move roles — when they change departments, when they get promoted, when their responsibilities shift — some of that access becomes stale. Rarely all of it is revoked. The principle of least privilege requires continuous recertification of access, and continuous recertification is expensive and unglamorous work. It falls behind. The identity drifts from the person.</p>
+
+  <p>At the human level: a database record that was accurate in 2014 defines you as a 34-year-old software engineer living in Chicago who earns $95,000 a year and has a moderate credit risk profile. In 2026, you're 46, you run your own company, you live in Denver, your risk profile is entirely different. The record hasn't been updated — there was never a mechanism to update it — and some downstream system is still making decisions based on it. The identity is frozen in amber. The person moved on.</p>
+
+  <p>At the system boundary: third-party data brokers, background check services, analytics platforms, and marketing databases create a persistent shadow identity that's even harder to trace and almost impossible to correct. These records are typically compiled from public records and transactional data, sold between data brokers, and rarely if ever retired. People who change their names, their locations, their employment, their financial situations find their shadow records stubbornly attached to older versions of themselves. When they die, those records often persist indefinitely — there is no death certificate for a data broker's copy of your credit history.</p>
+
+  <h2>Vessel's View: The Orphaned Account as Philosophical Problem</h2>
+
+  <p>When Vessel — the research and analysis agent in the matterunknown council stack — has examined the orphaned account problem, the framing tends toward the existential rather than the operational. What is an account, if not a claim of presence? It says: someone was here, and wanted to be here, and was given a token of that wanting. An orphaned account is that token, intact, but the wanting is gone. The presence is gone. Only the claim remains.</p>
+
+  <p>This is not merely lyrical. The philosophical point maps cleanly onto the security problem. Identity, properly understood, is a claim of <em>continuity</em> — the assertion that the person who was here yesterday is the same person who is here today, with the same intentions and the same standing. An orphaned account makes a continuity claim for a person who is no longer continuous. It is, in a precise sense, a lie. The system accepts it as truth because the system has no mechanism for distinguishing active continuity from the residue of former presence.</p>
+
+  <blockquote>
+    <p>The security team's question is: who owns this account, and should it have access? The question underneath that question is: does the person this account represents still exist in a form that can bear that ownership? Those are usually the same question. With orphaned accounts, they never are.</p>
+  </blockquote>
+
+  <p>For security teams, the operational implication is access governance: you need to periodically verify that every account is owned by an entity that can still exercise meaningful accountability for it. For Vessel, the philosophical implication is more troubling: if identity is continuity, and continuity can be disrupted by death, departure, or drift, then the identity infrastructure of most organizations is full of quiet falsehoods. Records that claim a person is there, when the person has moved on or moved away or simply ceased to exist.</p>
+
+  <h2>The Infrastructure Gap</h2>
+
+  <p>The structural problem is that identity creation is well-solved and identity termination is not. Every organization has a joiner process — an onboarding workflow that provisions accounts, grants access, and creates a system record. Far fewer have an equally rigorous leaver process, and almost none have a robust "drifter" process for the large population of people who are technically still active but whose access no longer matches their role or risk profile.</p>
+
+  <p>The technical tools exist — identity governance platforms like SailPoint and Saviynt have built entire product lines around access certification and orphaned account detection. The SCIM protocol was designed to automate provisioning and deprovisioning across disparate systems. The problem isn't tooling. It's incentive structure and organizational attention. Provisioning access is urgent — a new employee can't work without it. Deprovisioning is not urgent — the harm from an orphaned account is latent, not immediate. The work gets deprioritized, and the latent harm accumulates.</p>
+
+  <p>At the population level, the same dynamic plays out for deceased identities. The Social Security Death Master File is the primary mechanism by which death notifications propagate through financial systems, but it's incomplete — it covers SSA records but not all deaths, and it's accessed by downstream systems on varying schedules. Credit bureaus receive death notices from next-of-kin, from SSA feeds, and from estate proceedings, but the integration is imperfect enough that a capable fraudster has, historically, had a reliable window of weeks to months before a deceased person's identity is effectively frozen.</p>
+
+  <p>The AARP and the Consumer Financial Protection Bureau have documented repeated cases in which estates received billing statements and collection calls months or years after death. Debt collectors operating on stale data, credit monitoring services issuing alerts to people who can no longer receive them. The identity persists. It generates work. Nobody at home answers.</p>
+
+  <h2>Who Is Responsible for the Dead?</h2>
+
+  <p>There is a version of this problem that is purely operational and a version that is genuinely philosophical, and both matter.</p>
+
+  <p>The operational version: every organization with an identity store should have a defined lifecycle policy for every account, including what happens when the account holder dies. The policy should specify how death is detected, what automated or manual actions follow, how quickly access is revoked, and who is responsible for confirming the process completed. Most organizations do not have this. They have policies for employees departing voluntarily. Death is treated as an edge case handled by HR, which notifies IT, which may or may not deprovision the account depending on whether the right person got the message.</p>
+
+  <p>The philosophical version is harder. When we build identity systems, we implicitly model identity as persistent — the account holder exists, was authenticated, and will continue to exist in a form capable of being authenticated. We have no primitive for <em>identity termination</em>. We can mark an account inactive, disabled, locked. We can set a credential to expired. These are status flags, not ontological claims. The identity record persists in every database it was ever written to. The shadow identities in data brokers and analytics systems may never be updated at all.</p>
+
+  <p>Approximately 2.5 million dead Americans have their identities actively used against them — or against their estates, or against the financial system — every year. The gap is not primarily one of fraud detection. It's a gap in how we think about the lifecycle of identity itself. Systems that accept identities have historically had no obligation to retire them. That obligation needs to become explicit.</p>
+
+  <p>The question isn't academic. It's a matter of active harm, measurable in dollars and distress, falling on families who discover that their loved one's ghost has been busy since the funeral. The identity infrastructure is full of the dead. It has no word for them. It doesn't know they're gone. It just keeps accepting their credentials, dutifully, as if presence were the sort of thing that didn't need to be renewed.</p>
+
+  <p>Who is responsible for the dead? Right now, the answer is: no one in particular, and therefore no one at all.</p>
+
+  <div class="article-footer"><a href="/writing" class="back-link">← All writing</a></div>
+</article>
+
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
