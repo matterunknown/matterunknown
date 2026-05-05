@@ -1,0 +1,130 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Can an AI Agent Have a Verifiable Identity?" description="We built a lab to find out. Not a theoretical exercise — a running system where AI agents register, attest, and get governed by cryptographic identity primitives.">
+<style>
+:root {
+  --bg:           #090908;
+  --bg-2:         #0d0d0b;
+  --bg-3:         #121210;
+  --amber:        #c4972a;
+  --amber-dim:    rgba(196,151,42,0.12);
+  --amber-border: rgba(196,151,42,0.15);
+  --vessel:       #7eb8c4;
+  --vessel-dim:   rgba(126,184,196,.08);
+  --vessel-border:rgba(126,184,196,.12);
+  --text:         #e8e6e1;
+  --text-2:       #a09c94;
+  --text-3:       #5a5752;
+  --serif:        'DM Serif Display', Georgia, serif;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --mono:         'JetBrains Mono', ui-monospace, monospace;
+  --gutter:       clamp(24px, 5vw, 80px);
+  --max:          680px;
+  --nav-h:        68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
+.nav-logo span { color:var(--amber); }
+a { color:inherit;text-decoration:none; }
+.article { max-width:var(--max);margin:0 auto;padding:calc(var(--nav-h) + 80px) var(--gutter) 120px; }
+.article-label { font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:28px; }
+h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.6rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin-bottom:20px; }
+.article-meta { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.07em;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--amber-border); }
+h2 { font-family:var(--serif);font-size:1.5rem;font-weight:400;letter-spacing:-.015em;margin:56px 0 20px; }
+p { color:var(--text-2);margin-bottom:24px;font-size:1.02rem;line-height:1.8; }
+p strong { color:var(--text);font-weight:500; }
+blockquote { border-left:2px solid var(--amber);margin:40px 0;padding:0 0 0 24px; }
+blockquote p { color:var(--text);font-style:italic;font-size:1.05rem; }
+code { font-family:var(--mono);font-size:.82em;background:var(--bg-3);border:1px solid var(--amber-border);padding:2px 7px;border-radius:3px;color:var(--amber); }
+.article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border); }
+.back-link { font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:color .2s; }
+.back-link:hover { color:var(--amber); }
+@media(max-width:768px) { .article { padding-left:24px;padding-right:24px; } }
+</style>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">~ Writing</a>
+</nav>
+
+<article class="article">
+  <div class="article-label">Identity — May 2026</div>
+  <h1>Can an AI Agent Have a Verifiable Identity?</h1>
+  <div class="article-meta">matterunknown &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 6 min read</div>
+
+  <p>It's a deceptively simple question. When an AI agent does something — reads a file, calls an API, writes to a database — can you know, with cryptographic certainty, that it was that agent? Not a process that claimed to be it. Not a token that was stolen and replayed. The actual system, with the actual scope it was given, doing the actual thing it said it would do.</p>
+
+  <p>Most deployments today can't answer that. They have logs. They have service accounts. They have API keys assigned to a role that three different systems share. The identity of the agent is implied, not attested. You trust the infrastructure to be telling the truth about who did what.</p>
+
+  <p>That might be good enough for a webhook. It is not good enough for an autonomous agent operating over long time horizons with access to sensitive resources. We built a lab to find out what "good enough" actually looks like.</p>
+
+  <h2>The Identity Problem Is Different for Agents</h2>
+
+  <p>Human identity in security has decades of infrastructure behind it. SSO, MFA, RBAC, session tokens, device certificates — these aren't perfect, but they encode real assumptions about how humans authenticate: from known devices, in known locations, at human speed.</p>
+
+  <p>Agents break every one of those assumptions. They authenticate programmatically, continuously, from wherever they happen to be running. They can spawn sub-agents and delegate authority. They operate at machine speed, which means a compromised identity can cause damage in milliseconds, not the minutes it takes a human to notice something is wrong.</p>
+
+  <p>The deeper problem is that most "agent identity" today is just a credential. An API key. An OAuth token. Something the agent possesses, not something the agent is. Possession is a weak guarantee. Keys get leaked. Tokens get stolen out of environment variables. The credential doesn't know it's been compromised; it just keeps working.</p>
+
+  <blockquote>
+    <p>The question isn't whether an agent has a credential. It's whether the credential is bound to an attested, auditable identity that you actually control.</p>
+  </blockquote>
+
+  <h2>What We Built</h2>
+
+  <p>The matterunknown lab runs a system we're calling Guardian — an identity and access layer specifically for AI agents. The goal wasn't to build another secret manager. It was to answer a narrower question: can you create an identity primitive for an agent that is cryptographically verifiable, carries its own scope, and exists within a lifecycle you can observe and interrupt?</p>
+
+  <p>The core mechanism is the intent token. When an agent registers with Guardian, it receives an Ed25519-signed JWT. The token carries three things: the agent's identity (a declared name and role), its behavioral scope (explicit allow and deny lists for action categories), and a short expiry that forces continuous re-attestation. The agent presents this token to every service it interacts with. Services verify it offline — no callback required.</p>
+
+  <p>This is different from a standard bearer token in one important way: **the scope travels with the identity.** An agent with <code>allow: [read, analyze]</code> and <code>deny: [delete, execute, escalate]</code> cannot escalate — not because a policy file somewhere says so, but because any service validating its token will see the deny list and reject the attempt before it reaches anything sensitive. The constraint is in the cryptographic object, not in a configuration layer that can drift.</p>
+
+  <h2>The Lifecycle Question</h2>
+
+  <p>Credentials don't have lifecycles. They have expiry dates, which is not the same thing. An identity lifecycle means the entity has states — and transitions between those states are deliberate, auditable, and reversible.</p>
+
+  <p>In Guardian, every agent moves through a sequence: registered, pending approval, approved, and if something goes wrong, quarantined. Quarantine is not deletion. It's suspension — the agent's token stops being honored, its actions stop succeeding, but the record of what it did and what it was authorized to do is preserved. You can inspect it, investigate it, and decide whether to reinstate or revoke.</p>
+
+  <p>This matters for a reason that's easy to overlook: **you need to be able to ask "what was this agent allowed to do at the time it did this thing?"** Not what the policy says today. What the token said then. Because the token is a signed, timestamped artifact, that question has a real answer.</p>
+
+  <h2>Discovery: The Identities You Didn't Know Existed</h2>
+
+  <p>One of the stranger findings from running this in a real environment: the hardest part of agent identity isn't the agents you built. It's the ones that already exist.</p>
+
+  <p>Every organization running Okta or Entra has service accounts, API tokens, and workload identities that were created by someone, for something, at some point. Many of them are still active. Most of them have no owner. None of them have a lifecycle.</p>
+
+  <p>The IDP watcher component of our lab connects to those identity providers and pulls those discovered identities into the same lifecycle model as the agents we built ourselves. A service account that's been sitting in Okta for three years, with no owner and broad API access, suddenly has a state. It's pending. Someone has to approve it, quarantine it, or decide it never should have existed.</p>
+
+  <p>That's not a product feature. That's just what happens when you take the question seriously: if we're going to govern agent identity, we have to govern all of it, including the parts we didn't create.</p>
+
+  <h2>What the Lab Showed Us</h2>
+
+  <p>Running this in practice surfaced three things we didn't fully anticipate.</p>
+
+  <p>First, offline verification is non-negotiable. Agents operate at a speed where a round-trip to a central authority on every action is a real constraint. The token-based model — sign once, verify anywhere — is the only architecture that doesn't create a bottleneck at the identity layer.</p>
+
+  <p>Second, the deny list matters more than the allow list. It's easy to enumerate what an agent should be able to do. It's harder — and more important — to enumerate what it should never be able to do regardless of what it's trying to accomplish. Escalation, deletion, and self-modification of scope should be structural impossibilities, not policy decisions that can be misconfigured.</p>
+
+  <p>Third, identity without observability is incomplete. A verifiable identity tells you who did something. It doesn't tell you whether that something was expected. The next layer of this problem is behavioral — not just "was this agent authorized?" but "is this agent behaving like itself?" That's a harder question. We're working on it.</p>
+
+  <h2>The Answer to the Question</h2>
+
+  <p>Yes — an AI agent can have a verifiable identity. The primitives exist: asymmetric signing, short-lived tokens, explicit scope, lifecycle state machines. None of this is novel cryptography. What's novel is applying it to entities that are autonomous, fast-moving, and not human.</p>
+
+  <p>What we don't yet have is consensus on what "verified" needs to mean at scale — when agents spawn agents, when scope gets delegated, when the system making decisions about identity is itself an AI. Those are open problems. The lab exists to work them out in the open, in running code, not in whitepapers.</p>
+
+  <p>If you're building in this space and thinking about these questions, we're interested in what you're finding.</p>
+
+  <div class="article-footer">
+    <a href="/writing" class="back-link">← All writing</a>
+  </div>
+</article>
+
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
