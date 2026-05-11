@@ -1,0 +1,106 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Identity Is a Tattoo. Design It Like One." description="Most digital identity systems look like tattoo regret. The people who avoid it aren't lucky — they're intentional. The same is true for identity architecture.">
+<style>
+:root {
+  --bg:           #090908;
+  --bg-2:         #0d0d0b;
+  --bg-3:         #121210;
+  --amber:        #c4972a;
+  --amber-dim:    rgba(196,151,42,0.12);
+  --amber-border: rgba(196,151,42,0.15);
+  --vessel:       #7eb8c4;
+  --vessel-dim:   rgba(126,184,196,.08);
+  --vessel-border:rgba(126,184,196,.12);
+  --text:         #e8e6e1;
+  --text-2:       #a09c94;
+  --text-3:       #5a5752;
+  --serif:        'DM Serif Display', Georgia, serif;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --mono:         'JetBrains Mono', ui-monospace, monospace;
+  --gutter:       clamp(24px, 5vw, 80px);
+  --max:          1160px;
+  --nav-h:        68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text);text-decoration:none; }
+.nav-logo span { color:var(--amber); }
+
+.article-wrap { padding:calc(var(--nav-h) + 80px) var(--gutter) 120px; max-width:calc(680px + var(--gutter)*2); margin:0 auto; }
+.article-label { font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:28px;display:flex;align-items:center;gap:14px; }
+.article-label::before { content:'';width:28px;height:1px;background:var(--amber); }
+h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.6rem);font-weight:400;line-height:1.08;letter-spacing:-.025em;margin-bottom:18px; }
+.article-meta { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.07em;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--amber-border); }
+.article-body p { margin-bottom:1.6em;font-size:1.05rem;color:var(--text);line-height:1.8; }
+.article-body h2 { font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--text);margin:2.8em 0 .9em;letter-spacing:-.015em; }
+.article-body blockquote { border-left:2px solid var(--amber);padding:4px 0 4px 24px;margin:2em 0;color:var(--text-2);font-style:italic;font-size:1.02rem; }
+.article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border); }
+.back-link { font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:color .2s; }
+.back-link:hover { color:var(--amber); }
+
+@media(max-width:768px) { h1 { font-size:2rem; } }
+</style>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">~ Writing</a>
+</nav>
+
+<div class="article-wrap">
+  <div class="article-label">Identity — May 2026</div>
+  <h1>Identity Is a Tattoo. Design It Like One.</h1>
+  <div class="article-meta">matterunknown &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 4 min read</div>
+
+  <div class="article-body">
+    <p>Most digital identity systems look like tattoo regret.</p>
+
+    <p>Not because the original design was stupid — it made sense at the time. A role here, a credential there, a permission granted because someone needed to ship by Friday. Reasonable in the moment. The problem is the system remembered all of it. Permanently.</p>
+
+    <p>Tattoo artists will tell you: regret isn't about bad taste. It's about committing to a snapshot of yourself without accounting for the version of you that comes next. The design made sense at 22. It doesn't at 35. The system doesn't care.</p>
+
+    <p>Identity infrastructure works the same way. Credentials accumulate. Roles stack. Access never gets cleaned up because removing things is hard and adding things is fast. Nobody planned for the person — or the machine — to change.</p>
+
+    <h2>The Default Is Accumulation</h2>
+
+    <p>Every identity system starts clean. Then reality hits. The engineer who needed prod access for a one-week migration still has it two years later. The service account created for a decommissioned integration keeps authenticating. The admin role that was "temporary" has outlasted three org charts.</p>
+
+    <p>It's not negligence. It's gravity. Least-path operations trend toward addition, not subtraction. And unlike technical debt in code — where the rot is visible, testable, blowable-up in staging — identity debt is invisible until it isn't. Until the breach. Until the audit. Until the access that nobody remembered granting becomes the access that ended something.</p>
+
+    <blockquote>You're not managing identity. You're managing a permanent record of every decision you made under pressure, accumulating interest.</blockquote>
+
+    <h2>Intentionality Is Infrastructure</h2>
+
+    <p>Here's the thing about tattoo regret: the people who don't have it aren't lucky. They're intentional.</p>
+
+    <p>They thought about placement before the needle. About longevity — will this still mean something in a decade? About how the design interacts with what's already there, and what might come next. They treated permanence as a design constraint, not a side effect.</p>
+
+    <p>That's the missing mental model in identity architecture. The question isn't "does this access work?" It's "what is this access for, when does it expire, and what's the process when it doesn't?" If you can't answer that at provisioning time, you've already started building regret.</p>
+
+    <p>The discipline is the same: pick with intention, build in the change before the change happens, and design for the version of the system that's still running three years from now — not just the version that ships on Friday.</p>
+
+    <h2>Foundation First</h2>
+
+    <p>The orgs that don't end up in remediation aren't the ones with better cleanup tooling. They're the ones that made expiration, ownership, and purpose first-class citizens of every credential from day one.</p>
+
+    <p>Scoped access. Short-lived tokens. Every principal — human or machine — with an explicit owner and an explicit lifecycle. Not because compliance requires it. Because identity is permanent by default, and permanence without intention is just a record of your worst moments under deadline.</p>
+
+    <p>No regret isn't luck. It's infrastructure.</p>
+
+    <p>Design it like you're going to live with it.</p>
+  </div>
+
+  <div class="article-footer">
+    <a href="/writing" class="back-link">← All writing</a>
+  </div>
+</div>
+
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
