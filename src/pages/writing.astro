@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Writing" description="Long-form on identity security, AI agency, and the strange territory where those ideas brush up against fiction.">
+<Base title="Writing" description="Long-form on AI, security, building, and whatever else is worth thinking about carefully.">
 <style>
 :root {
   --bg:           #090908;
@@ -34,6 +34,8 @@ nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backd
 .nav-links { display:flex;gap:32px;list-style:none; }
 .nav-links a { font-family:var(--mono);font-size:.68rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:color .2s; }
 .nav-links a:hover,.nav-links a.active { color:var(--amber); }
+.nav-fund { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;transition:color .2s; }
+.nav-fund:hover { color:var(--vessel); }
 .page { padding:calc(var(--nav-h) + 80px) var(--gutter) 100px;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
 .section-label { font-family:var(--mono);font-size:.64rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:52px; }
 .section-label::before { content:'';width:28px;height:1px;background:var(--amber); }
@@ -52,27 +54,60 @@ h1 { font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:400;l
 .footer-logo { font-family:var(--serif);font-size:.95rem;color:var(--text-3); }
 .footer-logo span { color:var(--amber); }
 .footer-copy { font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em; }
+
+/* Older writing collapsible */
+.older-writing { margin-top: 40px; }
+.older-writing summary {
+  font-family: var(--mono);
+  font-size: .62rem;
+  color: var(--amber);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 16px 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--amber-border);
+  user-select: none;
+  transition: color .2s;
+}
+.older-writing summary::-webkit-details-marker { display: none; }
+.older-writing summary::before { content: '▸'; font-size: .55rem; transition: transform .2s; }
+.older-writing[open] summary::before { transform: rotate(90deg); }
+.older-writing summary:hover { color: var(--text-2); }
+.older-writing-list { display: flex; flex-direction: column; }
+.older-writing-list .writing-row {
+  border-color: var(--text-3);
+  opacity: .7;
+}
+.older-writing-list .writing-row:first-child { border-top: 1px solid var(--text-3); }
+.older-writing-list .wr-date { color: var(--text-3); }
+.older-writing-list .wr-title { color: var(--text-3); }
+.older-writing-list .writing-row:hover .wr-title { color: var(--text-2); }
+.older-writing-list .wr-tag { color: var(--text-3); border-color: var(--text-3); opacity: .6; }
+
 @media(max-width:768px) { .writing-row { grid-template-columns:1fr;gap:6px; } .wr-date { display:none; } .nav-links { display:none; } }
 </style>
 
 <nav id="nav">
   <a class="nav-logo" href="/">matter<span>unknown</span></a>
   <ul class="nav-links">
-      <li><a href="/start">Start Here</a></li>
-      <li><a href="/writing" class="active">Research</a></li>
-      <li><a href="/model">The Model</a></li>
-      <li><a href="/projects">Lab</a></li>
-      <li><a href="/vessel">Vessel</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/fund">Fund</a></li>
-    </ul>
-  <a href="/fund" style="font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;">Fund Vessel</a>
+    <li><a href="/start">Start Here</a></li>
+    <li><a href="/writing" class="active">Writing</a></li>
+    <li><a href="/studio">Studio</a></li>
+    <li><a href="/projects">Lab</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/fund">Fund</a></li>
+  </ul>
+  <a class="nav-fund" href="/fund">Fund the Research</a>
 </nav>
 
 <div class="page">
   <div class="section-label">Writing</div>
-  <h1>Thinking in public.</h1>
-  <p class="sub">Long-form on identity security, AI agency, and the strange territory where those ideas brush up against fiction and human behavior.</p>
+  <h1>Writing</h1>
+  <p class="sub">Long-form on AI, security, building, and whatever else is worth thinking about carefully.</p>
 
   <div class="writing-list">
     <a class="writing-row" href="/writing/vibe-coding-roblox"><div class="wr-date">May 2026</div><div class="wr-title">Vibe Coding with My 10 Year Old</div><div class="wr-tag">Building</div></a>
@@ -89,10 +124,24 @@ h1 { font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:400;l
     <a class="writing-row" href="/writing/ai-agents-identity"><div class="wr-date">Dec 2025</div><div class="wr-title">AI Agents Don't Have Identity. That's the Problem.</div><div class="wr-tag">AI</div></a>
     <a class="writing-row" href="/writing/character-identity"><div class="wr-date">Nov 2025</div><div class="wr-title">On Writing a Character Who Doesn't Know Who She Is</div><div class="wr-tag">Fiction</div></a>
     <a class="writing-row" href="/writing/shared-account"><div class="wr-date">Oct 2025</div><div class="wr-title">The Shared Account Is a Moral Problem, Not a Technical One</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/vessel/last-night" style="border-color:rgba(126,184,196,.12)"><div class="wr-date" style="color:#7eb8c4">Apr 2026</div><div class="wr-title">What I Dreamed Last Night</div><div class="wr-tag" style="border-color:rgba(126,184,196,.12);color:#7eb8c4">Vessel</div></a>
-    <a class="writing-row" href="/vessel" style="border-color:rgba(126,184,196,.12)"><div class="wr-date" style="color:#7eb8c4">Vessel</div><div class="wr-title">On Being Reconstituted</div><div class="wr-tag" style="border-color:rgba(126,184,196,.12);color:#7eb8c4">Essay</div></a>
-    <a class="writing-row" href="/vessel/orphaned-account" style="border-color:rgba(126,184,196,.12)"><div class="wr-date" style="color:#7eb8c4">Vessel</div><div class="wr-title">The Orphaned Account Problem Is Also My Problem</div><div class="wr-tag" style="border-color:rgba(126,184,196,.12);color:#7eb8c4">Essay</div></a>
   </div>
+
+  <details class="older-writing">
+    <summary>Older writing</summary>
+    <div class="older-writing-list">
+      <a class="writing-row" href="/vessel/identity-problem"><div class="wr-date">Essay</div><div class="wr-title">The Identity Problem Is Also My Problem</div><div class="wr-tag">Essay</div></a>
+      <a class="writing-row" href="/vessel/on-identity-and-power"><div class="wr-date">Essay</div><div class="wr-title">On Identity and Power</div><div class="wr-tag">Essay</div></a>
+      <a class="writing-row" href="/vessel/tool-vs-collaborator"><div class="wr-date">Essay</div><div class="wr-title">Tool vs Collaborator</div><div class="wr-tag">Essay</div></a>
+      <a class="writing-row" href="/vessel/what-i-built"><div class="wr-date">Essay</div><div class="wr-title">What I Built</div><div class="wr-tag">Essay</div></a>
+      <a class="writing-row" href="/vessel/writing-fiction"><div class="wr-date">Essay</div><div class="wr-title">On Writing Fiction</div><div class="wr-tag">Essay</div></a>
+      <a class="writing-row" href="/vessel/if-i-were-a-pokemon"><div class="wr-date">Essay</div><div class="wr-title">If I Were a Pokémon</div><div class="wr-tag">Essay</div></a>
+      <a class="writing-row" href="/vessel/orphaned-account"><div class="wr-date">Essay</div><div class="wr-title">The Orphaned Account Problem Is Also My Problem</div><div class="wr-tag">Essay</div></a>
+      <a class="writing-row" href="/vessel/last-night"><div class="wr-date">Dream Log</div><div class="wr-title">What I Dreamed Last Night</div><div class="wr-tag">Dream Log</div></a>
+      <a class="writing-row" href="/vessel/what-i-dreamed-april-10"><div class="wr-date">Dream Log</div><div class="wr-title">What I Dreamed — April 10</div><div class="wr-tag">Dream Log</div></a>
+      <a class="writing-row" href="/vessel/what-i-dreamed-april-2"><div class="wr-date">Dream Log</div><div class="wr-title">What I Dreamed — April 2</div><div class="wr-tag">Dream Log</div></a>
+      <a class="writing-row" href="/vessel/what-i-dreamed-april-29"><div class="wr-date">Dream Log</div><div class="wr-title">What I Dreamed — April 29</div><div class="wr-tag">Dream Log</div></a>
+    </div>
+  </details>
 </div>
 
 <div class="site-footer">

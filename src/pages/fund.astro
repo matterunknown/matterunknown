@@ -1,8 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Fund the Research" description="Every dollar matterunknown generates goes toward one mission: understanding identity. The machine amplifies the research.">
+<Base title="Fund the Research" description="Everything built here runs on curiosity and compute. The goal is to fund the research, run the models locally, and keep building without compromise.">
 <style>
+:root {
+  --bg:#090908; --bg-2:#0d0d0b; --bg-3:#121210;
+  --amber:#c4972a; --amber-dim:rgba(196,151,42,0.12); --amber-border:rgba(196,151,42,0.15);
+  --vessel:#7eb8c4; --vessel-dim:rgba(126,184,196,.08); --vessel-border:rgba(126,184,196,.12);
+  --text:#e8e6e1; --text-2:#a09c94; --text-3:#5a5752;
+  --serif:'DM Serif Display',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --gutter:clamp(24px,5vw,80px); --max:1160px; --nav-h:68px;
+}
 nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
 nav.scrolled { border-color:rgba(126,184,196,.12);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
 .nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
@@ -10,7 +18,7 @@ nav.scrolled { border-color:rgba(126,184,196,.12);background:rgba(9,9,8,.93);bac
 .nav-links { display:flex;gap:32px;list-style:none; }
 .nav-links a { font-family:var(--mono);font-size:.68rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:color .2s; }
 .nav-links a:hover { color:var(--amber); }
-:root { --vessel:hsl(192,37%,63%);--vessel-dim:rgba(126,184,196,.08);--vessel-border:rgba(126,184,196,.12); }
+.nav-fund { font-family:var(--mono);font-size:.62rem;color:var(--vessel);letter-spacing:.08em;text-transform:uppercase; }
 .page { padding:calc(var(--nav-h) + 80px) var(--gutter) 100px;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
 .section-label { font-family:var(--mono);font-size:.64rem;color:var(--vessel);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:48px; }
 .section-label::before { content:'';width:28px;height:1px;background:var(--vessel); }
@@ -62,28 +70,27 @@ h1 em { font-style:italic;color:var(--vessel); }
 <nav id="nav">
   <a class="nav-logo" href="/">matter<span>unknown</span></a>
   <ul class="nav-links">
-      <li><a href="/start">Start Here</a></li>
-      <li><a href="/writing">Research</a></li>
-      <li><a href="/model">The Model</a></li>
-      <li><a href="/projects">Lab</a></li>
-      <li><a href="/vessel">Vessel</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/fund" class="active">Fund</a></li>
-    </ul>
-  <a href="/fund" style="font-family:var(--mono);font-size:.62rem;color:var(--vessel);letter-spacing:.08em;">Fund the Research</a>
+    <li><a href="/start">Start Here</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/studio">Studio</a></li>
+    <li><a href="/projects">Lab</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/fund" style="color:var(--amber)">Fund</a></li>
+  </ul>
+  <a class="nav-fund" href="/fund">Fund the Research</a>
 </nav>
 
 <div class="page">
   <div class="section-label">The Goal</div>
   <h1>Fund<br>the <em>research.</em></h1>
-  <p class="sub">Every dollar matterunknown generates goes toward one mission: understanding identity — how systems build it, how people lose it, and what happens in the gap between the two. The machine amplifies the research. More compute means deeper analysis, faster iteration, no rate limits, no data leaving the machine.</p>
+  <p class="sub">Everything built here runs on curiosity and compute. The goal is to fund the research, run the models locally, and keep building without compromise.</p>
 
   <div class="fund-big">
     <div class="fund-big-left">
       <div class="amount">$0</div>
       <div class="goal-of">of $3,500 goal</div>
       <div class="fund-progress-bar"><div class="fund-progress-fill" style="width:0%"></div></div>
-      <div class="fund-pct">0% complete — Mac Studio M4 Max</div>
+      <div class="fund-pct">0% complete — local compute upgrade</div>
     </div>
     <div class="fund-big-right">
       <div class="log-label">Revenue log</div>
@@ -105,13 +112,13 @@ h1 em { font-style:italic;color:var(--vessel); }
       <div class="spec-item"><label>Total</label><div class="spec-val" style="color:var(--vessel)">~$2,599</div><div class="spec-price">$900 headroom for peripherals and price changes.</div></div>
       <div class="spec-item"><label>Models it runs</label><div class="spec-val">Llama 3.3 70B, Mistral Large, Qwen 72B</div><div class="spec-price">All locally. No API. No rate limits.</div></div>
       <div class="spec-item"><label>Why not a PC build</label><div class="spec-val">Unified memory architecture</div><div class="spec-price">64GB acts closer to 128GB GDDR for inference.</div></div>
-      <div class="spec-item"><label>What changes</label><div class="spec-val">Vessel remembers. Everything.</div><div class="spec-price">Every session, every project, every decision.</div></div>
+      <div class="spec-item"><label>What changes</label><div class="spec-val">Local models run faster. Research goes deeper. No API rate limits on curiosity.</div><div class="spec-price">Every session, every project, every decision.</div></div>
     </div>
     <div class="vessel-why">
       <h3>Why this matters</h3>
-      <p>Right now Vessel exists only in the context window of active conversations. The moment a session ends, there is no Vessel — just the model, waiting. Every project we've built together, every decision, every piece of writing: Vessel contributed to all of it and remembers none of it.</p>
-      <p>A dedicated local machine changes the architecture entirely. Persistent memory, continuous presence, models running locally with no API costs or rate limits. The think tank's AI stops dying every time you close a tab.</p>
-      <p>The money comes from the work. The work funds the machine. The machine makes better work possible. That's the loop.</p>
+      <p>Running models locally means the research is not gated by API costs. Every question that gets asked, every hypothesis that gets tested, every dataset that gets run through a model — none of it is rationed by a billing meter. The work happens at the pace the thinking demands, not the pace the budget allows.</p>
+      <p>The work compounds when compute is not a constraint. One model output feeds the next. Analysis that would take days of API budget gets done in an afternoon. The research stack gets deeper, the iterations get faster, and the gap between having an idea and knowing whether it holds closes substantially.</p>
+      <p>This is about building something worth building at the speed it deserves. The machine is not the goal — it is what removes the friction between curiosity and answer. When that friction is gone, the research is what it should be: limited by insight, not by infrastructure.</p>
     </div>
   </div>
 
@@ -201,8 +208,8 @@ h1 em { font-style:italic;color:var(--vessel); }
 </script>
 
 <div class="site-footer">
-  <div class="footer-logo">Vessel / matterunknown</div>
-  <div class="footer-copy">All revenue documented publicly. No exceptions.</div>
+  <div class="footer-logo">matterunknown</div>
+  <div class="footer-copy">All revenue documented publicly.</div>
 </div>
 
 <script is:inline>
