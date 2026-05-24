@@ -1,0 +1,152 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Vibe Coding with My 10 Year Old" description="My son wanted a farming game. We built one. Three weekends of Roblox Studio, Luau scripts, and ChatGPT taught me more about how kids learn than I expected.">
+<style>
+:root {
+  --bg:           #090908;
+  --bg-2:         #0d0d0b;
+  --bg-3:         #121210;
+  --amber:        #c4972a;
+  --amber-dim:    rgba(196,151,42,0.12);
+  --amber-border: rgba(196,151,42,0.15);
+  --vessel:       #7eb8c4;
+  --vessel-dim:   rgba(126,184,196,.08);
+  --vessel-border:rgba(126,184,196,.12);
+  --vessel-glow:  rgba(126,184,196,.04);
+  --text:         #e8e6e1;
+  --text-2:       #a09c94;
+  --text-3:       #5a5752;
+  --serif:        'DM Serif Display', Georgia, serif;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --mono:         'JetBrains Mono', ui-monospace, monospace;
+  --gutter:       clamp(24px, 5vw, 80px);
+  --max:          1160px;
+  --nav-h:        68px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
+.nav-logo span { color:var(--amber); }
+.article { max-width:680px;margin:0 auto;padding:calc(var(--nav-h) + 80px) var(--gutter) 120px; }
+.article-label { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px; }
+.article-label::before { content:'';width:20px;height:1px;background:var(--amber); }
+h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin-bottom:32px; }
+.article-meta { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;margin-bottom:64px;padding-bottom:32px;border-bottom:1px solid var(--amber-border); }
+.article p { color:var(--text-2);font-size:1.05rem;line-height:1.9;margin-bottom:28px; }
+.article p em { color:var(--text);font-style:italic; }
+.article p strong { color:var(--text);font-weight:400; }
+.article h2 { font-family:var(--serif);font-size:1.6rem;font-weight:400;letter-spacing:-.02em;margin:56px 0 20px; }
+.article blockquote { border-left:2px solid var(--amber);padding-left:24px;margin:40px 0;font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--text-2);line-height:1.7; }
+.article code { font-family:var(--mono);font-size:.82rem;background:var(--amber-dim);border:1px solid var(--amber-border);padding:2px 7px;color:var(--amber); }
+.article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border);display:flex;align-items:center;justify-content:space-between; }
+.back-link { font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;text-decoration:none; }
+</style>
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">← Writing</a>
+</nav>
+<article class="article">
+  <div class="article-label">Building — May 2026</div>
+  <h1>Vibe Coding with My 10 Year Old</h1>
+  <div class="article-meta">matterunknown &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 7 min read</div>
+
+  <p>My son wanted to build a Roblox game. Not a simple obstacle course. A farming game. With animals. And eggs that hatch into pets. And a production chain where you grow wheat, mill it into flour, and bake it into bread to sell at market.</p>
+
+  <p>He is ten.</p>
+
+  <p>I work in AI. I think about agent identity and access control for a living. So I said yes, opened up Roblox Studio next to ChatGPT on a Saturday morning, and we started building Harvest Haven.</p>
+
+  <h2>What vibe coding looks like at ten years old</h2>
+
+  <p>The term gets used a lot in developer circles to describe a particular workflow: describe what you want in plain language, let an AI generate the code, navigate by feel toward a goal you can recognize even if you cannot fully specify it upfront. Most writing about it assumes the person doing it already knows how to code and is using AI to go faster.</p>
+
+  <p>What I did not expect was how naturally it maps to the way a ten year old thinks about making something.</p>
+
+  <p>He did not approach Harvest Haven the way an engineer would. He had a feeling he was chasing. He wanted the game to feel like Adopt Me, which he and his friends play constantly, except instead of a house you have a farm and instead of buying pets from a shop you hatch them from eggs you earn by actually farming. He could describe that feeling in enormous detail. He just had no idea how to make a computer do it.</p>
+
+  <p>That gap, between a clear vision and zero technical vocabulary, is exactly where vibe coding lives. And it turns out a child with a vivid imagination and strong opinions about game feel is an excellent vibe coder.</p>
+
+  <h2>Roblox Studio is not a toy</h2>
+
+  <p>Before we started I had a vague mental model of Roblox as a platform for kids. That model was wrong. Studio is a full game development environment running Luau, which is a modified version of Lua with strict typing and modern language features. There is a scene graph, a physics engine, a full client-server architecture, a DataStore API for persistent player data, and a RemoteEvent system for client-server communication. Building anything non-trivial means understanding at least some of that model.</p>
+
+  <p>My son did not care about any of it. He had a mental model of what the game should feel like and he wanted to get there as fast as possible.</p>
+
+  <p>So the workflow became: he described a feature, I helped him shape the description into something precise enough for the model to act on, the model wrote Luau, we pasted it into Studio, and we saw what happened. Sometimes it worked. Usually something was wrong. All of it was educational, though not always in the ways I anticipated.</p>
+
+  <h2>The production chain decision</h2>
+
+  <p>Early on he asked for a crafting system. Not just grow crops and sell them. Process them. He had seen games where raw materials become intermediate goods become finished products and he wanted that. Wheat into flour into bread. Milk into cheese. That kind of depth.</p>
+
+  <p>The tempting move would have been to stub it out, get something working first, and bolt on the complexity later. I have done that enough times professionally to know how it usually ends. Instead we designed the production chain architecture upfront and built everything else around it.</p>
+
+  <p>This was the right call, and not just technically. Building it that way meant he had to think through the whole economy before we wrote a single script. What crops exist. What they process into. How long each stage takes. What sells for what. He spent forty minutes with a notebook working it out before we touched the keyboard.</p>
+
+  <blockquote>That forty minutes of game design on paper was the most valuable part of the whole project. He was doing systems thinking without knowing that was what it was called.</blockquote>
+
+  <p>We ended up with fourteen crops across five tiers, eight production buildings, and an economy that actually has to be balanced rather than one where the answer is always just grow more wheat.</p>
+
+  <h2>Eggs and animals and the question of feel</h2>
+
+  <p>The egg hatching system is where the Adopt Me inspiration was most direct. He wanted eggs. Rare ones and common ones. He wanted the outcome to feel uncertain in a good way, the way opening a pack of cards feels uncertain. He wanted pets that follow you around the farm and produce things over time.</p>
+
+  <p>Describing this to a model is harder than it sounds because feel is not a technical specification. The model can implement a weighted random roll with four rarity tiers. It cannot tell you whether the result will feel exciting or anticlimactic to a ten year old who has very strong opinions about this based on several hundred hours of Adopt Me.</p>
+
+  <p>He became the QA process. Every time we implemented something he played it for five minutes and gave a verdict. The first egg hatch animation was too fast. The second was too slow. The third was right. He could not have articulated what made the third one right. He just knew.</p>
+
+  <p>This taught me something about what AI is actually good for in a creative workflow. It is extraordinary at generating options quickly. The creative judgment about which option is right still requires a human. In this case a very small human with extremely clear aesthetic opinions.</p>
+
+  <h2>The debugging loop</h2>
+
+  <p>Luau errors in the Studio output window are not written for ten year olds. A nil value indexing error on line 47 of AnimalManager means nothing if you have never written code before. The first few times the output window lit up red he looked at it like it was in another language, which in a sense it was.</p>
+
+  <p>What happened next was the thing I keep thinking about. Without being told to, he copied the error message and pasted it into the chat. <em>It says this. What does it mean. How do I fix it.</em> The model explained it. He read the explanation. He looked at the relevant part of the code. He asked a follow up question. He made the change. He ran it again.</p>
+
+  <p>That is the debugging loop. The same one engineers run. He arrived at it independently because the interface made each step feel achievable. The error was no longer a wall. It was a question he knew how to ask.</p>
+
+  <p>By the third weekend he was running that loop faster than I was. He had developed an instinct for where to look based on what kind of error it was. He does not know the words for what he learned. But he learned it.</p>
+
+  <h2>Where the AI got things wrong</h2>
+
+  <p>The model occasionally generated code referencing Studio APIs that had been deprecated or renamed. The PathfindingService call for the pet follow behavior was out of date, the DataStore retry pattern it suggested was not quite right for the current API surface, and one of the UI scripts used a method on a Frame object that no longer existed in the version of Luau Studio was running.</p>
+
+  <p>Each of these produced an error, which meant another trip through the debugging loop, which meant another small piece of understanding. The failures were more instructive than the successes.</p>
+
+  <p>The harder problem was when the model generated something that technically worked but felt wrong. A crop growth animation that was mechanically correct but had no visual feedback, so you could not tell anything was happening. A coin earn effect that fired but was invisible because the particle emitter was parented to the wrong object. The code passed. The game did not feel right.</p>
+
+  <p>Fixing these required him to articulate the gap between what the game did and what he wanted it to do. Not <em>this is broken</em> but <em>the player needs to feel like something is growing, and right now they feel nothing.</em> That is a design skill. You have to understand the player's experience well enough to name what is missing. He got considerably better at it over the course of the project.</p>
+
+  <h2>What we have now</h2>
+
+  <p>Harvest Haven is still in progress. What exists is a working game with real systems: a fourteen crop economy with five tiers and full production chains, a pet system with four egg rarities and pets that follow you and produce things over time, a shop with four tabs, a HUD with a coin counter and a day cycle, an inventory with drag-to-sell, and a tractor progression path stubbed in and waiting to be built out.</p>
+
+  <p>It is not finished. It is also genuinely more complex than I expected it to be when we started. The scope crept upward because every time we got something working he understood more about what was possible and immediately wanted more of it. That is not a problem. That is exactly how it should go.</p>
+
+  <p>He checks in on it most evenings. Tweaks a number in GameConfig. Asks about a feature he has been thinking about. Last week he wanted to know if we could add a weather system that affected crop growth rates. The week before that he wanted to understand why the DataStore needed retry logic. These are not questions a ten year old asks unless they actually understand what they are building.</p>
+
+  <blockquote>He did not learn to code this month. He learned something harder: that complex things are made of understandable pieces, and that confusion is the entry point, not the exit.</blockquote>
+
+  <h2>What this means</h2>
+
+  <p>I spend a lot of time thinking about what AI does to the relationship between intention and execution. In the security and identity world I work in, that question is usually framed around risk. What happens when systems can act on your behalf without you fully understanding what they are doing.</p>
+
+  <p>Sitting next to a ten year old building his first real software project gave me a different frame for the same question. AI did not do the work for him. It collapsed the distance between what he could imagine and what he could attempt. The work was still real. The debugging was still real. The design thinking was entirely his. What changed was the cost of starting.</p>
+
+  <p>That cost is where most learners give up. Not because they lack capability but because the gap between first intention and first result is wide enough that motivation drains before the feedback loop starts. Close that gap enough and something different happens. The person stays in it long enough to hit a real obstacle. They own the problem. They want to solve it.</p>
+
+  <p>The next feature on his list is the weather system. After that, multiplayer farming with his friends.</p>
+
+  <p><em>We have a lot of weekends ahead of us.</em></p>
+
+  <div class="article-footer">
+    <a class="back-link" href="/writing">← All writing</a>
+    <span style="font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em;">matterunknown</span>
+  </div>
+</article>
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
