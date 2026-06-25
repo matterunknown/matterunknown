@@ -1,686 +1,489 @@
 ---
 import Base from '../../layouts/Base.astro';
 ---
-<Base title="Vessel Pokémon Model" description="Top 25 Pokémon acquisition targets — vintage, modern, and sealed. Powered by a live database of 17,327 cards across 167 sets. Updated daily.">
+<Base title="Pokémon Card Model — matterunknown" description="Top 25 Pokémon acquisition targets. Live scores across 17,327 cards — updated daily.">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#090908;--bg-2:#0d0d0b;--bg-3:#121210;
   --amber:#c4972a;--amber-border:rgba(196,151,42,.15);--amber-dim:rgba(196,151,42,.08);
-  --vessel:#7eb8c4;--vessel-border:rgba(126,184,196,.12);
   --text:#e8e6e1;--text-2:#a09c94;--text-3:#5a5752;
   --green:#4caf50;--red:#c45a5a;
   --serif:'DM Serif Display',Georgia,serif;
   --sans:'DM Sans',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
-  --gutter:clamp(24px,5vw,80px);--max:1100px;--nav-h:68px;
+  --gutter:clamp(16px,4vw,60px);--max:900px;--nav-h:56px;
 }
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s;}
-nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px);}
-.nav-logo{font-family:var(--serif);font-size:1.05rem;color:var(--text);text-decoration:none;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .3s;}
+nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.95);backdrop-filter:blur(12px);}
+.nav-logo{font-family:var(--serif);font-size:1rem;color:var(--text);text-decoration:none;}
 .nav-logo span{color:var(--amber);}
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 var(--gutter) 80px;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 70%,rgba(196,151,42,.04),transparent 60%);}
-.hero-label{position:relative;z-index:1;font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:14px;animation:rise .7s .2s both;}
-.hero-label::before{content:'';width:28px;height:1px;background:var(--amber);}
-.hero h1{position:relative;z-index:1;font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:400;line-height:1.05;letter-spacing:-.025em;animation:rise .9s .3s both;}
-.hero h1 em{font-style:italic;color:var(--amber);}
-.hero-sub{position:relative;z-index:1;margin-top:20px;max-width:540px;font-size:1rem;color:var(--text-2);line-height:1.75;animation:rise .9s .45s both;}
-.stats{position:relative;z-index:1;margin-top:44px;display:flex;gap:2px;flex-wrap:wrap;animation:rise .9s .6s both;}
-.stat{background:var(--bg-2);border:1px solid var(--amber-border);padding:16px 24px;}
-.stat-num{font-family:var(--mono);font-size:1.4rem;color:var(--amber);letter-spacing:-.02em;line-height:1;}
-.stat-num.up{color:var(--green);} .stat-num.watch{color:var(--amber);}
-.stat-label{font-family:var(--mono);font-size:.54rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
-.content{max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;padding:60px var(--gutter) 100px;}
-.advisor-cta{background:var(--amber-dim);border:1px solid var(--amber-border);border-left:3px solid var(--amber);padding:24px 32px;margin-bottom:48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
-.legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px;}
-.li{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.07em;}
-.ld{width:8px;height:8px;border-radius:50%;}
-.method{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:52px;}
-.mc{background:var(--bg-2);border:1px solid var(--amber-border);padding:24px 20px;}
-.mc-label{font-family:var(--mono);font-size:.56rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
-.mc-desc{font-family:var(--mono);font-size:.63rem;color:var(--text-3);line-height:1.65;}
-.site-footer{border-top:1px solid var(--amber-border);padding:40px var(--gutter);display:flex;align-items:center;justify-content:space-between;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:800px){.stats{flex-direction:column;}.method{grid-template-columns:1fr;}}
-.search-section{margin-bottom:52px;}.search-bar{display:flex;gap:0;margin-bottom:12px;}.search-input{flex:1;background:#0d0d0b;border:1px solid rgba(196,151,42,.25);border-right:none;padding:14px 18px;font-family:JetBrains Mono,monospace;font-size:.75rem;color:#e8e6e1;outline:none;}.search-input::placeholder{color:#5a5752;}.search-input:focus{border-color:rgba(196,151,42,.6);}.search-btn{background:rgba(196,151,42,.1);border:1px solid rgba(196,151,42,.25);padding:14px 20px;font-family:JetBrains Mono,monospace;font-size:.65rem;color:#c4972a;letter-spacing:.1em;cursor:pointer;white-space:nowrap;}.search-btn:hover{background:rgba(196,151,42,.2);}.search-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}.filter-chip{background:#0d0d0b;border:1px solid rgba(255,255,255,.08);padding:6px 14px;font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;letter-spacing:.08em;cursor:pointer;transition:all .2s;white-space:nowrap;}.filter-chip:hover{border-color:rgba(196,151,42,.3);color:#a09c94;}.filter-chip.active{border-color:rgba(196,151,42,.6);color:#c4972a;background:rgba(196,151,42,.08);}.filter-chip.sig-buy.active{border-color:rgba(76,175,80,.6);color:#4caf50;background:rgba(76,175,80,.08);}.filter-chip.sig-watch.active{border-color:rgba(196,151,42,.6);color:#c4972a;background:rgba(196,151,42,.08);}.filter-chip.sig-hold.active{border-color:rgba(90,87,82,.8);color:#a09c94;background:rgba(90,87,82,.08);}.search-result-row{background:#0d0d0b;border:1px solid rgba(255,255,255,.05);border-left:2px solid transparent;padding:14px 18px;margin-bottom:2px;display:flex;gap:14px;align-items:center;transition:border-color .2s;}.search-result-row:hover{border-color:rgba(196,151,42,.2);}.search-result-row.sig-BUY{border-left-color:#4caf50;}.search-result-row.sig-WATCH{border-left-color:#c4972a;}.search-result-row.sig-HOLD{border-left-color:#5a5752;}.sr-img{width:48px;height:auto;object-fit:contain;flex-shrink:0;opacity:.85;}.sr-body{flex:1;min-width:0;}.sr-name{font-family:DM Serif Display,Georgia,serif;font-size:.95rem;color:#e8e6e1;}.sr-meta{font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;margin-top:2px;}.sr-right{text-align:right;flex-shrink:0;}.sr-score{font-family:JetBrains Mono,monospace;font-size:.95rem;}.sr-price{font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752;margin-top:2px;}.sr-signal{font-family:JetBrains Mono,monospace;font-size:.5rem;letter-spacing:.1em;border:1px solid;padding:2px 7px;margin-bottom:4px;display:inline-block;}.search-status{font-family:JetBrains Mono,monospace;font-size:.62rem;color:#5a5752;padding:16px 0;text-align:center;letter-spacing:.06em;}
+.nav-back{font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;}
+.page{max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;padding:calc(var(--nav-h) + 32px) var(--gutter) 80px;}
+/* Header */
+.hdr{margin-bottom:28px;}
+.hdr-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr h1{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:400;line-height:1.1;}
+.hdr h1 em{font-style:italic;color:var(--amber);}
+.hdr-meta{font-family:var(--mono);font-size:.55rem;color:var(--text-3);letter-spacing:.08em;}
+.hdr-stats{display:flex;gap:16px;flex-wrap:wrap;}
+.hdr-stat{font-family:var(--mono);font-size:.6rem;color:var(--text-3);}
+.hdr-stat strong{color:var(--text-2);}
+/* Search */
+.search-wrap{margin-bottom:24px;}
+.search-bar{display:flex;gap:0;margin-bottom:10px;}
+.search-input{flex:1;background:var(--bg-2);border:1px solid rgba(196,151,42,.2);border-right:none;padding:11px 16px;font-family:var(--mono);font-size:.72rem;color:var(--text);outline:none;}
+.search-input::placeholder{color:var(--text-3);}
+.search-input:focus{border-color:rgba(196,151,42,.5);}
+.search-btn{background:rgba(196,151,42,.08);border:1px solid rgba(196,151,42,.2);padding:11px 18px;font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.1em;cursor:pointer;white-space:nowrap;}
+.search-btn:hover{background:rgba(196,151,42,.15);}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.f-label{font-family:var(--mono);font-size:.52rem;color:var(--text-3);letter-spacing:.06em;margin-right:2px;}
+.chip{background:transparent;border:1px solid rgba(255,255,255,.07);padding:4px 11px;font-family:var(--mono);font-size:.55rem;color:var(--text-3);letter-spacing:.06em;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.chip:hover{border-color:rgba(196,151,42,.3);color:var(--text-2);}
+.chip.on{border-color:rgba(196,151,42,.5);color:var(--amber);background:rgba(196,151,42,.07);}
+.chip.buy.on{border-color:rgba(76,175,80,.5);color:#4caf50;background:rgba(76,175,80,.07);}
+.chip.watch.on{border-color:rgba(196,151,42,.5);color:var(--amber);background:rgba(196,151,42,.07);}
+.chip.hold.on{border-color:rgba(90,87,82,.7);color:var(--text-2);background:rgba(90,87,82,.07);}
+#search-results .search-status{font-family:var(--mono);font-size:.6rem;color:var(--text-3);padding:20px 0;text-align:center;}
+/* Card rows */
+.sig-group{margin-bottom:8px;}
+.sig-header{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;padding:14px 0 10px;}
+.sig-line{width:16px;height:1px;flex-shrink:0;}
+.sig-count{margin-left:auto;opacity:.5;}
+.card-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg-2);border:1px solid rgba(255,255,255,.04);border-left:2px solid transparent;margin-bottom:2px;transition:background .15s;cursor:default;}
+.card-row:hover{background:#111110;}
+.card-row.sig-BUY{border-left-color:#4caf50;}
+.card-row.sig-WATCH{border-left-color:#c4972a;}
+.card-row.sig-HOLD{border-left-color:#5a5752;}
+.cr-rank{font-family:var(--mono);font-size:.52rem;color:var(--text-3);width:22px;flex-shrink:0;text-align:right;}
+.cr-body{flex:1;min-width:0;}
+.cr-name{font-family:var(--serif);font-size:.95rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;}
+.cr-set{font-family:var(--mono);font-size:.52rem;color:var(--text-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cr-type{font-family:var(--mono);font-size:.5rem;letter-spacing:.07em;border:1px solid;padding:2px 7px;white-space:nowrap;flex-shrink:0;display:none;}
+.cr-price{font-family:var(--mono);font-size:.58rem;color:var(--text-2);text-align:right;flex-shrink:0;white-space:nowrap;min-width:70px;}
+.cr-trend{display:block;font-size:.5rem;margin-top:1px;}
+.cr-signal{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;border:1px solid;padding:3px 8px;text-align:center;flex-shrink:0;white-space:nowrap;min-width:52px;}
+.cr-score{display:block;font-size:.6rem;margin-top:1px;letter-spacing:0;opacity:.8;}
+/* Search results reuse card-row style */
+.sr-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg-2);border:1px solid rgba(255,255,255,.04);border-left:2px solid transparent;margin-bottom:2px;}
+.sr-row.sig-BUY{border-left-color:#4caf50;}
+.sr-row.sig-WATCH{border-left-color:#c4972a;}
+.sr-row.sig-HOLD{border-left-color:#5a5752;}
+.sr-img{width:40px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9;}
+.sr-body{flex:1;min-width:0;}
+.sr-name{font-family:var(--serif);font-size:.92rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sr-meta{font-family:var(--mono);font-size:.5rem;color:var(--text-3);margin-top:2px;}
+.sr-right{text-align:right;flex-shrink:0;}
+.sr-sig{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;border:1px solid;padding:2px 7px;display:inline-block;margin-bottom:2px;}
+.sr-score{font-family:var(--mono);font-size:.85rem;display:block;}
+.sr-price{font-family:var(--mono);font-size:.5rem;color:var(--text-3);}
+/* Footer strip */
+.footer-strip{margin-top:48px;padding-top:20px;border-top:1px solid rgba(196,151,42,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-strip a{color:var(--amber);text-decoration:none;font-family:var(--mono);font-size:.58rem;}
+.footer-strip a:hover{text-decoration:underline;}
+.footer-note{font-family:var(--mono);font-size:.52rem;color:var(--text-3);}
+@media(max-width:600px){
+  .cr-type{display:none;}
+  .cr-price{min-width:60px;font-size:.52rem;}
+}
+@media(min-width:601px){
+  .cr-type{display:inline-block;}
+}
 </style>
 
 <nav id="nav">
   <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/projects" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">← Projects</a>
+  <a class="nav-back" href="/projects">← Projects</a>
 </nav>
 
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-label">Vessel / Pokémon Acquisition Model v3</div>
-  <h1>17,327 cards.<br><em>25 targets.</em></h1>
-  <p class="hero-sub">Every Pokémon set ever printed — 167 sets, 17,327 cards scored. Vintage singles, modern singles, sealed product. Top 25 across buy signals, watch list, and holds — updated daily from live price data.</p>
-  <div class="stats">
-    <div class="stat"><div class="stat-num up">10</div><div class="stat-label">Buy signals</div></div>
-    <div class="stat"><div class="stat-num watch">10</div><div class="stat-label">Watch list</div></div>
-    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Hold</div></div>
-    <div class="stat"><div class="stat-num">148</div><div class="stat-label">Total buys in DB</div></div>
-    <div class="stat"><div class="stat-num">17,327</div><div class="stat-label">Cards scored</div></div>
-    <div class="stat"><div class="stat-num">2026-06-25</div><div class="stat-label">Updated</div></div>
+<div class="page">
+
+  <div class="hdr">
+    <div class="hdr-top">
+      <h1>17,327 cards. <em>25 targets.</em></h1>
+      <div class="hdr-meta">Updated 2026-06-25</div>
+    </div>
+    <div class="hdr-stats">
+      <div class="hdr-stat"><strong>10</strong> buy</div>
+      <div class="hdr-stat"><strong>10</strong> watch</div>
+      <div class="hdr-stat"><strong>5</strong> hold</div>
+      <div class="hdr-stat"><strong>148</strong> total buys in 17,327 scored</div>
+    </div>
   </div>
+
+  <div class="search-wrap">
+    <div class="search-bar">
+      <input id="pkm-search" class="search-input" type="text" placeholder="Search any card or set name..." autocomplete="off">
+      <button class="search-btn" onclick="pkmSearch()">SEARCH</button>
+    </div>
+    <div class="filters">
+      <span class="f-label">ERA</span>
+      <div class="chip" data-f="era" data-v="wizards" onclick="pkmChip(this)">Wizards</div>
+      <div class="chip" data-f="era" data-v="nintendo" onclick="pkmChip(this)">EX Era</div>
+      <div class="chip" data-f="era" data-v="dp" onclick="pkmChip(this)">DP</div>
+      <div class="chip" data-f="era" data-v="bw" onclick="pkmChip(this)">BW</div>
+      <div class="chip" data-f="era" data-v="xy" onclick="pkmChip(this)">XY</div>
+      <div class="chip" data-f="era" data-v="sm" onclick="pkmChip(this)">SM</div>
+      <div class="chip" data-f="era" data-v="swsh" onclick="pkmChip(this)">SWSH</div>
+      <div class="chip" data-f="era" data-v="sv" onclick="pkmChip(this)">SV</div>
+      <span class="f-label" style="margin-left:6px">SIG</span>
+      <div class="chip buy" data-f="signal" data-v="BUY" onclick="pkmChip(this)">BUY</div>
+      <div class="chip watch" data-f="signal" data-v="WATCH" onclick="pkmChip(this)">WATCH</div>
+      <div class="chip hold" data-f="signal" data-v="HOLD" onclick="pkmChip(this)">HOLD</div>
+    </div>
+    <div id="search-results"></div>
+  </div>
+
+<div class="sig-group">
+  <div class="sig-header" style="color:#4caf50"><span class="sig-line" style="background:#4caf50"></span>BUY<span class="sig-count">10</span></div>
+  <div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#1</div>
+  <div class="cr-body">
+    <div class="cr-name">Shining Gyarados</div>
+    <div class="cr-set">Neo Revelation</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$574<span class="cr-trend" style="color:#4caf50">+41%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.850</span></div>
 </div>
-
-<div class="content">
-
-
-<!-- Search Section -->
-<div class="search-section content" style="padding-top:0;padding-bottom:0;margin-top:40px">
-  <div style="font-family:var(--mono);font-size:.62rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-    <span style="width:20px;height:1px;background:var(--amber);display:inline-block"></span>Card Search
-    <span style="flex:1;height:1px;background:rgba(196,151,42,.2);display:inline-block"></span>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#2</div>
+  <div class="cr-body">
+    <div class="cr-name">Shining Tyranitar</div>
+    <div class="cr-set">Neo Destiny</div>
   </div>
-  <div class="search-bar">
-    <input id="pkm-search" class="search-input" type="text" placeholder="Search by card name or set (e.g. Charizard, Skyridge)..." autocomplete="off">
-    <button class="search-btn" onclick="pkmSearch()">SEARCH</button>
-  </div>
-  <div class="search-filters">
-    <span style="font-family:var(--mono);font-size:.55rem;color:#5a5752;align-self:center;letter-spacing:.06em">ERA:</span>
-    <div class="filter-chip" data-filter="era" data-val="wizards" onclick="pkmToggleFilter(this)">Wizards</div>
-    <div class="filter-chip" data-filter="era" data-val="nintendo" onclick="pkmToggleFilter(this)">Nintendo/EX</div>
-    <div class="filter-chip" data-filter="era" data-val="dp" onclick="pkmToggleFilter(this)">Diamond/Pearl</div>
-    <div class="filter-chip" data-filter="era" data-val="bw" onclick="pkmToggleFilter(this)">Black/White</div>
-    <div class="filter-chip" data-filter="era" data-val="xy" onclick="pkmToggleFilter(this)">XY</div>
-    <div class="filter-chip" data-filter="era" data-val="sm" onclick="pkmToggleFilter(this)">Sun/Moon</div>
-    <div class="filter-chip" data-filter="era" data-val="swsh" onclick="pkmToggleFilter(this)">Sword/Shield</div>
-    <div class="filter-chip" data-filter="era" data-val="sv" onclick="pkmToggleFilter(this)">Scarlet/Violet</div>
-    <span style="font-family:var(--mono);font-size:.55rem;color:#5a5752;align-self:center;letter-spacing:.06em;margin-left:8px">SIGNAL:</span>
-    <div class="filter-chip sig-buy" data-filter="signal" data-val="BUY" onclick="pkmToggleFilter(this)">BUY</div>
-    <div class="filter-chip sig-watch" data-filter="signal" data-val="WATCH" onclick="pkmToggleFilter(this)">WATCH</div>
-    <div class="filter-chip sig-hold" data-filter="signal" data-val="HOLD" onclick="pkmToggleFilter(this)">HOLD</div>
-  </div>
-  <div id="pkm-results"></div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$670<span class="cr-trend" style="color:#4caf50">+41%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.850</span></div>
 </div>
-
-<div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#4caf50;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:52px">
-  <span style="width:20px;height:1px;background:#4caf50;display:inline-block"></span>Buy signals — 10 cards
-  <span style="flex:1;height:1px;background:#4caf5033;display:inline-block"></span>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#3</div>
+  <div class="cr-body">
+    <div class="cr-name">Shining Mewtwo</div>
+    <div class="cr-set">Neo Destiny</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$945<span class="cr-trend" style="color:#4caf50">+17%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.843</span></div>
 </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#1</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Shining Gyarados</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Neo Revelation</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $574 · All-in ~$99.80</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+41%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.850</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Shining | Era: wizards | CM trend: +40.6%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#2</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Shining Tyranitar</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Neo Destiny</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $670 · All-in ~$113</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+41%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.850</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Shining | Era: wizards | CM trend: +40.7%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#3</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Shining Mewtwo</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Neo Destiny</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $945 · All-in ~$218</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+17%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.843</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:15%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.15</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Shining | Era: wizards | CM trend: +16.9%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#4</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Charizard</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Skyridge</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $645 · All-in ~$127</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+52%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.825</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:75%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.75</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:20%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.20</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: nintendo | CM trend: +51.6%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#5</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Ho-oh</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Skyridge</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $800 · All-in ~$146</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+73%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.817</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:75%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.75</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:12%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.12</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: nintendo | CM trend: +73.3%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#6</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Blaine's Charizard</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Gym Challenge</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $557 · All-in ~$108</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+59%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.810</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:20%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.20</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Holo | Era: wizards | CM trend: +59.2%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#7</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Golem</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Skyridge</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $600 · All-in ~$242</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+135%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.805</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:75%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.75</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: nintendo | CM trend: +135.2%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#8</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Kabutops</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Skyridge</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $1,000 · All-in ~$146</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+63%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.805</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:75%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.75</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: nintendo | CM trend: +63.3%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#9</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Charizard</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Dragon</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $772 · All-in ~$134</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+27%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.802</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:75%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.75</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:20%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.20</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: nintendo | CM trend: +26.8%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #4caf50;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#10</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">M Charizard-EX</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Flashfire</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $1,001 · All-in ~$1,001</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+34%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#4caf50;border:1px solid #4caf5044;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">BUY</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#4caf50">0.795</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:60%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.60</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:20%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.20</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: xy | CM trend: +34.0%</div>
-    </div>
-<div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#c4972a;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:52px">
-  <span style="width:20px;height:1px;background:#c4972a;display:inline-block"></span>Watch list — 10 cards
-  <span style="flex:1;height:1px;background:#c4972a33;display:inline-block"></span>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#4</div>
+  <div class="cr-body">
+    <div class="cr-name">Charizard</div>
+    <div class="cr-set">Skyridge</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$645<span class="cr-trend" style="color:#4caf50">+52%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.825</span></div>
 </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#11</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Blastoise ex</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">151</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $164 · All-in ~$164</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#5a5752">-0%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.719</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.72</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:45%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.45</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:8%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.08</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Special Illustration Rare | Era: sv | CM trend: -0.2%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#12</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Eevee ex</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Prismatic Evolutions</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $189 · All-in ~$189</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#5a5752">—</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.719</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.72</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:45%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.45</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:8%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.08</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Special Illustration Rare | Era: sv | CM trend: +0.0%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#13</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Mega Venusaur ex</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Mega Evolution</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $186 · All-in ~$186</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#5a5752">—</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.719</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.72</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:45%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.45</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:8%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.08</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Special Illustration Rare | Era: sv | CM trend: +0.0%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#14</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Dark Dragonite</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Team Rocket</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $177 · All-in ~$68.00</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+30%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.718</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Holo | Era: wizards | CM trend: +29.8%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#15</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Dragonite</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Fossil</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $194 · All-in ~$62.87</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+26%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.718</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Holo | Era: wizards | CM trend: +25.6%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#16</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Tyranitar</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Neo Discovery</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $136 · All-in ~$64.40</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+16%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.718</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Holo | Era: wizards | CM trend: +15.7%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#17</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Celebi</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Neo Revelation</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $124 · All-in ~$62.72</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+29%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.718</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Holo | Era: wizards | CM trend: +29.2%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#18</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Dark Feraligatr</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Neo Destiny</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $148 · All-in ~$65.00</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+28%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.718</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Holo | Era: wizards | CM trend: +28.5%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#19</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#c4972a;border:1px solid #c4972a33;padding:2px 7px">🏛 Vintage</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Zapdos</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Supreme Victors</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $211 · All-in ~$68.22</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+26%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.718</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:55%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.55</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:90%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.90</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#c4972a"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: dp | CM trend: +26.0%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4972a;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#20</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Pikachu</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Black & White</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $136 · All-in ~$136</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+93%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#c4972a;border:1px solid #c4972a44;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">WATCH</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#c4972a">0.717</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:85%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.85</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:50%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.50</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:100%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">1.00</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:12%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.12</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Secret | Era: bw | CM trend: +93.2%</div>
-    </div>
-<div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#5a5752;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:52px">
-  <span style="width:20px;height:1px;background:#5a5752;display:inline-block"></span>Hold — 5 cards
-  <span style="flex:1;height:1px;background:#5a575233;display:inline-block"></span>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#5</div>
+  <div class="cr-body">
+    <div class="cr-name">Ho-oh</div>
+    <div class="cr-set">Skyridge</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$800<span class="cr-trend" style="color:#4caf50">+73%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.817</span></div>
 </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#21</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Garchomp V</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Astral Radiance</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $9.46 · All-in ~$9.46</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+7%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#5a5752">0.579</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:35%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.35</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:6%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.06</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Rare Ultra | Era: swsh | CM trend: +6.6%</div>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#6</div>
+  <div class="cr-body">
+    <div class="cr-name">Blaine's Charizard</div>
+    <div class="cr-set">Gym Challenge</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$557<span class="cr-trend" style="color:#4caf50">+59%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.810</span></div>
+</div>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#7</div>
+  <div class="cr-body">
+    <div class="cr-name">Golem</div>
+    <div class="cr-set">Skyridge</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$600<span class="cr-trend" style="color:#4caf50">+135%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.805</span></div>
+</div>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#8</div>
+  <div class="cr-body">
+    <div class="cr-name">Kabutops</div>
+    <div class="cr-set">Skyridge</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$1,000<span class="cr-trend" style="color:#4caf50">+63%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.805</span></div>
+</div>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#9</div>
+  <div class="cr-body">
+    <div class="cr-name">Charizard</div>
+    <div class="cr-set">Dragon</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$772<span class="cr-trend" style="color:#4caf50">+27%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.802</span></div>
+</div>
+<div class="card-row sig-BUY">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#10</div>
+  <div class="cr-body">
+    <div class="cr-name">M Charizard-EX</div>
+    <div class="cr-set">Flashfire</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$1,001<span class="cr-trend" style="color:#4caf50">+34%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.795</span></div>
+</div>
+</div><div class="sig-group">
+  <div class="sig-header" style="color:#c4972a"><span class="sig-line" style="background:#c4972a"></span>WATCH<span class="sig-count">10</span></div>
+  <div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#11</div>
+  <div class="cr-body">
+    <div class="cr-name">Blastoise ex</div>
+    <div class="cr-set">151</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$164<span class="cr-trend" style="color:#5a5752">-0%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.719</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#12</div>
+  <div class="cr-body">
+    <div class="cr-name">Eevee ex</div>
+    <div class="cr-set">Prismatic Evolutions</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$189<span class="cr-trend" style="color:#5a5752">—</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.719</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#13</div>
+  <div class="cr-body">
+    <div class="cr-name">Mega Venusaur ex</div>
+    <div class="cr-set">Mega Evolution</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$186<span class="cr-trend" style="color:#5a5752">—</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.719</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#14</div>
+  <div class="cr-body">
+    <div class="cr-name">Dark Dragonite</div>
+    <div class="cr-set">Team Rocket</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$177<span class="cr-trend" style="color:#4caf50">+30%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.718</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#15</div>
+  <div class="cr-body">
+    <div class="cr-name">Dragonite</div>
+    <div class="cr-set">Fossil</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$194<span class="cr-trend" style="color:#4caf50">+26%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.718</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#16</div>
+  <div class="cr-body">
+    <div class="cr-name">Tyranitar</div>
+    <div class="cr-set">Neo Discovery</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$136<span class="cr-trend" style="color:#4caf50">+16%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.718</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#17</div>
+  <div class="cr-body">
+    <div class="cr-name">Celebi</div>
+    <div class="cr-set">Neo Revelation</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$124<span class="cr-trend" style="color:#4caf50">+29%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.718</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#18</div>
+  <div class="cr-body">
+    <div class="cr-name">Dark Feraligatr</div>
+    <div class="cr-set">Neo Destiny</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$148<span class="cr-trend" style="color:#4caf50">+28%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.718</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#19</div>
+  <div class="cr-body">
+    <div class="cr-name">Zapdos</div>
+    <div class="cr-set">Supreme Victors</div>
+  </div>
+  <div class="cr-type" style="color:#c4972a;border-color:#c4972a33">Vintage</div>
+  <div class="cr-price">$211<span class="cr-trend" style="color:#4caf50">+26%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.718</span></div>
+</div>
+<div class="card-row sig-WATCH">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#20</div>
+  <div class="cr-body">
+    <div class="cr-name">Pikachu</div>
+    <div class="cr-set">Black & White</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$136<span class="cr-trend" style="color:#4caf50">+93%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.717</span></div>
+</div>
+</div><div class="sig-group">
+  <div class="sig-header" style="color:#5a5752"><span class="sig-line" style="background:#5a5752"></span>HOLD<span class="sig-count">5</span></div>
+  <div class="card-row sig-HOLD">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#21</div>
+  <div class="cr-body">
+    <div class="cr-name">Garchomp V</div>
+    <div class="cr-set">Astral Radiance</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$9.46<span class="cr-trend" style="color:#4caf50">+7%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.579</span></div>
+</div>
+<div class="card-row sig-HOLD">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#22</div>
+  <div class="cr-body">
+    <div class="cr-name">Greavard</div>
+    <div class="cr-set">Scarlet & Violet</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$24.94<span class="cr-trend" style="color:#c45a5a">-9%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.579</span></div>
+</div>
+<div class="card-row sig-HOLD">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#23</div>
+  <div class="cr-body">
+    <div class="cr-name">Pikachu</div>
+    <div class="cr-set">Paldean Fates</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$89.88<span class="cr-trend" style="color:#5a5752">-3%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.579</span></div>
+</div>
+<div class="card-row sig-HOLD">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#24</div>
+  <div class="cr-body">
+    <div class="cr-name">Lucario</div>
+    <div class="cr-set">Paldean Fates</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$35.39<span class="cr-trend" style="color:#4caf50">+6%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.579</span></div>
+</div>
+<div class="card-row sig-HOLD">
+  <div style="width:40px;flex-shrink:0"></div>
+  <div class="cr-rank">#25</div>
+  <div class="cr-body">
+    <div class="cr-name">Heracross</div>
+    <div class="cr-set">Paldea Evolved</div>
+  </div>
+  <div class="cr-type" style="color:#7eb8c4;border-color:#7eb8c433">Modern</div>
+  <div class="cr-price">$34.51<span class="cr-trend" style="color:#c45a5a">-9%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.579</span></div>
+</div>
+</div>
+  <div class="footer-strip">
+    <div>
+      <a href="/projects/pokemon-advisor">Own cards? Get a personalized buy list →</a>
     </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#22</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Greavard</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Scarlet & Violet</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $24.94 · All-in ~$24.94</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#c45a5a">-9%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#5a5752">0.579</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.72</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:60%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.60</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:30%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.30</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Illustration Rare | Era: sv | CM trend: -9.0%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#23</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Pikachu</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Paldean Fates</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $89.88 · All-in ~$89.88</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#5a5752">-3%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#5a5752">0.579</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:60%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.60</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.72</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:45%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.45</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:12%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.12</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Shiny Rare | Era: sv | CM trend: -3.2%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#24</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Lucario</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Paldean Fates</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $35.39 · All-in ~$35.39</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#4caf50">+6%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#5a5752">0.579</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:60%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.60</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.72</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:60%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.60</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:70%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.70</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Shiny Rare | Era: sv | CM trend: +5.6%</div>
-    </div>
-    <div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid #5a5752;padding:20px 22px;margin-bottom:2px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#5a5752">#25</span>
-            <span style="font-family:JetBrains Mono,monospace;font-size:.55rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:2px 7px">✨ Modern</span>
-          </div>
-          <div style="font-family:DM Serif Display,Georgia,serif;font-size:1.15rem;color:#e8e6e1">Heracross</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">Paldea Evolved</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:4px">Market $34.51 · All-in ~$34.51</div><div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;margin-top:2px">CM 7d: <span style="color:#c45a5a">-9%</span></div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:16px">
-          <div style="font-family:JetBrains Mono,monospace;font-size:.58rem;color:#5a5752;border:1px solid #5a575244;padding:3px 10px;letter-spacing:.12em;margin-bottom:6px">HOLD</div>
-          <div style="font-family:JetBrains Mono,monospace;font-size:1.2rem;color:#5a5752">0.579</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Rarity</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:80%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.80</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Era</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:72%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.72</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Price</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:60%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.60</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Momentum</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:30%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.30</div></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:100px;flex-shrink:0">Chase</div><div style="flex:1;height:2px;background:#121210;border-radius:1px;overflow:hidden"><div style="height:100%;width:0%;background:#7eb8c4"></div></div><div style="font-family:JetBrains Mono,monospace;font-size:.54rem;color:#5a5752;width:28px;text-align:right">0.00</div></div></div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.6rem;color:#5a5752;font-style:italic">Rarity: Illustration Rare | Era: sv | CM trend: -9.0%</div>
-    </div>
-  <div class="legend" style="margin-top:52px;margin-bottom:8px">
-    <div class="li"><div class="ld" style="background:#c4972a"></div>🏛 Vintage</div>
-    <div class="li"><div class="ld" style="background:#7eb8c4"></div>✨ Modern</div>
-    <div class="li"><div class="ld" style="background:#9b8a6e"></div>📦 Sealed</div>
-    <div class="li"><div class="ld" style="background:#4caf50"></div>BUY — strong signal, act now</div>
-    <div class="li"><div class="ld" style="background:#c4972a"></div>WATCH — monitor, wait for better entry</div>
-    <div class="li"><div class="ld" style="background:#5a5752"></div>HOLD — own it, don't chase it</div>
+    <div class="footer-note">17,327 cards · 167 sets · TCGplayer + Cardmarket · daily</div>
   </div>
 
-  <div style="margin-top:40px;padding:20px 0;border-top:1px solid var(--amber-border)">
-    <span style="font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.04em">Own cards already? <a href="/projects/pokemon-advisor" style="color:var(--amber);text-decoration:none">Try the advisor →</a> &nbsp;Vessel maps your collection against all 17,327 cards and builds a personalized buy list.</span>
-  </div>
-
-  <div class="method">
-    <div class="mc">
-      <div class="mc-label">Database — 17,327 cards</div>
-      <div class="mc-desc">Every Pokémon set across 172 releases. Prices from TCGplayer live market and Cardmarket 7-day averages. Rebuilt nightly at 2 AM UTC with fresh data.</div>
-    </div>
-    <div class="mc">
-      <div class="mc-label">Scoring</div>
-      <div class="mc-desc">Rarity tier (30%), era momentum (20%), price signal (25%), CM 7d trend (15%), chase Pokémon demand bonus (10%). BUY ≥ 0.72 · WATCH ≥ 0.58 · HOLD ≥ 0.42.</div>
-    </div>
-    <div class="mc">
-      <div class="mc-label">Top 25 — balanced</div>
-      <div class="mc-desc">~10 BUY, ~10 WATCH, ~5 HOLD. The watch list matters as much as the buy list — these are the cards to monitor for better entry points and emerging momentum.</div>
-    </div>
-  </div>
-
-</div>
-
-<div class="site-footer">
-  <div style="font-family:DM Serif Display,Georgia,serif;font-size:.95rem;color:var(--text-3)">matter<span style="color:var(--amber)">unknown</span></div>
-  <div style="font-family:var(--mono);font-size:.56rem;color:var(--text-3);letter-spacing:.07em">17,327 cards · 167 sets · Updated daily · TCGplayer · Cardmarket</div>
 </div>
 <script is:inline>
-window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
-</script>
-</Base><script is:inline>
 (function(){
   var _era=null,_sig=null,_timer=null;
   var API="https://automation.houseofidentity.io/api/pokemon/search";
-  var SIG_COLOR={BUY:"#4caf50",WATCH:"#c4972a",HOLD:"#5a5752",AVOID:"#c45a5a"};
-  var ERA_LABEL={wizards:"\u{1f3db} Vintage",nintendo:"\u{1f3db} EX Era",dp:"\u{1f3db} DP",bw:"\u2728 BW",xy:"\u2728 XY",sm:"\u2728 SM",swsh:"\u2728 SWSH",sv:"\u2728 SV"};
-  function fmt(p){if(!p||p==0)return "\u2014";return p>=100?"$"+Math.round(p).toLocaleString():"$"+p.toFixed(2);}
+  var SC={BUY:"#4caf50",WATCH:"#c4972a",HOLD:"#5a5752"};
+  function fmt(p){if(!p||p==0)return"—";return p>=100?"$"+Math.round(p).toLocaleString():"$"+p.toFixed(2);}
   function render(results,q){
-    var el=document.getElementById("pkm-results");
-    if(!results||!results.length){el.innerHTML='<div class="search-status">No results for &ldquo;'+q+'&rdquo;</div>';return;}
-    var html="";
+    var el=document.getElementById("search-results");
+    if(!results||!results.length){el.innerHTML='<div class="search-status">No results for "'+q+'"</div>';return;}
+    var h='<div style="margin-top:12px">';
     results.forEach(function(r){
-      var sc=SIG_COLOR[r.signal]||"#5a5752";
-      var trend=r.cm_trend?((r.cm_trend>0?"+":"")+r.cm_trend.toFixed(1)+"%"):"\u2014";
+      var sc=SC[r.signal]||"#5a5752";
+      var trend=r.cm_trend?((r.cm_trend>0?"+":"")+r.cm_trend.toFixed(1)+"%"):"—";
       var tc=r.cm_trend>5?"#4caf50":r.cm_trend<-5?"#c45a5a":"#5a5752";
-      var era=ERA_LABEL[r.era]||r.era||"";
-      var img=r.image_small?'<img class="sr-img" src="'+r.image_small+'" alt="">':'<div style="width:48px;flex-shrink:0"></div>';
-      html+='<div class="search-result-row sig-'+r.signal+'">'+img+
+      var img=r.image_small?'<img class="sr-img" src="'+r.image_small+'" alt="">':'<div style="width:40px;flex-shrink:0"></div>';
+      h+='<div class="sr-row sig-'+r.signal+'">'+img+
         '<div class="sr-body">'+
         '<div class="sr-name">'+r.name+'</div>'+
-        '<div class="sr-meta">'+r.set_name+' &middot; '+r.rarity+' &middot; '+era+'</div>'+
+        '<div class="sr-meta">'+r.set_name+' &middot; '+r.rarity+'</div>'+
         '</div>'+
         '<div class="sr-right">'+
-        '<div class="sr-signal" style="color:'+sc+';border-color:'+sc+'44">'+r.signal+'</div>'+
-        '<div class="sr-score" style="color:'+sc+'">'+r.score.toFixed(3)+'</div>'+
-        '<div class="sr-price">'+fmt(r.tcg_market)+' &middot; <span style="color:'+tc+'">'+trend+'</span></div>'+
+        '<span class="sr-sig" style="color:'+sc+';border-color:'+sc+'44">'+r.signal+'</span>'+
+        '<span class="sr-score" style="color:'+sc+'">'+r.score.toFixed(3)+'</span>'+
+        '<div class="sr-price">'+fmt(r.tcg_market)+' <span style="color:'+tc+'">'+trend+'</span></div>'+
         '</div></div>';
     });
-    el.innerHTML=html;
+    h+='</div>';
+    el.innerHTML=h;
   }
   window.pkmSearch=function(){
     var q=document.getElementById("pkm-search").value.trim();
-    if(!q&&!_era&&!_sig){document.getElementById("pkm-results").innerHTML="";return;}
-    var el=document.getElementById("pkm-results");
-    el.innerHTML='<div class="search-status">Searching...</div>';
+    if(!q&&!_era&&!_sig){document.getElementById("search-results").innerHTML="";return;}
+    document.getElementById("search-results").innerHTML='<div class="search-status">Searching...</div>';
     var url=API+"?limit=40";
-    if(q) url+="&q="+encodeURIComponent(q);
-    if(_era) url+="&era="+_era;
-    if(_sig) url+="&signal="+_sig;
+    if(q)url+="&q="+encodeURIComponent(q);
+    if(_era)url+="&era="+_era;
+    if(_sig)url+="&signal="+_sig;
     fetch(url).then(function(r){return r.json();}).then(function(d){
       render(d.results,q||(_era||"")+(_sig?" "+_sig:""));
     }).catch(function(){
-      el.innerHTML='<div class="search-status">Search unavailable</div>';
+      document.getElementById("search-results").innerHTML='<div class="search-status">Search unavailable</div>';
     });
   };
-  window.pkmToggleFilter=function(chip){
-    var f=chip.dataset.filter,v=chip.dataset.val;
-    var wasActive=chip.classList.contains("active");
-    document.querySelectorAll('.filter-chip[data-filter="'+f+'"]').forEach(function(c){c.classList.remove("active");});
-    if(!wasActive){chip.classList.add("active");if(f==="era")_era=v;else _sig=v;}
+  window.pkmChip=function(chip){
+    var f=chip.dataset.f,v=chip.dataset.v,was=chip.classList.contains("on");
+    document.querySelectorAll('.chip[data-f="'+f+'"]').forEach(function(c){c.classList.remove("on");});
+    if(!was){chip.classList.add("on");if(f==="era")_era=v;else _sig=v;}
     else{if(f==="era")_era=null;else _sig=null;}
     pkmSearch();
   };
-  document.addEventListener("DOMContentLoaded",function(){
-    var inp=document.getElementById("pkm-search");
-    inp.addEventListener("keydown",function(e){
-      if(e.key==="Enter"){pkmSearch();return;}
-      clearTimeout(_timer);_timer=setTimeout(pkmSearch,350);
-    });
+  document.getElementById("pkm-search").addEventListener("keydown",function(e){
+    if(e.key==="Enter"){pkmSearch();return;}
+    clearTimeout(_timer);_timer=setTimeout(pkmSearch,350);
   });
 })();
 </script>
+
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>8); });
+</script>
+</Base>
