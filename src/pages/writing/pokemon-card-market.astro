@@ -1,0 +1,137 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="The Card Market Has a Data Problem" description="Pokémon cards are a serious alternative asset class. The pricing signals that actually matter are buried in plain sight. We built a model to surface them.">
+<style>
+:root {
+  --bg:           #090908;
+  --bg-2:         #0d0d0b;
+  --bg-3:         #121210;
+  --amber:        #c4972a;
+  --amber-dim:    rgba(196,151,42,0.12);
+  --amber-border: rgba(196,151,42,0.15);
+  --vessel:       #7eb8c4;
+  --vessel-dim:   rgba(126,184,196,.08);
+  --vessel-border:rgba(126,184,196,.12);
+  --vessel-glow:  rgba(126,184,196,.04);
+  --text:         #e8e6e1;
+  --text-2:       #a09c94;
+  --text-3:       #5a5752;
+  --serif:        'DM Serif Display', Georgia, serif;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --mono:         'JetBrains Mono', ui-monospace, monospace;
+  --gutter:       clamp(24px, 5vw, 80px);
+  --max:          1160px;
+  --nav-h:        68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
+nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
+.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
+.nav-logo span { color:var(--amber); }
+.article { max-width:680px;margin:0 auto;padding:calc(var(--nav-h) + 80px) var(--gutter) 120px; }
+.article-label { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px; }
+.article-label::before { content:'';width:20px;height:1px;background:var(--amber); }
+h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin-bottom:32px; }
+.article-meta { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;margin-bottom:64px;padding-bottom:32px;border-bottom:1px solid var(--amber-border); }
+.article p { color:var(--text-2);font-size:1.05rem;line-height:1.9;margin-bottom:28px; }
+.article p em { color:var(--text);font-style:italic; }
+.article h2 { font-family:var(--serif);font-size:1.6rem;font-weight:400;letter-spacing:-.02em;margin:56px 0 20px; }
+.article blockquote { border-left:2px solid var(--amber);padding-left:24px;margin:40px 0;font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--text-2);line-height:1.7; }
+.article a { color:var(--amber);text-decoration:none; }
+.article code { font-family:var(--mono);font-size:.82rem;background:var(--amber-dim);border:1px solid var(--amber-border);padding:2px 7px;color:var(--amber); }
+.article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border);display:flex;align-items:center;justify-content:space-between; }
+.back-link { font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;text-decoration:none; }
+</style>
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">&#8592; Writing</a>
+</nav>
+<article class="article">
+  <div class="article-label">Finance &mdash; June 2026</div>
+  <h1>The Card Market Has a Data Problem</h1>
+  <div class="article-meta">matterunknown &nbsp;&middot;&nbsp; June 2026 &nbsp;&middot;&nbsp; 7 min read</div>
+
+  <p>The most expensive Pok&eacute;mon card ever sold at auction went for $5.275 million. A Pikachu Illustrator, PSA 10, 1998. There are 41 known to exist.</p>
+
+  <p>Most people hear that number and think: collectors. People who grew up with these cards, now wealthy enough to turn nostalgia into a hobby with commas in it.</p>
+
+  <p>That framing is incomplete.</p>
+
+  <h2>What the market is actually doing</h2>
+
+  <p>The Pok&eacute;mon card market produces something unusual for a collectibles market: continuous, granular price data across tens of thousands of distinct assets, updated daily, with condition and scarcity metadata attached. TCGplayer and Cardmarket together represent hundreds of thousands of transactions per month. PSA&rsquo;s population report tracks exactly how many copies of any given card have been professionally graded at each grade level.</p>
+
+  <p>That is more structured data than most private equity markets. More transparent than commercial real estate. More liquid than fine art.</p>
+
+  <p>The mainstream narrative is that Pok&eacute;mon cards are a bubble. A pandemic-era novelty that inflated when Logan Paul opened packs on YouTube and deflated when people needed cash. That narrative is not wrong about the speculation layer. It misses what&rsquo;s underneath.</p>
+
+  <p>The underlying market is pricing scarcity. Imperfectly, noisily, with the usual human overreactions in both directions. But the signal is there.</p>
+
+  <h2>The scarcity structure</h2>
+
+  <p>A Skyridge booster box sold for $120 at retail in 2003. Today a sealed box trades above $50,000. That is not sentiment. That is a fixed print run, no reprint possible, an aging collector base with rising purchasing power, and gradual recognition that the card quality from the Wizards of the Coast era was never replicated after Nintendo took over production.</p>
+
+  <p>The same structure runs through the Neo series Shining cards. Through the EX era secret rares. Through vintage holos that sat in binders for twenty years before someone looked up what they were worth.</p>
+
+  <p>None of this is hidden. The data exists. The problem is that it is fragmented, structured for buyers and sellers, not for anyone trying to identify where the market is mispriced.</p>
+
+  <p>TCGplayer shows you what a card sold for today. It does not tell you whether that price is above or below its 30-day trend, how that trend compares to similar cards from the same era, or whether the grade premium on a PSA 10 is expanding or contracting. Cardmarket&rsquo;s 7-day and 30-day averages exist but are not surfaced as signals. The PSA population report is public but requires manual cross-referencing against price data that lives somewhere else.</p>
+
+  <p>The data is all there. It has not been connected.</p>
+
+  <h2>What the model does</h2>
+
+  <p>We built a scoring model that pulls from pokemontcg.io, TCGplayer, and Cardmarket nightly, runs 17,327 cards through a composite scoring function, and produces a ranked signal list.</p>
+
+  <p>The scoring weights five dimensions: rarity tier, era momentum, price signal, 7-day Cardmarket trend, and a demand bonus for high-chase Pok&eacute;mon. Charizard, Mewtwo, Umbreon. The names that command premiums independent of set or print run.</p>
+
+  <p>It is not a black box. Every card shows its component scores. A Shining Gyarados from Neo Revelation scores 0.850, the highest current BUY signal, because it combines a rare shining rarity, wizards-era momentum, a market price above $500 with strong upward trend, and it is a Gyarados. The model can be interrogated.</p>
+
+  <blockquote>The question is not whether Pok&eacute;mon cards are real assets. The question is whether the market is pricing them correctly and where it is not.</blockquote>
+
+  <h2>What the model is finding right now</h2>
+
+  <p>The vintage market is moving faster than the modern market. Skyridge and Neo series cards dominate the current BUY signals. The 7-day Cardmarket momentum on Shining cards, EX era secret rares, and Gym Challenge holos is running 20 to 70 percent above their 30-day averages.</p>
+
+  <p>Modern Scarlet and Violet Special Illustration Rares are watching from the sidelines. High absolute prices, strong rarity scores, flat or declining momentum. The market is rotating.</p>
+
+  <p>The sealed ETB tracker tells a related story. Evolving Skies ETBs sold for $65 at retail in 2021. They trade above $2,600 now. Brilliant Stars ETBs, still available near MSRP, have the highest current BUY signal in the sealed category. Fully rotated SWSH era, Charizard VSTAR inside, reprint risk near zero. The model flags it as the better entry.</p>
+
+  <p>The model also surfaces grading opportunities. Cards where the estimated PSA 10 premium makes submission ROI-positive after accounting for gem rate by rarity and era, grading fees, and expected value across grade outcomes. Neo Shining cards are interesting here. The gem rate is notoriously low, 22 percent, but the PSA 10 premium is large enough that the expected value calculation still favors submission on cards above $500 raw.</p>
+
+  <h2>What the model does not know</h2>
+
+  <p>It does not have real PSA population data per card. The grading estimates use static gem rates by rarity tier rather than card-specific population reports. It does not pull from eBay sold listings, which means it misses grade-specific pricing entirely. It does not know about upcoming set releases that might shift demand for specific characters.</p>
+
+  <p>These are tractable problems. PSA population data is public. eBay&rsquo;s completed listings API exists. The model is built to absorb new signals when the signal is worth adding.</p>
+
+  <p>Even with those limitations, the signal-to-noise ratio is better than watching TCGplayer manually. The Trending tab surfaces cards with unusual 7-day momentum before they appear on anyone&rsquo;s radar. The Sealed section scores ETBs against reprint risk and era factors that are not visible in a price chart. The grading scores give a starting framework for which raw cards are worth submitting.</p>
+
+  <h2>The part that is genuinely uncertain</h2>
+
+  <p>There is a version of this that is purely nostalgic. People who loved these cards as kids, now in their late 30s, buying back childhood. The market supports that reading.</p>
+
+  <p>There is also a version where vintage Pok&eacute;mon cards are doing exactly what fine wine, vintage watches, and first-edition books do. Serving as a store of value with strong cultural narrative, limited supply, and a growing base of collectors who treat them as portfolio diversification rather than decoration.</p>
+
+  <p>The data does not tell you which version is true. Both probably are, simultaneously, in different parts of the market.</p>
+
+  <p>What the data can tell you is which cards have scarcity structures that look underpriced relative to comparable assets and which are running on narrative alone. That distinction is worth making before capital goes in.</p>
+
+  <p>The model is at <a href="/projects/pokemon-model">matterunknown.com/projects/pokemon-model</a>. It updates nightly. The scoring methodology is documented inline. The signal list is public, the scoring is transparent, and the caveats are real.</p>
+
+  <p>Whether the cards are worth buying is a separate question. The data is worth looking at.</p>
+
+  <div class="article-footer">
+    <a class="back-link" href="/writing">&#8592; All writing</a>
+    <span style="font-family:var(--mono);font-size:.6rem;color:var(--text-3)">matterunknown</span>
+  </div>
+</article>
+<script is:inline>
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 16);
+});
+</script>
+</Base>
