@@ -63,6 +63,13 @@ nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.95);backdro
 .card-row.sig-BUY{border-left-color:#4caf50;}
 .card-row.sig-WATCH{border-left-color:#c4972a;}
 .card-row.sig-HOLD{border-left-color:#5a5752;}
+.card-row.sig-SELL{border-left-color:#c45a5a;}
+.card-row.sig-SURGE{border-left-color:#7eb8c4;}
+.card-row.sig-HYPE{border-left-color:#b07fd4;}
+.mover-section{margin-bottom:24px;}
+.mover-header{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;padding:14px 0 8px;}
+.mover-line{width:16px;height:1px;flex-shrink:0;}
+.mover-count{margin-left:auto;opacity:.5;}
 .cr-rank{font-family:var(--mono);font-size:.52rem;color:var(--text-3);width:22px;flex-shrink:0;text-align:right;}
 .cr-body{flex:1;min-width:0;}
 .cr-name{font-family:var(--serif);font-size:.95rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;display:flex;align-items:center;gap:6px;}
@@ -127,6 +134,8 @@ nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.95);backdro
     <div class="tab" onclick="showTab('trending')">Trending 🔥</div>
     <div class="tab" onclick="showTab('sealed')">Sealed 📦</div>
     <div class="tab" onclick="showTab('search')">Search</div>
+    <div class="tab" onclick="showTab('movers')">Market Movers ⚡</div>
+    <div class="tab" onclick="showTab('exits')">Exit Alerts 🔴</div>
   </div>
 
   <!-- TOP 25 TAB -->
@@ -617,6 +626,318 @@ nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.95);backdro
         <div class="chip hold" data-f="signal" data-v="HOLD" onclick="pkmChip(this)">HOLD</div>
       </div>
       <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- MARKET MOVERS TAB -->
+  <div id="tab-movers" class="tab-panel">
+    <div class="section-note">Price velocity analysis. <span style="color:#7eb8c4">SURGE</span> = spike confirmed by strong fundamentals (score ≥ 0.65) — the model and market agree. <span style="color:#b07fd4">HYPE</span> = spike without fundamental support — possible influencer pop or tournament buzz. Could reverse fast.</div>
+    <div class="mover-section">
+      <div class="mover-header" style="color:#7eb8c4"><span class="mover-line" style="background:#7eb8c4"></span>SURGE — Fundamentals Confirmed<span class="mover-count">6</span></div>
+      <div class="card-row" style="border-left-color:#7eb8c4">
+  <img src="https://images.pokemontcg.io/ex7/1.png" alt="Azumarill" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Azumarill</div>
+    <div class="cr-set">Team Rocket Returns · EX Era</div>
+  </div>
+  <div class="cr-price">$235<span class="cr-trend" style="color:#7eb8c4">+245.5%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.660</span></div>
+</div>
+<div class="card-row" style="border-left-color:#7eb8c4">
+  <img src="https://images.pokemontcg.io/xy2/109.png" alt="M Kangaskhan-EX" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">M Kangaskhan-EX</div>
+    <div class="cr-set">Flashfire · XY</div>
+  </div>
+  <div class="cr-price">$175<span class="cr-trend" style="color:#7eb8c4">+191.1%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.700</span></div>
+</div>
+<div class="card-row" style="border-left-color:#7eb8c4">
+  <img src="https://images.pokemontcg.io/ex3/93.png" alt="Latias ex" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Latias ex</div>
+    <div class="cr-set">Dragon · EX Era</div>
+  </div>
+  <div class="cr-price">$479<span class="cr-trend" style="color:#7eb8c4">+190.6%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.710</span></div>
+</div>
+<div class="card-row" style="border-left-color:#7eb8c4">
+  <img src="https://images.pokemontcg.io/ex11/110.png" alt="Vaporeon ex" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Vaporeon ex</div>
+    <div class="cr-set">Delta Species · EX Era</div>
+  </div>
+  <div class="cr-price">$671<span class="cr-trend" style="color:#7eb8c4">+173.9%</span></div>
+  <div class="cr-signal" style="color:#4caf50;border-color:#4caf5044">BUY<span class="cr-score">0.743</span></div>
+</div>
+<div class="card-row" style="border-left-color:#7eb8c4">
+  <img src="https://images.pokemontcg.io/ecard3/H19.png" alt="Magneton" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Magneton</div>
+    <div class="cr-set">Skyridge · EX Era</div>
+  </div>
+  <div class="cr-price">$489<span class="cr-trend" style="color:#7eb8c4">+163.2%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.710</span></div>
+</div>
+<div class="card-row" style="border-left-color:#7eb8c4">
+  <img src="https://images.pokemontcg.io/g1/28a.png" alt="Jolteon-EX" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Jolteon-EX</div>
+    <div class="cr-set">Generations · XY</div>
+  </div>
+  <div class="cr-price">$177<span class="cr-trend" style="color:#7eb8c4">+147.0%</span></div>
+  <div class="cr-signal" style="color:#c4972a;border-color:#c4972a44">WATCH<span class="cr-score">0.717</span></div>
+</div>
+    </div>
+    <div class="mover-section">
+      <div class="mover-header" style="color:#b07fd4"><span class="mover-line" style="background:#b07fd4"></span>HYPE — Caution, No Fundamental Support<span class="mover-count">6</span></div>
+      <div class="card-row" style="border-left-color:#b07fd4">
+  <img src="https://images.pokemontcg.io/base6/100.png" alt="Full Heal Energy" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Full Heal Energy</div>
+    <div class="cr-set">Legendary Collection · Vintage</div>
+  </div>
+  <div class="cr-price">$19.74<span class="cr-trend" style="color:#b07fd4">+302.9%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.525</span></div>
+</div>
+<div class="card-row" style="border-left-color:#b07fd4">
+  <img src="https://images.pokemontcg.io/gym2/43.png" alt="Giovanni's Meowth" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Giovanni's Meowth</div>
+    <div class="cr-set">Gym Challenge · Vintage</div>
+  </div>
+  <div class="cr-price">$41.26<span class="cr-trend" style="color:#b07fd4">+282.0%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.463</span></div>
+</div>
+<div class="card-row" style="border-left-color:#b07fd4">
+  <img src="https://images.pokemontcg.io/ex8/26.png" alt="Skarmory" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Skarmory</div>
+    <div class="cr-set">Deoxys · EX Era</div>
+  </div>
+  <div class="cr-price">$22.40<span class="cr-trend" style="color:#b07fd4">+280.3%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.570</span></div>
+</div>
+<div class="card-row" style="border-left-color:#b07fd4">
+  <img src="https://images.pokemontcg.io/ecard3/142.png" alt="Bounce Energy" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Bounce Energy</div>
+    <div class="cr-set">Skyridge · EX Era</div>
+  </div>
+  <div class="cr-price">$12.77<span class="cr-trend" style="color:#b07fd4">+246.1%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.495</span></div>
+</div>
+<div class="card-row" style="border-left-color:#b07fd4">
+  <img src="https://images.pokemontcg.io/col1/89.png" alt="Fire Energy" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Fire Energy</div>
+    <div class="cr-set">Call of Legends · Black & White</div>
+  </div>
+  <div class="cr-price">$20.71<span class="cr-trend" style="color:#b07fd4">+229.3%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.430</span></div>
+</div>
+<div class="card-row" style="border-left-color:#b07fd4">
+  <img src="https://images.pokemontcg.io/pop4/15.png" alt="Treecko δ" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Treecko δ</div>
+    <div class="cr-set">POP Series 4 · DP Era</div>
+  </div>
+  <div class="cr-price">$22.13<span class="cr-trend" style="color:#b07fd4">+209.9%</span></div>
+  <div class="cr-signal" style="color:#5a5752;border-color:#5a575244">HOLD<span class="cr-score">0.440</span></div>
+</div>
+    </div>
+  </div>
+
+  <!-- EXIT ALERTS TAB -->
+  <div id="tab-exits" class="tab-panel">
+    <div class="section-note">Cards and sealed products showing significant price decline. <span style="color:#c45a5a">SELL</span> singles have dropped ≥15% over 7 days vs 30-day baseline with an absolute loss of $10+. Sealed SELL = product is at or below MSRP premium with high reprint risk. Not financial advice.</div>
+    <div class="mover-section">
+      <div class="mover-header" style="color:#c45a5a"><span class="mover-line" style="background:#c45a5a"></span>SELL — Singles Declining<span class="mover-count">20</span></div>
+      <div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/neo4/107.png" alt="Shining Charizard" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Shining Charizard</div>
+    <div class="cr-set">Neo Destiny · Vintage</div>
+  </div>
+  <div class="cr-price">$857<span class="cr-trend" style="color:#c45a5a">-43.2%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$652</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ecard1/13.png" alt="Gengar" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Gengar</div>
+    <div class="cr-set">Expedition Base Set · EX Era</div>
+  </div>
+  <div class="cr-price">$160<span class="cr-trend" style="color:#c45a5a">-71.9%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$411</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ex15/100.png" alt="Charizard ★ δ" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Charizard ★ δ</div>
+    <div class="cr-set">Dragon Frontiers · EX Era</div>
+  </div>
+  <div class="cr-price">$1,104<span class="cr-trend" style="color:#c45a5a">-25.6%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$380</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ex15/101.png" alt="Mew ★ δ" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Mew ★ δ</div>
+    <div class="cr-set">Dragon Frontiers · EX Era</div>
+  </div>
+  <div class="cr-price">$693<span class="cr-trend" style="color:#c45a5a">-33.7%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$352</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ecard3/H25.png" alt="Raichu" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Raichu</div>
+    <div class="cr-set">Skyridge · EX Era</div>
+  </div>
+  <div class="cr-price">$120<span class="cr-trend" style="color:#c45a5a">-72.3%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$313</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/sm9/165.png" alt="Gengar & Mimikyu-GX" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Gengar & Mimikyu-GX</div>
+    <div class="cr-set">Team Up · Sun & Moon</div>
+  </div>
+  <div class="cr-price">$332<span class="cr-trend" style="color:#c45a5a">-45.4%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$276</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ecard3/H31.png" alt="Vaporeon" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Vaporeon</div>
+    <div class="cr-set">Skyridge · EX Era</div>
+  </div>
+  <div class="cr-price">$271<span class="cr-trend" style="color:#c45a5a">-48.7%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$257</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ex11/111.png" alt="Groudon ★" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Groudon ★</div>
+    <div class="cr-set">Delta Species · EX Era</div>
+  </div>
+  <div class="cr-price">$631<span class="cr-trend" style="color:#c45a5a">-28.2%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$248</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/basep/24.png" alt="_____'s Pikachu" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">_____'s Pikachu</div>
+    <div class="cr-set">Wizards Black Star Promos · Vintage</div>
+  </div>
+  <div class="cr-price">$274<span class="cr-trend" style="color:#c45a5a">-43.8%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$214</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ecard3/H26.png" alt="Raikou" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Raikou</div>
+    <div class="cr-set">Skyridge · EX Era</div>
+  </div>
+  <div class="cr-price">$187<span class="cr-trend" style="color:#c45a5a">-49.3%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$182</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/neo4/6.png" alt="Dark Gengar" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Dark Gengar</div>
+    <div class="cr-set">Neo Destiny · Vintage</div>
+  </div>
+  <div class="cr-price">$233<span class="cr-trend" style="color:#c45a5a">-42.1%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$169</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/base5/4.png" alt="Dark Charizard" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Dark Charizard</div>
+    <div class="cr-set">Team Rocket · Vintage</div>
+  </div>
+  <div class="cr-price">$385<span class="cr-trend" style="color:#c45a5a">-29.6%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$162</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/col1/9.png" alt="Ho-Oh" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Ho-Oh</div>
+    <div class="cr-set">Call of Legends · Black & White</div>
+  </div>
+  <div class="cr-price">$13.71<span class="cr-trend" style="color:#c45a5a">-92.2%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$162</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ex11/113.png" alt="Metagross ★" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Metagross ★</div>
+    <div class="cr-set">Delta Species · EX Era</div>
+  </div>
+  <div class="cr-price">$694<span class="cr-trend" style="color:#c45a5a">-16.9%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$141</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/smp/SM191.png" alt="Mewtwo & Mew-GX" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Mewtwo & Mew-GX</div>
+    <div class="cr-set">SM Black Star Promos · Sun & Moon</div>
+  </div>
+  <div class="cr-price">$250<span class="cr-trend" style="color:#c45a5a">-36.0%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$141</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ex14/99.png" alt="Alakazam ★" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Alakazam ★</div>
+    <div class="cr-set">Crystal Guardians · EX Era</div>
+  </div>
+  <div class="cr-price">$465<span class="cr-trend" style="color:#c45a5a">-23.1%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$139</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/xy2/107.png" alt="M Charizard-EX" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">M Charizard-EX</div>
+    <div class="cr-set">Flashfire · XY</div>
+  </div>
+  <div class="cr-price">$58.51<span class="cr-trend" style="color:#c45a5a">-70.3%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$139</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ecard2/H28.png" alt="Tyranitar" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Tyranitar</div>
+    <div class="cr-set">Aquapolis · EX Era</div>
+  </div>
+  <div class="cr-price">$186<span class="cr-trend" style="color:#c45a5a">-42.4%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$137</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ex10/112.png" alt="Umbreon ex" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Umbreon ex</div>
+    <div class="cr-set">Unseen Forces · EX Era</div>
+  </div>
+  <div class="cr-price">$327<span class="cr-trend" style="color:#c45a5a">-28.3%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$129</span></div>
+</div>
+<div class="card-row" style="border-left-color:#c45a5a">
+  <img src="https://images.pokemontcg.io/ecard1/20.png" alt="Mewtwo" style="width:36px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">
+  <div class="cr-body">
+    <div class="cr-name">Mewtwo</div>
+    <div class="cr-set">Expedition Base Set · EX Era</div>
+  </div>
+  <div class="cr-price">$153<span class="cr-trend" style="color:#c45a5a">-44.8%</span></div>
+  <div class="cr-signal" style="color:#c45a5a;border-color:#c45a5a44">SELL<span class="cr-score">-$124</span></div>
+</div>
+    </div>
+    <div class="mover-section">
+      <div class="mover-header" style="color:#c45a5a"><span class="mover-line" style="background:#c45a5a"></span>SELL — Sealed Products<span class="mover-count">0</span></div>
+      <div class="section-note" style="color:var(--text-3)">No sealed products meet the SELL threshold right now. All ETBs are holding above MSRP premium or reprint risk is low.</div>
+      
     </div>
   </div>
 
