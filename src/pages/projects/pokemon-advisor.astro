@@ -231,9 +231,22 @@ function cardRow(card, inputGrade) {
     alertBadge = `<span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:${mc};border:1px solid ${mc}44;padding:1px 6px;letter-spacing:.08em;margin-left:8px">${mi} ${m.alert_type} +${m.spike_pct}%</span>`;
   }
 
+  // Grade context note for graded cards
+  let gradeNote = '';
+  const gradeLower = (inputGrade || '').toLowerCase();
+  if (gradeLower.includes('psa 10') || gradeLower.includes('psa10')) {
+    gradeNote = '<span style="font-family:\'JetBrains Mono\',monospace;font-size:.48rem;color:#4caf50;border:1px solid #4caf5033;padding:1px 5px;margin-left:6px">✓ MAXED</span>';
+  } else if (gradeLower.includes('psa 9') || gradeLower.includes('psa9')) {
+    gradeNote = '<span style="font-family:\'JetBrains Mono\',monospace;font-size:.48rem;color:#7eb8c4;border:1px solid #7eb8c433;padding:1px 5px;margin-left:6px">PSA 9</span>';
+  } else if (gradeLower.includes('psa 8') || gradeLower.includes('psa8')) {
+    gradeNote = '<span style="font-family:\'JetBrains Mono\',monospace;font-size:.48rem;color:#c4972a;border:1px solid #c4972a33;padding:1px 5px;margin-left:6px">🔨 PSA 8</span>';
+  } else if (gradeLower.includes('psa')) {
+    gradeNote = '<span style="font-family:\'JetBrains Mono\',monospace;font-size:.48rem;color:#5a5752;border:1px solid rgba(90,87,82,.3);padding:1px 5px;margin-left:6px">GRADED</span>';
+  }
+
   return `<div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid ${leftBorder};padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px">
     <div style="min-width:0">
-      <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1rem;color:#e8e6e1;display:flex;align-items:center;flex-wrap:wrap;gap:4px">${card.name}${alertBadge}</div>
+      <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1rem;color:#e8e6e1;display:flex;align-items:center;flex-wrap:wrap;gap:4px">${card.name}${alertBadge}${gradeNote}</div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;margin-top:3px">
         ${card.set_name} &nbsp;·&nbsp; <span style="color:${grade_c}">${inputGrade || 'unknown'}</span>
         ${card.tcg_market ? ` &nbsp;·&nbsp; Market ${fmtPrice(card.tcg_market)}` : ''}
@@ -252,6 +265,31 @@ function recCard(rec) {
   const sc  = m.signal;
   const sig_c = SIG_COLOR[sc] || '#5a5752';
   const price = m.tcg_market ? `Market ${fmtPrice(m.tcg_market)}` : m.cm_avg7 ? `CM avg ${fmtPrice(m.cm_avg7)}` : '';
+
+  // Grading detail panel — shown when API returned a grading analysis
+  let gradingHtml = '';
+  const g = rec.grading;
+  if (g) {
+    const roiColor  = g.roi_pct > 50 ? '#4caf50' : g.roi_pct > 20 ? '#c4972a' : '#5a5752';
+    const gemColor  = g.gem_rate >= 0.5 ? '#4caf50' : g.gem_rate >= 0.3 ? '#c4972a' : '#c45a5a';
+    const label     = rec.crack_rec ? '🔨 Crack & Resubmit Analysis' : rec.crossover_rec ? '🔄 Crossover Analysis' : '🏆 Grading Analysis';
+    gradingHtml = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:14px">
+      ${[
+        [fmtPrice(g.psa10_est), 'PSA 10 Est.', '#7eb8c4'],
+        [fmtPrice(g.psa9_est),  'PSA 9 Est.',  '#a09c94'],
+        [`${(g.gem_rate*100).toFixed(0)}%`, 'Gem Rate', gemColor],
+        [`+${g.roi_pct.toFixed(0)}%`,       'Exp. ROI', roiColor],
+      ].map(([v,l,c]) => `<div style="background:#121210;border:1px solid rgba(255,255,255,.04);padding:10px 12px;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:${c};line-height:1">${v}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:#5a5752;letter-spacing:.08em;text-transform:uppercase;margin-top:4px">${l}</div>
+      </div>`).join('')}
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#5a5752;margin-top:8px">
+      ${label} &nbsp;·&nbsp; Break-even: PSA ${g.break_even} &nbsp;·&nbsp; Fee: $${g.fee} &nbsp;·&nbsp; EV: ${fmtPrice(g.ev)}
+    </div>`;
+  }
+
   return `<div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid ${rc.border};padding:24px 22px;margin-bottom:2px">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px">
       <div>
@@ -265,6 +303,7 @@ function recCard(rec) {
       </div>
     </div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#a09c94;line-height:1.75">${rec.reason}</div>
+    ${gradingHtml}
   </div>`;
 }
 
