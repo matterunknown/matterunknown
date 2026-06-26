@@ -125,6 +125,11 @@ const REC_COLORS  = {
   watch:           {border:'#5a5752', label:'Watch list'},
   diversification: {border:'#9b6bc4', label:'Diversification'},
 };
+const ALERT_COLORS = {
+  SELL:  {border:'#c45a5a', bg:'rgba(196,90,90,.07)',  label:'SELL ALERT',  icon:'🔴'},
+  SURGE: {border:'#7eb8c4', bg:'rgba(126,184,196,.07)', label:'SURGE',       icon:'⚡'},
+  HYPE:  {border:'#b07fd4', bg:'rgba(176,127,212,.07)', label:'HYPE — CAUTION', icon:'⚠'},
+};
 
 const EXAMPLES = {
   beginner: `Charizard Base Set raw\nBlastoise Base Set raw\nVenusaur Base Set raw`,
@@ -211,9 +216,24 @@ function cardRow(card, inputGrade) {
   const sc = card.signal;
   const sig_c = SIG_COLOR[sc] || '#5a5752';
   const grade_c = inputGrade && (inputGrade.includes('PSA') || inputGrade.includes('BGS')) ? '#4caf50' : '#a09c94';
-  return `<div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid ${sig_c};padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px">
-    <div>
-      <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1rem;color:#e8e6e1">${card.name}</div>
+  // Alert badge — SELL, SURGE, or HYPE
+  let alertBadge = '';
+  let leftBorder = sig_c;
+  if (card.exit_alert) {
+    const a = card.exit_alert;
+    leftBorder = '#c45a5a';
+    alertBadge = `<span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:#c45a5a;border:1px solid #c45a5a44;padding:1px 6px;letter-spacing:.08em;margin-left:8px">🔴 SELL ${a.drop_pct}%</span>`;
+  } else if (card.mover) {
+    const m = card.mover;
+    const mc = m.alert_type === 'SURGE' ? '#7eb8c4' : '#b07fd4';
+    const mi = m.alert_type === 'SURGE' ? '⚡' : '⚠';
+    leftBorder = mc;
+    alertBadge = `<span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:${mc};border:1px solid ${mc}44;padding:1px 6px;letter-spacing:.08em;margin-left:8px">${mi} ${m.alert_type} +${m.spike_pct}%</span>`;
+  }
+
+  return `<div style="background:#0d0d0b;border:1px solid rgba(255,255,255,.06);border-left:3px solid ${leftBorder};padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px">
+    <div style="min-width:0">
+      <div style="font-family:'DM Serif Display',Georgia,serif;font-size:1rem;color:#e8e6e1;display:flex;align-items:center;flex-wrap:wrap;gap:4px">${card.name}${alertBadge}</div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#5a5752;margin-top:3px">
         ${card.set_name} &nbsp;·&nbsp; <span style="color:${grade_c}">${inputGrade || 'unknown'}</span>
         ${card.tcg_market ? ` &nbsp;·&nbsp; Market ${fmtPrice(card.tcg_market)}` : ''}
@@ -284,8 +304,59 @@ async function analyzeCollection() {
   }
 }
 
+
+function renderAlerts(alerts) {
+  if (!alerts || !alerts.length) return '';
+
+  const sells  = alerts.filter(a => a.alert_type === 'SELL');
+  const surges = alerts.filter(a => a.alert_type === 'SURGE');
+  const hypes  = alerts.filter(a => a.alert_type === 'HYPE');
+
+  function alertCard(a) {
+    const ac = ALERT_COLORS[a.alert_type] || ALERT_COLORS.HYPE;
+    const img = a.image ? `<img src="${a.image}" alt="${a.card_name}" style="width:40px;height:auto;object-fit:contain;flex-shrink:0;opacity:.9">` : '<div style="width:40px;flex-shrink:0"></div>';
+    let detail = '';
+    if (a.alert_type === 'SELL') {
+      detail = `Down ${Math.abs(a.drop_pct)}% in 7 days vs 30-day average. 7d avg: ${fmtPrice(a.cm_avg7)} &nbsp;·&nbsp; was: ${fmtPrice(a.cm_avg30)} &nbsp;·&nbsp; loss: -${fmtPrice(a.drop_abs)}`;
+    } else {
+      detail = `Up +${a.spike_pct}% in 7 days vs 30-day average. 7d avg: ${fmtPrice(a.cm_avg7)} &nbsp;·&nbsp; was: ${fmtPrice(a.cm_avg30)}${a.alert_type === 'HYPE' ? ' &nbsp;·&nbsp; Low fundamental score — momentum may not hold.' : ' &nbsp;·&nbsp; Fundamentals confirm the move.'}`;
+    }
+    return `<div style="background:${ac.bg};border:1px solid ${ac.border}33;border-left:3px solid ${ac.border};padding:14px 18px;margin-bottom:2px;display:flex;align-items:center;gap:14px">
+      ${img}
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-family:'DM Serif Display',Georgia,serif;font-size:.95rem;color:#e8e6e1">${a.card_name}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:${ac.border};border:1px solid ${ac.border}44;padding:1px 6px;letter-spacing:.1em">${ac.icon} ${ac.label}</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#5a5752;margin-top:3px">${a.set_name}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:${ac.border};margin-top:5px;line-height:1.6">${detail}</div>
+      </div>
+    </div>`;
+  }
+
+  let html = `<div style="background:#0d0d0b;border:1px solid rgba(196,90,90,.2);padding:24px 28px;margin-bottom:2px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#c45a5a;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px">⚠ Alerts on your holdings</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#5a5752;margin-bottom:20px">Cards you own with significant price movement in the last 7 days.</div>`;
+
+  if (sells.length) {
+    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#c45a5a;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">🔴 Exit signals (${sells.length})</div>`;
+    html += sells.map(alertCard).join('');
+  }
+  if (surges.length) {
+    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#7eb8c4;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;${sells.length ? 'margin-top:20px' : ''}">⚡ Surging — model confirmed (${surges.length})</div>`;
+    html += surges.map(alertCard).join('');
+  }
+  if (hypes.length) {
+    html += `<div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#b07fd4;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;${(sells.length||surges.length) ? 'margin-top:20px' : ''}">⚠ Hype spikes — use caution (${hypes.length})</div>`;
+    html += hypes.map(alertCard).join('');
+  }
+
+  html += '</div>';
+  return html;
+}
+
 function renderResults(data, parsedCollection) {
-  const { recognized, unrecognized, recommendations } = data;
+  const { recognized, unrecognized, recommendations, alerts } = data;
 
   const upgrades  = recommendations.filter(r => r.type === 'upgrade');
   const gaps      = recommendations.filter(r => r.type === 'gap_fill');
@@ -309,6 +380,11 @@ function renderResults(data, parsedCollection) {
         <div style="font-family:'JetBrains Mono',monospace;font-size:.54rem;color:#5a5752;letter-spacing:.1em;text-transform:uppercase;margin-top:6px">${l}</div>
       </div>`).join('')}
     </div>`;
+
+  // Alerts on holdings — shown before everything else if present
+  if (alerts && alerts.length) {
+    html += renderAlerts(alerts);
+  }
 
   // Recognized
   if (recognized.length) {
