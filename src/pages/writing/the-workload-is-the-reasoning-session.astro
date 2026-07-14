@@ -1,0 +1,376 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="The Workload Is the Reasoning Session" description="Why agentic identity breaks the assumptions your identity stack was built on, and the attestation layer no standard defines.">
+<style>
+  :root {
+    --bg:      #090908;
+    --bg-2:    #0d0d0b;
+    --bg-3:    #121210;
+    --amber:   #c4972a;
+    --amber-dim: rgba(196,151,42,0.12);
+    --amber-border: rgba(196,151,42,0.15);
+    --vessel:  #7eb8c4;
+    --text:    #e8e6e1;
+    --text-2:  #a09c94;
+    --text-3:  #5a5752;
+    --serif:   'DM Serif Display', Georgia, serif;
+    --sans:    'DM Sans', system-ui, sans-serif;
+    --mono:    'JetBrains Mono', ui-monospace, monospace;
+    --max-w:   680px;
+    --nav-h:   68px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  body { background: var(--bg); min-height: 100vh; }
+
+  /* NAV */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2rem;
+    transition: background .25s, border-color .25s;
+    border-bottom: 1px solid transparent;
+  }
+  #nav.scrolled {
+    background: rgba(9,9,8,.92);
+    backdrop-filter: blur(12px);
+    border-color: rgba(196,151,42,0.15);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-logo span { color: var(--amber); }
+  .nav-logo:hover { color: var(--text-2); }
+  .nav-back {
+    font-family: var(--mono);
+    font-size: .65rem;
+    color: var(--text-3);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-back:hover { color: var(--amber); }
+
+  /* ARTICLE */
+  .article {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 8rem 1.5rem 6rem;
+  }
+
+  .article-label {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+
+  .article h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    letter-spacing: -.01em;
+  }
+
+  .article-meta {
+    font-family: var(--mono);
+    font-size: .6rem;
+    color: var(--text-3);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--amber-border);
+  }
+
+  .article-subtitle {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    color: var(--text-2);
+    line-height: 1.65;
+    margin-bottom: 3rem;
+    font-style: italic;
+  }
+
+  .article p {
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 1.6rem;
+  }
+
+  .article h2 {
+    font-family: var(--serif);
+    font-size: 1.55rem;
+    font-weight: 400;
+    color: var(--text);
+    margin: 3rem 0 1.25rem;
+    letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+
+  .article strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .article ul {
+    margin: 1.2rem 0 1.6rem 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+
+  .article ul li {
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.75;
+    padding-left: 1.4rem;
+    position: relative;
+  }
+
+  .article ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-family: var(--mono);
+    font-size: .85rem;
+  }
+
+  .article ol {
+    margin: 1.2rem 0 1.6rem 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: ol-counter;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+
+  .article ol li {
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.75;
+    padding-left: 2rem;
+    position: relative;
+    counter-increment: ol-counter;
+  }
+
+  .article ol li::before {
+    content: counter(ol-counter) '.';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-family: var(--mono);
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    top: .25rem;
+  }
+
+  .key-question {
+    background: var(--amber-dim);
+    border-left: 2px solid var(--amber);
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .key-question p {
+    margin-bottom: 0;
+    color: var(--text);
+    font-size: 1.05rem;
+  }
+
+  .stack-table {
+    margin: 2rem 0;
+    border: 1px solid var(--amber-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .stack-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--amber-border);
+  }
+
+  .stack-row:last-child { border-bottom: none; }
+
+  .stack-label {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    padding: 1rem 1.2rem;
+    background: var(--bg-2);
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--amber-border);
+  }
+
+  .stack-desc {
+    font-family: var(--sans);
+    font-size: .875rem;
+    color: var(--text-2);
+    padding: 1rem 1.2rem;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+  }
+
+  .article-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--amber-border);
+  }
+
+  .back-link {
+    font-family: var(--mono);
+    font-size: .65rem;
+    color: var(--text-3);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .back-link:hover { color: var(--amber); }
+</style>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/writing" class="nav-back">~ Writing</a>
+</nav>
+
+<article class="article">
+  <div class="article-label">Identity Security — July 2026</div>
+  <h1>The Workload Is the Reasoning Session</h1>
+  <div class="article-meta">matterunknown &nbsp;·&nbsp; July 2026 &nbsp;·&nbsp; 9 min read</div>
+  <p class="article-subtitle">Why agentic identity breaks the assumptions your identity stack was built on, and the attestation layer no standard defines.</p>
+
+  <p>Identity just became the most expensive real estate in security. CrowdStrike paid three-quarters of a billion dollars for a runtime authorization company. Palo Alto spent twenty-five billion on CyberArk. The data security platforms are now buying their way into non-human identity. Every major platform vendor has concluded the same thing at the same time: whoever controls the identity layer controls the enterprise.</p>
+
+  <p>The reason is simple, and it isn't new. Attackers stopped breaking in years ago. They log in. What changed is the scale of the problem. Machine identities already outnumber humans in most enterprises by two orders of magnitude, and the agentic wave is about to make that ratio look quaint. Every AI agent an enterprise deploys is a privileged identity that can act at machine speed, and most organizations today cannot reliably tell agent activity apart from human activity in their own logs.</p>
+
+  <p>So the money is flowing toward visibility and governance. Discover the agents, inventory the service accounts, map the credentials. That work matters. But it's answering the second question before anyone has answered the first.</p>
+
+  <div class="key-question">
+    <p>The first question is: <strong>what, exactly, is the thing we're assigning an identity to?</strong></p>
+  </div>
+
+  <h2>We keep giving identity to the wrong object</h2>
+
+  <p>Every identity architecture in production today assigns identity to something durable. A person. A device. A service account. A container. A workload in the SPIFFE sense: a process, running somewhere, with a lifecycle long enough to enroll, attest, and rotate.</p>
+
+  <p>An AI agent is none of those things.</p>
+
+  <p>When an agent performs a task, the meaningful unit of activity is not the container it runs in or the API key it borrows. It's the <em>reasoning session</em>: a short-lived burst of model inference that receives a goal, decomposes it, calls tools, possibly spawns sub-agents, produces an outcome, and disappears. It may live for ninety seconds. The same container may host a thousand of these sessions in a day, each with a different objective, a different risk profile, and a different blast radius.</p>
+
+  <p>If you assign identity at the container level, every one of those thousand sessions inherits the same credentials and the same permissions. That is exactly how we ended up with the service-account sprawl we're all now paying vendors to inventory. If you assign it at the "agent" level — the named, durable bot in your directory — you've captured the actor but not the act. The agent that summarizes your meeting notes and the agent run that modifies your Terraform may be the same registered identity ten minutes apart.</p>
+
+  <p>The framing we've adopted at matterunknown is blunt: <strong>the workload is the reasoning session.</strong> Identity must be scoped to the session. Not the container, not the service, not the directory entry.</p>
+
+  <p>Take that framing seriously and the architecture reorganizes itself around it. Identity provisioning has to become ephemeral, because sessions are ephemeral, which pushes you toward patterns like pre-provisioned identity pools that a session can claim in milliseconds rather than enrollment flows built for servers. Key material becomes per-run, not per-service. And in multi-agent pipelines, <em>position in the chain</em> becomes an identity attribute. The third agent in a pipeline should be able to prove it is the third agent, operating on inputs from an attested second, because in multi-agent systems injected instructions travel downstream with full trust.</p>
+
+  <p>None of this is how agents are deployed today. Today, an agent is a service account with better marketing.</p>
+
+  <h2>The gap: nobody can prove what an agent was authorized to do</h2>
+
+  <p>Here's where it gets uncomfortable, because this part isn't solved by better deployment hygiene. It's a missing layer.</p>
+
+  <p>Modern identity infrastructure answers two questions well. Authentication answers <em>who is this?</em> Workload identity standards like SPIFFE extend that answer to software, cryptographically and portably. Authorization policy answers <em>is this action allowed right now?</em> OAuth scopes gate which resources a token can reach, and policy engines like OPA and ABAC systems evaluate rules at the moment of the request.</p>
+
+  <div class="key-question">
+    <p>Neither answers the question that matters most for autonomous systems: <strong>what was this session authorized to do, attested before it acted, in a form that survives the session?</strong></p>
+  </div>
+
+  <p>Look closely at the candidates and each one misses:</p>
+
+  <ul>
+    <li><strong>OAuth 2.0 scopes</strong> describe which resources a token can access, not which actions were authorized for this specific task. A scope is a perimeter. Intent is a plan.</li>
+    <li><strong>RFC 8693 token exchange</strong> defines the mechanics of trading one token for another across a delegation chain, but says nothing about carrying an intent payload through that chain.</li>
+    <li><strong>SPIFFE/SPIRE</strong> gives a workload a verifiable identity document. It tells you <em>who</em> the workload is with real rigor. It attests nothing about action scope.</li>
+    <li><strong>Policy engines</strong> evaluate at runtime and then move on. The decision exists at the moment of enforcement. It is not a durable, signed artifact you can hand to a forensics team six weeks later.</li>
+  </ul>
+
+  <p>The result: when an agent does something damaging, the post-incident question of whether it was authorized to do that is answered today by scrolling through logs and reconstructing intent from behavior. We attest identity cryptographically and reconstruct authorization archaeologically. That's backwards.</p>
+
+  <h2>Intent tokens: attestation before action</h2>
+
+  <p>The layer we're proposing — and have built — is an <strong>intent token</strong>: a short-lived, signed attestation issued to a reasoning session <em>before it acts</em>, declaring the task it was dispatched for, the actions it is permitted to take, the actions it is explicitly denied, and its position in the agent chain.</p>
+
+  <p>This is deliberately boring engineering. It's a standard JWT, signed with Ed25519, verifiable by any off-the-shelf JWT library with no proprietary infrastructure. The interesting part isn't the cryptography. It's what the artifact changes:</p>
+
+  <ul>
+    <li><strong>Enforcement gets a contract.</strong> A tool boundary or gateway can verify the token and refuse actions outside the attested intent, including explicitly denied actions — which turn out to matter more than allowed ones. "This session may read the repository and may not push to it" is a materially different security posture than a repo-scoped OAuth token.</li>
+    <li><strong>Audit gets evidence.</strong> The token outlives the session. Incident response stops inferring authorization from behavior and starts comparing behavior against a signed statement of what was authorized. The delta <em>is</em> the finding.</li>
+    <li><strong>Chains get accountable.</strong> Because chain position is attested and enforced sequentially, a downstream agent can verify the provenance of its instructions. That is the beginning of an answer to cross-agent injection, which today rides delegation chains with full trust.</li>
+  </ul>
+
+  <p>Intent tokens don't replace workload identity or runtime policy. They complete a stack:</p>
+
+  <div class="stack-table">
+    <div class="stack-row">
+      <div class="stack-label">Workload Identity</div>
+      <div class="stack-desc">SPIFFE — who is running. Cryptographic, portable, already standardized.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">Semantic Identity</div>
+      <div class="stack-desc">A signed chain answering which model, which role, which position in the pipeline.</div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-label">Intent Attestation</div>
+      <div class="stack-desc">What this session was authorized to do — signed before action, durable after.</div>
+    </div>
+  </div>
+
+  <p>Three layers, three different questions. Today only the first has a standard.</p>
+
+  <h2>This is running, not whiteboarded</h2>
+
+  <p>We didn't write this as a thought experiment. matterunknown operates a multi-model research council: several models generating, cross-examining, and adversarially reviewing each other's output before anything ships. It is exactly the kind of multi-agent pipeline that makes security people nervous, which made it the right test subject. The signing chain is live on real research workloads, and every council session runs under the three-layer model described above. A full write-up and an open reference implementation (<code>agentic-id</code>) are coming, including the parts where we were wrong on the first attempt — because those are the parts worth publishing.</p>
+
+  <h2>The questions worth asking now</h2>
+
+  <p>If you're evaluating anything that claims to secure agents, or building it, the framing suggests a short list that cuts through the category noise:</p>
+
+  <ol>
+    <li>What is the unit of identity: the directory entry, the container, or the session?</li>
+    <li>Can an agent prove what it was authorized to do <em>before</em> it acted, or only that it authenticated?</li>
+    <li>Are denials first-class, or is "allowed scope" the whole story?</li>
+    <li>When agents delegate to agents, does anything attest chain position, or does trust just cascade?</li>
+    <li>After an incident, does the authorization decision exist as a verifiable artifact, or does it have to be reconstructed from logs?</li>
+  </ol>
+
+  <p>Most of the industry cannot answer these yet. That's not a criticism. The category is eighteen months old and the standards bodies haven't caught up to the deployment reality. But identity has become the control plane of the enterprise, agents are becoming the workforce, and the perimeter of the agentic era is going to be a signed statement of intent.</p>
+
+  <p>The gap is real. The primitives to close it already exist. Someone should say so in a standard.</p>
+
+  <p style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.06em;margin-top:2.5rem;">matterunknown is an independent identity security research lab. Identity is the largest unmonitored attack surface. We map it. The full paper and the <code>agentic-id</code> reference implementation will be published here.</p>
+
+  <div class="article-footer">
+    <a href="/writing" class="back-link">← All writing</a>
+  </div>
+</article>
+
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
