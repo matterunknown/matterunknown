@@ -86,7 +86,9 @@ import Base from '../layouts/Base.astro';
     .footer-copy { font-family: var(--mono); font-size: .6rem; color: var(--text-3); letter-spacing: .08em; }
 
     @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-    @media (max-width: 768px) {
+    .nav-hamburger { display: none; }
+.nav-mobile-menu { display: none; }
+@media (max-width: 768px) {
       .layers, .outputs, .failures { grid-template-columns: 1fr; }
       .vessel-callout-inner { grid-template-columns: 1fr; gap: 40px; }
       .nav-links { display: none; }

@@ -90,7 +90,9 @@ import Base from '../layouts/Base.astro';
     @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
 
-    @media(max-width:768px) {
+    .nav-hamburger { display: none; }
+.nav-mobile-menu { display: none; }
+@media(max-width:768px) {
       .what-grid { grid-template-columns: 1fr 1fr; }
       .proj-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
