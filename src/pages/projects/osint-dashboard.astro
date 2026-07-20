@@ -133,9 +133,83 @@ import Base from '../../layouts/Base.astro';
   .nav-hamburger { display: none; }
   .nav-mobile-menu { display: none; }
 
+  /* Tabs */
+  .tab-row { display: flex; gap: 4px; margin-bottom: 40px; border-bottom: 1px solid var(--amber-border); }
+  .tab-btn {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-3); background: none; border: none; padding: 12px 18px; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: color .2s, border-color .2s;
+  }
+  .tab-btn:hover { color: var(--text-2); }
+  .tab-btn.active { color: var(--amber); border-bottom-color: var(--amber); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Investigate panel */
+  .inv-input-row { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .inv-input {
+    flex: 1; min-width: 220px; background: var(--bg-2); border: 1px solid var(--amber-border);
+    border-radius: 6px; padding: 12px 16px; color: var(--text); font-family: var(--mono); font-size: .88rem;
+    outline: none; transition: border-color .2s;
+  }
+  .inv-input:focus { border-color: var(--amber); }
+  .inv-input::placeholder { color: var(--text-3); }
+  .inv-btn {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+    background: var(--amber); color: var(--bg); border: none; border-radius: 6px;
+    padding: 12px 24px; cursor: pointer; transition: opacity .2s; font-weight: 600;
+  }
+  .inv-btn:hover { opacity: .85; }
+  .inv-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .inv-note { font-family: var(--mono); font-size: .62rem; color: var(--text-3); margin-bottom: 40px; line-height: 1.7; }
+
+  .inv-status { font-family: var(--mono); font-size: .72rem; color: var(--amber); margin-bottom: 24px; display: none; }
+  .inv-status.show { display: block; }
+  .inv-error { font-family: var(--mono); font-size: .72rem; color: #d15b5b; margin-bottom: 24px; display: none; }
+  .inv-error.show { display: block; }
+
+  .inv-meta { font-family: var(--mono); font-size: .64rem; color: var(--text-3); margin-bottom: 28px; line-height: 1.8; display: none; }
+  .inv-meta.show { display: block; }
+  .inv-meta .fail { color: #d15b5b; }
+  .inv-meta .ok { color: #6fae7f; }
+
+  .corr-group {
+    background: var(--bg-2); border-left: 3px solid var(--text-3); border-radius: 0 6px 6px 0;
+    padding: 18px 22px; margin-bottom: 2px;
+  }
+  .corr-group.conflicting { border-left-color: #d15b5b; }
+  .corr-group.partial { border-left-color: var(--amber); }
+  .corr-group.confirmed { border-left-color: #6fae7f; }
+  .corr-group.single_source { border-left-color: var(--text-3); }
+  .corr-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .corr-fact { font-family: var(--serif); font-size: 1.05rem; color: var(--text); text-transform: capitalize; }
+  .corr-badge {
+    font-family: var(--mono); font-size: .58rem; letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 3px; background: rgba(255,255,255,0.05);
+  }
+  .corr-badge.conflicting { color: #d15b5b; }
+  .corr-badge.partial { color: var(--amber); }
+  .corr-badge.confirmed { color: #6fae7f; }
+  .corr-badge.single_source { color: var(--text-3); }
+  .corr-finding { font-size: .84rem; color: var(--text-2); padding: 4px 0; display: flex; gap: 10px; }
+  .corr-finding .src { font-family: var(--mono); font-size: .62rem; color: var(--text-3); min-width: 110px; }
+
+  .report-actions { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
+  .report-btn {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .05em; text-transform: uppercase;
+    background: var(--bg-2); color: var(--text-2); border: 1px solid var(--amber-border); border-radius: 6px;
+    padding: 10px 18px; cursor: pointer; transition: all .2s;
+  }
+  .report-btn:hover { border-color: var(--amber); color: var(--amber); }
+  .verify-result { font-family: var(--mono); font-size: .68rem; margin-top: 10px; display: none; }
+  .verify-result.show { display: block; }
+  .verify-result.valid { color: #6fae7f; }
+  .verify-result.invalid { color: #d15b5b; }
+
   @media(max-width:768px) {
     .cat-grid { grid-template-columns: 1fr; }
     .site-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .tab-row { overflow-x: auto; }
   }
 </style>
 
@@ -148,8 +222,33 @@ import Base from '../../layouts/Base.astro';
   <div class="page-label">Lab — Experiment No. 4 / Reference Tool</div>
   <h1>OSINT <em>Dashboard</em></h1>
   <p class="sub">A curated reference of open-source intelligence and identity-research tools, organized by workflow instead of alphabet. Built because the ones we tried were either commercial dashboards charging for a link list, or scattered across a dozen browser bookmark folders.</p>
-  <p class="disclaimer">For lawful research, journalism, security, and due-diligence use only. matterunknown does not run or control any linked service — verify terms of use before querying third-party data on a subject. Nothing here executes anything; every card opens the source tool directly.</p>
+  <p class="disclaimer">For lawful research, journalism, security, and due-diligence use only. matterunknown does not run or control any linked service — verify terms of use before querying third-party data on a subject. The Investigate tab queries real third-party services (crt.sh, RDAP, Wayback Machine) on your behalf and signs the result — it does not access breach, credential, or paid data sources.</p>
 
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="investigate">Investigate</button>
+    <button class="tab-btn" data-tab="browse">Browse Tools</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-investigate">
+    <div class="inv-input-row">
+      <input type="text" class="inv-input" id="inv-query" placeholder="Enter a domain (e.g. example.com) or company name..." />
+      <button class="inv-btn" id="inv-submit">Investigate</button>
+    </div>
+    <p class="inv-note">Runs live queries against crt.sh (certificate transparency), RDAP (WHOIS successor), and the Wayback Machine for domains — or OpenCorporates / OpenSanctions for company names. Results are cross-correlated across sources and the final report is signed with Ed25519 so it's a verifiable artifact, not just a screenshot. Rate limited to 10 investigations/minute.</p>
+
+    <div class="inv-status" id="inv-status">Querying sources — this can take up to 30 seconds for domains with many certificates on record...</div>
+    <div class="inv-error" id="inv-error"></div>
+    <div class="inv-meta" id="inv-meta"></div>
+    <div id="inv-results"></div>
+
+    <div class="report-actions" id="report-actions" style="display:none;">
+      <button class="report-btn" id="download-report">Download Signed Report (JSON)</button>
+      <button class="report-btn" id="verify-report">Verify Signature</button>
+    </div>
+    <div class="verify-result" id="verify-result"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-browse">
   <div class="search-row">
     <input type="text" class="search-input" id="osint-search" placeholder="Filter tools — try 'breach', 'domain', 'image', 'username'..." />
   </div>
@@ -270,6 +369,7 @@ import Base from '../../layouts/Base.astro';
     </div>
 
   </div>
+  </div>
 
   <div class="footer-note">
     Built as a companion piece to matterunknown's identity-security research. No accounts, no tracking, no dashboard-behind-a-paywall. If you have a source that belongs here, <a href="/writing">reach out through the writing page</a>. See also: <a href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a> and <a href="/writing/the-credential-remembers-who">The Credential Remembers Who</a> for the research this dashboard supports.
@@ -283,6 +383,126 @@ import Base from '../../layouts/Base.astro';
 
 <script is:inline>
 window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+
+// ── Tab switching ──────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Investigate flow ───────────────────────────────────────────────────
+const OSINT_API = 'https://automation.houseofidentity.io/api/osint';
+let lastReport = null;
+
+const invQuery   = document.getElementById('inv-query');
+const invSubmit  = document.getElementById('inv-submit');
+const invStatus  = document.getElementById('inv-status');
+const invError   = document.getElementById('inv-error');
+const invMeta    = document.getElementById('inv-meta');
+const invResults = document.getElementById('inv-results');
+const reportActions = document.getElementById('report-actions');
+const verifyResultEl = document.getElementById('verify-result');
+
+function agreementLabel(a) {
+  return { confirmed: 'Confirmed', partial: 'Partial Agreement', conflicting: 'Conflicting', single_source: 'Single Source' }[a] || a;
+}
+
+async function runInvestigation() {
+  const q = invQuery.value.trim();
+  if (!q) return;
+
+  invSubmit.disabled = true;
+  invStatus.classList.add('show');
+  invError.classList.remove('show');
+  invMeta.classList.remove('show');
+  invResults.innerHTML = '';
+  reportActions.style.display = 'none';
+  verifyResultEl.classList.remove('show');
+  lastReport = null;
+
+  try {
+    const res = await fetch(`${OSINT_API}/investigate?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || `Request failed (${res.status})`);
+    }
+
+    lastReport = data;
+
+    const okSources = data.sources_queried.filter(s => !data.sources_failed.includes(s));
+    const failSources = data.sources_failed;
+    invMeta.innerHTML = `Queried ${data.sources_queried.length} source(s) for <strong style="color:var(--text-2)">${data.query}</strong> (${data.query_type}) — ` +
+      `<span class="ok">${okSources.length} responded</span>` +
+      (failSources.length ? `, <span class="fail">${failSources.length} unavailable (${failSources.join(', ')})</span>` : '') +
+      ` · ${data.findings.length} findings · signed ${data.generated_at}`;
+    invMeta.classList.add('show');
+
+    if (data.correlations.length === 0) {
+      invResults.innerHTML = '<p style="color:var(--text-3);font-family:var(--mono);font-size:.8rem;">No findings returned from available sources. Try a different domain or company name.</p>';
+    } else {
+      invResults.innerHTML = data.correlations.map(group => `
+        <div class="corr-group ${group.agreement}">
+          <div class="corr-head">
+            <span class="corr-fact">${group.fact_type.replace(/_/g, ' ')}</span>
+            <span class="corr-badge ${group.agreement}">${agreementLabel(group.agreement)}</span>
+          </div>
+          ${group.findings.map(f => `
+            <div class="corr-finding">
+              <span class="src">${f.source}</span>
+              <span>${f.value}</span>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+
+    reportActions.style.display = 'flex';
+  } catch (err) {
+    invError.textContent = 'Investigation failed: ' + err.message;
+    invError.classList.add('show');
+  } finally {
+    invStatus.classList.remove('show');
+    invSubmit.disabled = false;
+  }
+}
+
+invSubmit.addEventListener('click', runInvestigation);
+invQuery.addEventListener('keydown', (e) => { if (e.key === 'Enter') runInvestigation(); });
+
+document.getElementById('download-report').addEventListener('click', () => {
+  if (!lastReport) return;
+  const blob = new Blob([JSON.stringify(lastReport, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `osint-report-${lastReport.query.replace(/[^a-z0-9]/gi, '_')}-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('verify-report').addEventListener('click', async () => {
+  if (!lastReport) return;
+  try {
+    const res = await fetch(`${OSINT_API}/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(lastReport),
+    });
+    const data = await res.json();
+    verifyResultEl.textContent = data.valid
+      ? '✓ Signature valid — this report matches what was signed at generation time and has not been altered.'
+      : '✕ Signature invalid — this report does not match its signature. Do not treat it as authentic.';
+    verifyResultEl.className = 'verify-result show ' + (data.valid ? 'valid' : 'invalid');
+  } catch (err) {
+    verifyResultEl.textContent = 'Verification request failed: ' + err.message;
+    verifyResultEl.className = 'verify-result show invalid';
+  }
+});
 
 const searchInput = document.getElementById('osint-search');
 const cats = document.querySelectorAll('.cat');
