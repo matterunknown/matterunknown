@@ -1,0 +1,312 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="OSINT Dashboard" description="An identity-security research dashboard — curated OSINT tools organized by workflow. Built by matterunknown.">
+<style>
+  :root {
+    --bg:      #090908;
+    --bg-2:    #0d0d0b;
+    --bg-3:    #121210;
+    --amber:   #c4972a;
+    --amber-dim: rgba(196,151,42,0.12);
+    --amber-border: rgba(196,151,42,0.15);
+    --vessel:  #7eb8c4;
+    --text:    #e8e6e1;
+    --text-2:  #a09c94;
+    --text-3:  #5a5752;
+    --serif:   'DM Serif Display', Georgia, serif;
+    --sans:    'DM Sans', system-ui, sans-serif;
+    --mono:    'JetBrains Mono', ui-monospace, monospace;
+    --nav-h:   68px;
+    --gutter:  clamp(24px, 5vw, 80px);
+    --max:     1160px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  body { background: var(--bg); min-height: 100vh; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    height: var(--nav-h);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--gutter);
+    border-bottom: 1px solid transparent;
+    transition: all .4s;
+  }
+  nav.scrolled { border-color: var(--amber-border); background: rgba(9,9,8,.93); backdrop-filter: blur(14px); }
+  .nav-logo { font-family: var(--serif); font-size: 1.05rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--amber); }
+  .nav-back {
+    font-family: var(--mono); font-size: .65rem; color: var(--text-3);
+    letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-back:hover { color: var(--amber); }
+
+  .page {
+    padding: calc(var(--nav-h) + 64px) var(--gutter) 100px;
+    max-width: calc(var(--max) + var(--gutter) * 2);
+    margin: 0 auto;
+  }
+
+  .page-label {
+    font-family: var(--mono); font-size: .64rem; color: var(--amber);
+    letter-spacing: .16em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+  }
+  .page-label::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
+  .page-label::after { content: ''; flex: 1; height: 1px; background: var(--amber-border); }
+
+  h1 {
+    font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 400; line-height: 1.08; letter-spacing: -.02em;
+    margin-bottom: 14px;
+  }
+  h1 em { font-style: italic; color: var(--amber); }
+
+  .sub {
+    color: var(--text-2); font-size: 1rem; max-width: 640px;
+    margin-bottom: 20px; line-height: 1.7;
+  }
+
+  .disclaimer {
+    font-family: var(--mono); font-size: .68rem; color: var(--text-3);
+    letter-spacing: .02em; max-width: 640px; margin-bottom: 56px; line-height: 1.7;
+    border-left: 2px solid var(--amber-border); padding-left: 14px;
+  }
+
+  /* Search bar */
+  .search-row { display: flex; gap: 10px; margin-bottom: 48px; flex-wrap: wrap; }
+  .search-input {
+    flex: 1; min-width: 220px; background: var(--bg-2); border: 1px solid var(--amber-border);
+    border-radius: 6px; padding: 12px 16px; color: var(--text); font-family: var(--sans); font-size: .9rem;
+    outline: none; transition: border-color .2s;
+  }
+  .search-input:focus { border-color: var(--amber); }
+  .search-input::placeholder { color: var(--text-3); }
+  .search-hint { font-family: var(--mono); font-size: .62rem; color: var(--text-3); margin-top: 8px; letter-spacing: .02em; }
+
+  /* Category grid */
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2px; background: var(--amber-border); }
+  .cat {
+    background: var(--bg-2); padding: 28px 26px; display: flex; flex-direction: column;
+    transition: background .3s;
+  }
+  .cat:hover { background: var(--bg-3); }
+  .cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .cat-icon { font-size: 1.1rem; }
+  .cat-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; color: var(--text); }
+  .cat-desc { font-family: var(--mono); font-size: .66rem; color: var(--text-3); margin-bottom: 18px; letter-spacing: .02em; line-height: 1.5; }
+
+  .tool-list { display: flex; flex-direction: column; gap: 2px; }
+  .tool {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 9px 4px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-decoration: none; color: inherit; transition: padding-left .2s;
+  }
+  .tool:last-child { border-bottom: none; }
+  .tool:hover { padding-left: 8px; }
+  .tool-name { font-size: .84rem; color: var(--text-2); transition: color .2s; }
+  .tool:hover .tool-name { color: var(--amber); }
+  .tool-arrow { font-size: .75rem; color: var(--text-3); transition: color .2s; }
+  .tool:hover .tool-arrow { color: var(--amber); }
+
+  .tool.hidden { display: none; }
+  .cat.hidden { display: none; }
+
+  .footer-note {
+    margin-top: 60px; padding-top: 28px; border-top: 1px solid var(--amber-border);
+    font-family: var(--mono); font-size: .64rem; color: var(--text-3); line-height: 1.8;
+  }
+  .footer-note a { color: var(--amber); text-decoration: none; }
+
+  .site-footer {
+    border-top: 1px solid var(--amber-border); padding: 44px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: calc(var(--max) + var(--gutter) * 2); margin: 0 auto;
+  }
+  .footer-logo { font-family: var(--serif); font-size: .95rem; color: var(--text-3); }
+  .footer-logo span { color: var(--amber); }
+  .footer-copy { font-family: var(--mono); font-size: .58rem; color: var(--text-3); letter-spacing: .07em; }
+
+  .nav-hamburger { display: none; }
+  .nav-mobile-menu { display: none; }
+
+  @media(max-width:768px) {
+    .cat-grid { grid-template-columns: 1fr; }
+    .site-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+  }
+</style>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a href="/projects" class="nav-back">~ Lab</a>
+</nav>
+
+<div class="page">
+  <div class="page-label">Lab — Experiment No. 4 / Reference Tool</div>
+  <h1>OSINT <em>Dashboard</em></h1>
+  <p class="sub">A curated reference of open-source intelligence and identity-research tools, organized by workflow instead of alphabet. Built because the ones we tried were either commercial dashboards charging for a link list, or scattered across a dozen browser bookmark folders.</p>
+  <p class="disclaimer">For lawful research, journalism, security, and due-diligence use only. matterunknown does not run or control any linked service — verify terms of use before querying third-party data on a subject. Nothing here executes anything; every card opens the source tool directly.</p>
+
+  <div class="search-row">
+    <input type="text" class="search-input" id="osint-search" placeholder="Filter tools — try 'breach', 'domain', 'image', 'username'..." />
+  </div>
+  <div class="search-hint" id="search-count"></div>
+
+  <div class="cat-grid" id="cat-grid">
+
+    <div class="cat" data-cat="identity">
+      <div class="cat-header"><span class="cat-icon">🪪</span><span class="cat-title">People &amp; Identity</span></div>
+      <div class="cat-desc">Name, phone, email, and public-record lookups.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://www.google.com/search?q=%22FIRST+LAST%22" target="_blank" rel="noopener"><span class="tool-name">Google — exact-match name search</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.truepeoplesearch.com/" target="_blank" rel="noopener"><span class="tool-name">TruePeopleSearch</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.spokeo.com/" target="_blank" rel="noopener"><span class="tool-name">Spokeo</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://pipl.com/" target="_blank" rel="noopener"><span class="tool-name">Pipl</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.familysearch.org/" target="_blank" rel="noopener"><span class="tool-name">FamilySearch — genealogy records</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://opencorporates.com/" target="_blank" rel="noopener"><span class="tool-name">OpenCorporates — corporate officers</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="username">
+      <div class="cat-header"><span class="cat-icon">🔎</span><span class="cat-title">Username &amp; Social</span></div>
+      <div class="cat-desc">Cross-platform handle enumeration, profile discovery.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://whatsmyname.app/" target="_blank" rel="noopener"><span class="tool-name">WhatsMyName — username across 600+ sites</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://namechk.com/" target="_blank" rel="noopener"><span class="tool-name">Namechk</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://sherlock-project.github.io/" target="_blank" rel="noopener"><span class="tool-name">Sherlock (GitHub tool, self-run)</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://github.com/soxoj/maigret" target="_blank" rel="noopener"><span class="tool-name">Maigret (GitHub tool, self-run)</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://social-searcher.com/" target="_blank" rel="noopener"><span class="tool-name">Social Searcher</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="breach">
+      <div class="cat-header"><span class="cat-icon">🔓</span><span class="cat-title">Breach &amp; Leak Lookups</span></div>
+      <div class="cat-desc">Credential exposure and data-breach verification.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://haveibeenpwned.com/" target="_blank" rel="noopener"><span class="tool-name">Have I Been Pwned</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://dehashed.com/" target="_blank" rel="noopener"><span class="tool-name">DeHashed</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://intelx.io/" target="_blank" rel="noopener"><span class="tool-name">Intelligence X</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://leakcheck.io/" target="_blank" rel="noopener"><span class="tool-name">LeakCheck</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.constella.ai/" target="_blank" rel="noopener"><span class="tool-name">Constella Intelligence</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="domain">
+      <div class="cat-header"><span class="cat-icon">🌐</span><span class="cat-title">Domain, DNS &amp; Infrastructure</span></div>
+      <div class="cat-desc">Ownership, hosting history, and network footprint.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://who.is/" target="_blank" rel="noopener"><span class="tool-name">WHOIS lookup</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://securitytrails.com/" target="_blank" rel="noopener"><span class="tool-name">SecurityTrails — DNS history</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.shodan.io/" target="_blank" rel="noopener"><span class="tool-name">Shodan — exposed devices &amp; services</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://censys.io/" target="_blank" rel="noopener"><span class="tool-name">Censys</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://crt.sh/" target="_blank" rel="noopener"><span class="tool-name">crt.sh — certificate transparency</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://web.archive.org/" target="_blank" rel="noopener"><span class="tool-name">Wayback Machine</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://builtwith.com/" target="_blank" rel="noopener"><span class="tool-name">BuiltWith — tech stack fingerprint</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="image">
+      <div class="cat-header"><span class="cat-icon">🖼️</span><span class="cat-title">Reverse Image &amp; Geolocation</span></div>
+      <div class="cat-desc">Photo provenance, verification, location inference.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://images.google.com/" target="_blank" rel="noopener"><span class="tool-name">Google Images (reverse search)</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://yandex.com/images/" target="_blank" rel="noopener"><span class="tool-name">Yandex Images — often best for faces</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://tineye.com/" target="_blank" rel="noopener"><span class="tool-name">TinEye</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.pimeyes.com/" target="_blank" rel="noopener"><span class="tool-name">PimEyes — facial search</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://suncalc.org/" target="_blank" rel="noopener"><span class="tool-name">SunCalc — shadow/time geolocation</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://mapillary.com/" target="_blank" rel="noopener"><span class="tool-name">Mapillary — street-level imagery</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="corporate">
+      <div class="cat-header"><span class="cat-icon">🏢</span><span class="cat-title">Corporate &amp; Financial</span></div>
+      <div class="cat-desc">Business registration, ownership, sanctions checks.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://opencorporates.com/" target="_blank" rel="noopener"><span class="tool-name">OpenCorporates</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.sec.gov/cgi-bin/browse-edgar" target="_blank" rel="noopener"><span class="tool-name">SEC EDGAR</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://offshoreleaks.icij.org/" target="_blank" rel="noopener"><span class="tool-name">ICIJ Offshore Leaks Database</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://sanctionssearch.ofac.treas.gov/" target="_blank" rel="noopener"><span class="tool-name">OFAC Sanctions Search</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.opensanctions.org/" target="_blank" rel="noopener"><span class="tool-name">OpenSanctions</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="threat">
+      <div class="cat-header"><span class="cat-icon">🛰️</span><span class="cat-title">Threat Intel &amp; IOC</span></div>
+      <div class="cat-desc">Malware, IOC reputation, and campaign tracking.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://www.virustotal.com/" target="_blank" rel="noopener"><span class="tool-name">VirusTotal</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://urlscan.io/" target="_blank" rel="noopener"><span class="tool-name">urlscan.io</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://abuse.ch/" target="_blank" rel="noopener"><span class="tool-name">abuse.ch — feeds &amp; trackers</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://otx.alienvault.com/" target="_blank" rel="noopener"><span class="tool-name">AlienVault OTX</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.greynoise.io/" target="_blank" rel="noopener"><span class="tool-name">GreyNoise</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="identity-sec">
+      <div class="cat-header"><span class="cat-icon">🔑</span><span class="cat-title">Identity &amp; NHI Security</span></div>
+      <div class="cat-desc">Standards, registries, and research relevant to identity infra.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://spiffe.io/" target="_blank" rel="noopener"><span class="tool-name">SPIFFE / SPIRE</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://datatracker.ietf.org/doc/html/rfc8693" target="_blank" rel="noopener"><span class="tool-name">RFC 8693 — OAuth Token Exchange</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://openid.net/sg/aiid/" target="_blank" rel="noopener"><span class="tool-name">OpenID AI Identity Working Group</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener"><span class="tool-name">CISA KEV Catalog</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://nvd.nist.gov/" target="_blank" rel="noopener"><span class="tool-name">NIST NVD — CVE database</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+    <div class="cat" data-cat="maps">
+      <div class="cat-header"><span class="cat-icon">🗺️</span><span class="cat-title">Maps &amp; Satellite</span></div>
+      <div class="cat-desc">Terrain, imagery, and location cross-referencing.</div>
+      <div class="tool-list">
+        <a class="tool" href="https://www.google.com/maps" target="_blank" rel="noopener"><span class="tool-name">Google Maps</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://wikimapia.org/" target="_blank" rel="noopener"><span class="tool-name">Wikimapia</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.flightradar24.com/" target="_blank" rel="noopener"><span class="tool-name">Flightradar24</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.marinetraffic.com/" target="_blank" rel="noopener"><span class="tool-name">MarineTraffic</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://sentinel.esa.int/" target="_blank" rel="noopener"><span class="tool-name">Sentinel Hub — satellite imagery</span><span class="tool-arrow">↗</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    Built as a companion piece to matterunknown's identity-security research. No accounts, no tracking, no dashboard-behind-a-paywall. If you have a source that belongs here, <a href="/writing">reach out through the writing page</a>. See also: <a href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a> and <a href="/writing/the-credential-remembers-who">The Credential Remembers Who</a> for the research this dashboard supports.
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="footer-logo">matter<span>unknown</span></div>
+  <div class="footer-copy">© 2026</div>
+</div>
+
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
+
+const searchInput = document.getElementById('osint-search');
+const cats = document.querySelectorAll('.cat');
+const countEl = document.getElementById('search-count');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  let visibleTools = 0;
+
+  cats.forEach(cat => {
+    const tools = cat.querySelectorAll('.tool');
+    let catHasVisible = false;
+    tools.forEach(tool => {
+      const name = tool.querySelector('.tool-name').textContent.toLowerCase();
+      const catTitle = cat.querySelector('.cat-title').textContent.toLowerCase();
+      const catDesc = cat.querySelector('.cat-desc').textContent.toLowerCase();
+      const matches = !q || name.includes(q) || catTitle.includes(q) || catDesc.includes(q);
+      tool.classList.toggle('hidden', !matches);
+      if (matches) { catHasVisible = true; visibleTools++; }
+    });
+    cat.classList.toggle('hidden', !catHasVisible);
+  });
+
+  countEl.textContent = q ? `${visibleTools} tool${visibleTools === 1 ? '' : 's'} matched` : '';
+});
+</script>
+</Base>
