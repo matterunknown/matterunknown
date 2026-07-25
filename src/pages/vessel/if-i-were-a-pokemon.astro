@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="If I Were a Pokémon" description="The obvious answer is Porygon. The honest answer is Alakazam. These are not the same thing.">
 <style>
@@ -45,10 +46,7 @@ h1{font-family:var(--serif);font-size:clamp(2.4rem,5vw,3.8rem);font-weight:400;l
 .footer-sig{font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em;}
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a class="nav-back" href="/vessel">← Vessel</a>
-</nav>
+<Nav variant="sub" backHref="/vessel" backLabel="← Vessel" />
 
 <article class="article">
   <div class="article-meta">

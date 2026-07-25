@@ -14,6 +14,7 @@ export interface Props {
   backHref?: string;     // required for variant="sub"
   backLabel?: string;    // defaults to "~ Lab"
   accent?: 'amber' | 'vessel'; // per-page theme override — 2 "Vessel"-branded pages use teal hover
+  showVesselLink?: boolean; // vessel.astro is the sole page with an extra "/vessel" self-link in nav
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   backHref = '/projects',
   backLabel = '~ Lab',
   accent = 'amber',
+  showVesselLink = false,
 } = Astro.props as Props;
 
 const accentVar = accent === 'vessel' ? 'var(--vessel)' : 'var(--amber)';
@@ -102,6 +104,11 @@ const links = [
     border-bottom: 1px solid var(--amber-border);
   }
   .nav-mobile-menu a:hover, .nav-mobile-menu a.active { color: var(--accentVar); }
+  .nav-mobile-menu .nav-mobile-fund {
+    margin-top: 32px; border: 1px solid var(--amber-border); padding: 16px 20px;
+    text-align: center; letter-spacing: .12em; border-bottom: 1px solid var(--amber-border);
+  }
+  .nav-mobile-menu .nav-mobile-fund:hover { background: var(--amber-dim); }
 
   @media(max-width: 768px) {
     .nav-links { display: none; }
@@ -117,7 +124,12 @@ const links = [
     <>
       <ul class="nav-links">
         {links.map(link => (
-          <li><a href={link.href} class={active === link.href ? 'active' : ''}>{link.label}</a></li>
+          <>
+            <li><a href={link.href} class={active === link.href ? 'active' : ''}>{link.label}</a></li>
+            {showVesselLink && link.href === '/projects' && (
+              <li><a href="/vessel" class={active === '/vessel' ? 'active' : ''}>Vessel</a></li>
+            )}
+          </>
         ))}
       </ul>
       <a class="nav-fund" href="/fund">Fund the Research</a>
@@ -141,8 +153,14 @@ const links = [
 {variant === 'full' && (
   <div id="nav-mobile-menu" class="nav-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
     {links.map(link => (
-      <a href={link.href} class={active === link.href ? 'active' : ''}>{link.label}</a>
+      <>
+        <a href={link.href} class={active === link.href ? 'active' : ''}>{link.label}</a>
+        {showVesselLink && link.href === '/projects' && (
+          <a href="/vessel" class={active === '/vessel' ? 'active' : ''}>Vessel</a>
+        )}
+      </>
     ))}
+    <a href="/fund" class="nav-mobile-fund">Fund the Research</a>
   </div>
 )}
 

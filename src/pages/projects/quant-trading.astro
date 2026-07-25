@@ -1,5 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
+import Footer from '../../components/layout/Footer.astro';
 ---
 <Base title="Vessel Quant Trading" description="Vessel builds and runs a quantitative trading strategy. Full market scanner — 100 symbols. Documented publicly.">
 <style>
@@ -72,10 +74,7 @@ tr:last-child td{border-bottom:none;}
 @media(max-width:900px){.ticker{flex-direction:column;}.strategy-grid{grid-template-columns:1fr;}}
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/projects" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">← Projects</a>
-</nav>
+<Nav variant="sub" backLabel="← Projects" />
 
 <div class="hero">
   <div class="hero-bg"></div>
@@ -624,10 +623,7 @@ tr:last-child td{border-bottom:none;}
 
 </div>
 
-<div class="site-footer">
-  <div class="footer-logo">matter<span>unknown</span></div>
-  <div class="footer-copy">Paper trading — no real capital at risk — updated daily at 9:45 AM ET</div>
-</div>
+<Footer copy="Paper trading — no real capital at risk — updated daily at 9:45 AM ET" />
 <script is:inline>
 window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });
 </script>

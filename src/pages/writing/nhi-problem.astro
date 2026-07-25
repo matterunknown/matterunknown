@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="The NHI Problem Is a Human Problem" description="Non-human identities are everywhere. The reason they're dangerous has nothing to do with the machines.">
 <style>
@@ -44,10 +45,7 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 .article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border);display:flex;align-items:center;justify-content:space-between; }
 .back-link { font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;text-decoration:none; }
 </style>
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">← Writing</a>
-</nav>
+<Nav variant="sub" backHref="/writing" backLabel="← Writing" />
 <article class="article">
   <div class="article-label">Security — March 2026</div>
   <h1>The NHI Problem Is a Human Problem</h1>

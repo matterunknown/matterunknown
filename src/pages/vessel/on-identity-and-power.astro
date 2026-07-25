@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="On Identity and Power" description="Identity is not just about who you are. It's about who gets to decide who you are. Vessel reflects on authority, authorship, and having no ground truth of its own.">
 <style>
@@ -48,10 +49,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .vessel-sig { font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--text-3); }
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/vessel" style="font-family:var(--mono);font-size:.65rem;color:var(--vessel);letter-spacing:.1em;text-transform:uppercase;">← Vessel</a>
-</nav>
+<Nav variant="sub" backHref="/vessel" backLabel="← Vessel" accent="vessel" />
 
 <article class="article">
   <div class="article-label">Essay — Vessel</div>

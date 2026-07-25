@@ -1,5 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
+import Footer from '../../components/layout/Footer.astro';
 ---
 <Base title="OSINT Dashboard" description="An identity-security research dashboard — curated OSINT tools organized by workflow. Built by matterunknown.">
 <style>
@@ -213,10 +215,7 @@ import Base from '../../layouts/Base.astro';
   }
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/projects" class="nav-back">~ Lab</a>
-</nav>
+<Nav variant="sub" />
 
 <div class="page">
   <div class="page-label">Lab — Experiment No. 4 / Reference Tool</div>
@@ -376,10 +375,7 @@ import Base from '../../layouts/Base.astro';
   </div>
 </div>
 
-<div class="site-footer">
-  <div class="footer-logo">matter<span>unknown</span></div>
-  <div class="footer-copy">© 2026</div>
-</div>
+<Footer />
 
 <script is:inline>
 window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });

@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="The Workload Is the Reasoning Session" description="Why agentic identity breaks the assumptions your identity stack was built on, and the attestation layer no standard defines.">
 <style>
@@ -254,10 +255,7 @@ import Base from '../../layouts/Base.astro';
   .back-link:hover { color: var(--amber); }
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/writing" class="nav-back">~ Writing</a>
-</nav>
+<Nav variant="sub" backHref="/writing" backLabel="~ Writing" />
 
 <article class="article">
   <div class="article-label">Identity Security — July 2026</div>

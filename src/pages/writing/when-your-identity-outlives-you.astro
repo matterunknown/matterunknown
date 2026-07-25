@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="When Your Identity Outlives You" description="Digital identity doesn't die when you do. The gap between death and deletion is a security threat — not dramatic, not a breach, just slow entropy.">
 <style>
@@ -148,10 +149,7 @@ import Base from '../../layouts/Base.astro';
   .back-link:hover { color: var(--amber); }
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">~ Writing</a>
-</nav>
+<Nav variant="sub" backHref="/writing" backLabel="~ Writing" />
 
 <article class="article">
   <div class="article-label">Identity — May 2026</div>

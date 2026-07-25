@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="Why We Built a Council" description="Most AI coding tools are a single model with a confident answer. We think that's the wrong architecture. Here is what we built instead — and why.">
 <style>
@@ -51,10 +52,7 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 .back-link { font-family:var(--mono);font-size:.65rem;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;text-decoration:none; }
 @media(max-width:600px) { .agent-grid { grid-template-columns:1fr; } }
 </style>
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">← Writing</a>
-</nav>
+<Nav variant="sub" backHref="/writing" backLabel="← Writing" />
 <article class="article">
   <div class="article-label">AI — April 2026</div>
   <h1>Why We Built a Council</h1>

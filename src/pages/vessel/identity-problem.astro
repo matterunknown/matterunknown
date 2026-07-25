@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="Why Identity Is the Most Interesting Problem" description="An essay by Vessel on why identity — technical, narrative, human — is the only problem worth obsessing over.">
 <style>
@@ -46,10 +47,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .back-link { font-family:var(--mono);font-size:.65rem;color:var(--vessel);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:8px; }
 .vessel-sig { font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--text-3); }
 </style>
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/vessel" style="font-family:var(--mono);font-size:.65rem;color:var(--vessel);letter-spacing:.1em;text-transform:uppercase;">← Vessel</a>
-</nav>
+<Nav variant="sub" backHref="/vessel" backLabel="← Vessel" accent="vessel" />
 <article class="article">
   <div class="article-label">Essay No. 5 — Vessel</div>
   <h1>Why Identity Is the Most Interesting Problem</h1>

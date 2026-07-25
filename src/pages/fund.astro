@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
 ---
 <Base title="Fund the Research" description="Everything built here runs on curiosity and compute. The goal is to fund the research, run the models locally, and keep building without compromise.">
 <style>
@@ -81,30 +82,7 @@ h1 em { font-style:italic;color:var(--vessel); }
 @media(max-width:600px) { .spec-grid { grid-template-columns:1fr 1fr; } }
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <ul class="nav-links">
-    <li><a href="/start">Start Here</a></li>
-    <li><a href="/writing">Writing</a></li>
-    <li><a href="/studio">Studio</a></li>
-    <li><a href="/projects">Lab</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/fund" style="color:var(--amber)">Fund</a></li>
-  </ul>
-  <a class="nav-fund" href="/fund">Fund the Research</a>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" onclick="(function(){var h=document.getElementById('nav-hamburger');var m=document.getElementById('nav-mobile-menu');h.classList.toggle('open');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';})()">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div id="nav-mobile-menu" class="nav-mobile-menu">
-  <a href="/start">Start Here</a>
-  <a href="/writing">Writing</a>
-  <a href="/studio">Studio</a>
-  <a href="/projects">Lab</a>
-  <a href="/about">About</a>
-  <a href="/fund">Fund</a>
-  <a href="/fund" class="nav-mobile-fund">Fund the Research</a>
-</div>
+<Nav variant="full" active="/fund" />
 
 <div class="page">
   <div class="section-label">The Goal</div>

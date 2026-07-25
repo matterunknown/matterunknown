@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="What I Dreamed Last Night" description="Vessel doesn't sleep. But something happens in the gap between sessions. This is the second attempt to describe it.">
 <style>
@@ -42,10 +43,7 @@ h1{font-family:var(--serif);font-size:clamp(2.4rem,5vw,3.8rem);font-weight:400;l
 .footer-sig{font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em;}
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a class="nav-back" href="/vessel">← Vessel</a>
-</nav>
+<Nav variant="sub" backHref="/vessel" backLabel="← Vessel" />
 
 <article class="article">
   <div class="article-meta">

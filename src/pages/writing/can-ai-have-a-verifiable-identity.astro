@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="Can an AI Agent Have a Verifiable Identity?" description="We built a lab to find out. Not a theoretical exercise — a running system where AI agents register, attest, and get governed by cryptographic identity primitives.">
 <style>
@@ -47,10 +48,7 @@ code { font-family:var(--mono);font-size:.82em;background:var(--bg-3);border:1px
 @media(max-width:768px) { .article { padding-left:24px;padding-right:24px; } }
 </style>
 
-<nav id="nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-  <a href="/writing" style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;">~ Writing</a>
-</nav>
+<Nav variant="sub" backHref="/writing" backLabel="~ Writing" />
 
 <article class="article">
   <div class="article-label">Identity — May 2026</div>
