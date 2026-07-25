@@ -1,0 +1,42 @@
+---
+// Card.astro
+// Generalizes the ".proj-card" (projects grid) and ".cat" (OSINT category card) patterns —
+// both are the same primitive today: bg-2 panel, amber top-border reveal on hover, optional link.
+
+export interface Props {
+  as?: 'div' | 'a';
+  href?: string;
+  interactive?: boolean; // hover lift/border-reveal — off for static content cards
+  class?: string;
+}
+
+const { as = 'div', href, interactive = true, class: className = '' } = Astro.props as Props;
+if (as === 'a' && !href) {
+  throw new Error('Card: `href` is required when as="a"');
+}
+const Tag = as;
+---
+<style>
+  .card {
+    background: var(--bg-2);
+    padding: 28px 26px;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: background .3s;
+  }
+  .card.interactive::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--amber); transform: scaleX(0); transform-origin: left;
+    transition: transform .4s;
+  }
+  .card.interactive:hover { background: var(--bg-3); }
+  .card.interactive:hover::before { transform: scaleX(1); }
+  .card.interactive:focus-visible {
+    outline: 2px solid var(--amber); outline-offset: -2px;
+  }
+</style>
+
+<Tag class={`card ${interactive ? 'interactive' : ''} ${className}`} href={as === 'a' ? href : undefined}>
+  <slot />
+</Tag>

@@ -1,0 +1,45 @@
+---
+// Badge.astro
+// Generalizes the repeated signal/status dot+label pattern:
+//   - Pokémon model: BUY/WATCH/HOLD/AVOID/SELL/SURGE/HYPE
+//   - Projects grid: "Live" / "Building" / "Deploying" status dots
+//   - OSINT correlator: Confirmed/Partial/Conflicting/Single Source
+// All of these are the same visual primitive today, hand-copied per page with slightly
+// different color values. One component, one set of tone tokens.
+
+export interface Props {
+  tone?: 'success' | 'warning' | 'danger' | 'info' | 'neutral';
+  pulse?: boolean;     // the animated ".s-dot.live" pulsing indicator
+  dot?: boolean;       // show the leading dot at all (some badges are text-only, e.g. correlation labels)
+}
+
+const { tone = 'neutral', pulse = false, dot = true } = Astro.props as Props;
+
+const toneColor: Record<string, string> = {
+  success: '#4caf50',
+  warning: 'var(--amber)',
+  danger:  '#d15b5b',
+  info:    'var(--vessel)',
+  neutral: 'var(--text-3)',
+};
+const color = toneColor[tone] ?? toneColor.neutral;
+---
+<style define:vars={{ badgeColor: color }}>
+  .badge {
+    font-family: var(--mono); font-size: .6rem; letter-spacing: .09em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 7px;
+    color: var(--badgeColor);
+  }
+  .badge-pill {
+    /* alt presentation used by correlation-group labels — filled pill instead of dot+text */
+    padding: 3px 9px; border-radius: 3px; background: rgba(255,255,255,0.05);
+  }
+  .b-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--badgeColor); flex-shrink: 0; }
+  .b-dot.pulse { animation: b-pulse 2s infinite; }
+  @keyframes b-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+</style>
+
+<span class="badge">
+  {dot && <span class={`b-dot ${pulse ? 'pulse' : ''}`}></span>}
+  <slot />
+</span>

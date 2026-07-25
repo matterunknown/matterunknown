@@ -1,0 +1,97 @@
+---
+// Button.astro
+// Polymorphic (renders <a> or <button>), with real disabled/loading semantics —
+// no page currently has a shared button component; every CTA is hand-styled inline.
+
+export interface Props {
+  variant?: 'primary' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  loading?: boolean;
+  as?: 'button' | 'a';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  loading = false,
+  as = 'button',
+  href,
+  type = 'button',
+  ariaLabel,
+  class: className = '',
+} = Astro.props as Props;
+
+if (as === 'a' && !href) {
+  throw new Error('Button: `href` is required when as="a"');
+}
+
+const isDisabled = disabled || loading;
+const Tag = as;
+---
+<style>
+  .btn {
+    font-family: var(--mono); font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    border: none; border-radius: 6px; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: opacity .2s, border-color .2s, background .2s, color .2s;
+    text-decoration: none;
+    /* Reserve space for the spinner so loading state never causes layout shift */
+    position: relative;
+  }
+  .btn:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+  .btn[aria-disabled="true"] {
+    opacity: .4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn-sm { font-size: .64rem; padding: 8px 16px; }
+  .btn-md { font-size: .72rem; padding: 12px 24px; }
+  .btn-lg { font-size: .8rem; padding: 15px 32px; }
+
+  .btn-primary { background: var(--amber); color: var(--bg); }
+  .btn-primary:hover:not([aria-disabled="true"]) { opacity: .85; }
+
+  .btn-ghost {
+    background: var(--bg-2); color: var(--text-2);
+    border: 1px solid var(--amber-border);
+  }
+  .btn-ghost:hover:not([aria-disabled="true"]) { border-color: var(--amber); color: var(--amber); }
+
+  .btn-danger { background: transparent; color: #d15b5b; border: 1px solid rgba(209,91,91,.3); }
+  .btn-danger:hover:not([aria-disabled="true"]) { border-color: #d15b5b; background: rgba(209,91,91,.08); }
+
+  .btn-spinner {
+    width: 13px; height: 13px; border-radius: 50%;
+    border: 2px solid currentColor; border-top-color: transparent;
+    animation: btn-spin .7s linear infinite;
+  }
+  @keyframes btn-spin { to { transform: rotate(360deg); } }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .btn-spinner { animation-duration: 1.4s; }
+  }
+</style>
+
+<Tag
+  class={`btn btn-${variant} btn-${size} ${className}`}
+  href={as === 'a' ? href : undefined}
+  type={as === 'button' ? type : undefined}
+  aria-disabled={isDisabled ? 'true' : 'false'}
+  aria-busy={loading ? 'true' : 'false'}
+  aria-label={ariaLabel}
+  tabindex={isDisabled ? -1 : undefined}
+>
+  {loading && <span class="btn-spinner" aria-hidden="true"></span>}
+  <slot />
+</Tag>

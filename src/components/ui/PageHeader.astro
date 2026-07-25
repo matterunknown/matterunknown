@@ -1,0 +1,40 @@
+---
+// PageHeader.astro
+// The "Lab — Experiment No. X / Category" label + <h1> (with optional <em> highlight) + subtitle
+// pattern, repeated verbatim across every project/experiment page (identity-map, osint-dashboard,
+// pokemon-model, onepiece-model, etc.) with only the text changing.
+
+export interface Props {
+  eyebrow: string;        // e.g. "Lab — Experiment No. 4 / Reference Tool"
+  title: string;           // plain text; use titleEm for the amber-italic portion
+  titleEm?: string;        // rendered as <em> in amber, appended after `title`
+  sub?: string;
+}
+
+const { eyebrow, title, titleEm = '', sub = '' } = Astro.props as Props;
+---
+<style>
+  .page-label {
+    font-family: var(--mono); font-size: .64rem; color: var(--amber);
+    letter-spacing: .16em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+  }
+  .page-label::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
+  .page-label::after { content: ''; flex: 1; height: 1px; background: var(--amber-border); }
+
+  h1.ph-title {
+    font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 400; line-height: 1.08; letter-spacing: -.02em;
+    margin-bottom: 14px;
+  }
+  h1.ph-title em { font-style: italic; color: var(--amber); }
+
+  .ph-sub {
+    color: var(--text-2); font-size: 1rem; max-width: 640px;
+    margin-bottom: 20px; line-height: 1.7;
+  }
+</style>
+
+<div class="page-label">{eyebrow}</div>
+<h1 class="ph-title">{title} {titleEm && <em>{titleEm}</em>}</h1>
+{sub && <p class="ph-sub">{sub}</p>}

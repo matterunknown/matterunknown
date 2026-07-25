@@ -1,0 +1,32 @@
+---
+// Footer.astro
+// Copy text varies per page today (e.g. "© 2026" vs "A personal think tank. Built in public.")
+// — exposed as a prop with a sensible default rather than hardcoded, so pages keep their voice.
+
+export interface Props {
+  copy?: string;
+}
+
+const { copy = '© 2026' } = Astro.props as Props;
+---
+<style>
+  .site-footer {
+    border-top: 1px solid var(--amber-border);
+    padding: 44px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: calc(var(--max) + var(--gutter) * 2);
+    margin: 0 auto;
+  }
+  .footer-logo { font-family: var(--serif); font-size: .95rem; color: var(--text-3); }
+  .footer-logo span { color: var(--amber); }
+  .footer-copy { font-family: var(--mono); font-size: .58rem; color: var(--text-3); letter-spacing: .07em; }
+
+  @media(max-width: 768px) {
+    .site-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+  }
+</style>
+
+<div class="site-footer">
+  <div class="footer-logo">matter<span>unknown</span></div>
+  <div class="footer-copy"><slot>{copy}</slot></div>
+</div>

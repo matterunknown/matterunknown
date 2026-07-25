@@ -1,0 +1,80 @@
+---
+// AsyncState.astro
+// Consolidates the loading / empty / error pattern that was hand-rolled with manual
+// .show/.hidden class toggling in the OSINT Investigate tool's runInvestigation().
+// One component, one set of ARIA live-region semantics, reusable anywhere a page
+// fires an async request and needs to show its status (search, forms, data fetches).
+//
+// Usage: render all three states in markup; toggle visibility via data-state on
+// the wrapper (see script below). Content projected via named slots.
+
+export interface Props {
+  loadingMessage?: string;
+  id?: string; // unique id if multiple AsyncState blocks exist on one page
+}
+
+const { loadingMessage = 'Loading…', id = 'async' } = Astro.props as Props;
+---
+<style>
+  .async-wrap[data-state] > * { display: none; }
+  .async-wrap[data-state="loading"] .async-loading,
+  .async-wrap[data-state="error"] .async-error,
+  .async-wrap[data-state="empty"] .async-empty,
+  .async-wrap[data-state="success"] .async-success {
+    display: block;
+  }
+
+  .async-loading {
+    font-family: var(--mono); font-size: .72rem; color: var(--amber);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .async-spinner {
+    width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid var(--amber); border-top-color: transparent;
+    animation: async-spin .7s linear infinite;
+  }
+  @keyframes async-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .async-spinner { animation-duration: 1.6s; }
+  }
+
+  .async-error {
+    font-family: var(--mono); font-size: .72rem; color: #d15b5b;
+    border-left: 2px solid #d15b5b; padding-left: 12px;
+  }
+
+  .async-empty {
+    font-family: var(--mono); font-size: .8rem; color: var(--text-3);
+    padding: 24px 0;
+  }
+</style>
+
+<div class="async-wrap" id={id} data-state="idle" role="status" aria-live="polite">
+  <div class="async-loading">
+    <span class="async-spinner" aria-hidden="true"></span>
+    <span>{loadingMessage}</span>
+  </div>
+  <div class="async-error"><slot name="error">Something went wrong.</slot></div>
+  <div class="async-empty"><slot name="empty">Nothing found.</slot></div>
+  <div class="async-success"><slot name="success" /></div>
+</div>
+
+<script is:inline>
+// Tiny helper attached to window so page-level scripts can drive state without
+// reimplementing the show/hide logic each time:
+//   AsyncState.set('async-id', 'loading' | 'error' | 'empty' | 'success' | 'idle')
+//   AsyncState.setError('async-id', 'Custom error message')
+window.AsyncState = {
+  set(id, state) {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('data-state', state);
+  },
+  setError(id, message) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const errEl = el.querySelector('.async-error');
+    if (errEl) errEl.textContent = message;
+    el.setAttribute('data-state', 'error');
+  },
+};
+</script>

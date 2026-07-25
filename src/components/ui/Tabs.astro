@@ -1,0 +1,92 @@
+---
+// Tabs.astro
+// Replaces the hand-rolled tab-switching JS in the OSINT dashboard (plain click handlers,
+// no keyboard support, no ARIA roles). This version implements the full WAI-ARIA tabs
+// pattern: role="tablist"/"tab"/"tabpanel", aria-selected, and Left/Right/Home/End
+// arrow-key navigation between tabs.
+
+export interface Tab {
+  id: string;
+  label: string;
+}
+
+export interface Props {
+  tabs: Tab[];
+  defaultTab?: string; // id of the tab active on load; defaults to tabs[0].id
+}
+
+const { tabs, defaultTab } = Astro.props as Props;
+const activeId = defaultTab ?? tabs[0]?.id;
+---
+<style>
+  .tab-row {
+    display: flex; gap: 4px; margin-bottom: 40px;
+    border-bottom: 1px solid var(--amber-border);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-3); background: none; border: none; padding: 12px 18px; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: color .2s, border-color .2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text-2); }
+  .tab-btn[aria-selected="true"] { color: var(--amber); border-bottom-color: var(--amber); }
+  .tab-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .tab-panel { display: none; }
+  .tab-panel[data-active="true"] { display: block; }
+</style>
+
+<div class="tab-row" role="tablist" aria-label="Sections">
+  {tabs.map(tab => (
+    <button
+      class="tab-btn"
+      role="tab"
+      id={`tab-btn-${tab.id}`}
+      aria-selected={tab.id === activeId ? 'true' : 'false'}
+      aria-controls={`tab-panel-${tab.id}`}
+      tabindex={tab.id === activeId ? '0' : '-1'}
+      data-tab-id={tab.id}
+    >
+      {tab.label}
+    </button>
+  ))}
+</div>
+
+<!--
+  Consumers render their panel markup themselves with matching ids:
+  <div class="tab-panel" id="tab-panel-{id}" role="tabpanel" aria-labelledby="tab-btn-{id}" data-active="true|false">
+  This component only owns the tab-list header + the interaction logic below.
+-->
+
+<script is:inline>
+(function () {
+  const tablist = document.querySelector('[role="tablist"]');
+  if (!tablist) return;
+  const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+  function activate(tab, { focus = true } = {}) {
+    tabs.forEach(t => {
+      const selected = t === tab;
+      t.setAttribute('aria-selected', String(selected));
+      t.tabIndex = selected ? 0 : -1;
+      const panel = document.getElementById(`tab-panel-${t.dataset.tabId}`);
+      if (panel) panel.dataset.active = String(selected);
+    });
+    if (focus) tab.focus();
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => activate(tab, { focus: false }));
+    tab.addEventListener('keydown', (e) => {
+      let next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); activate(next); }
+    });
+  });
+})();
+</script>
