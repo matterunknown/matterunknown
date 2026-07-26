@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Nav from '../../components/layout/Nav.astro';
 ---
 <Base title="Pokémon Card Model — matterunknown" description="Top 25 Pokémon acquisition targets. Live scores across 17,425 cards — updated daily.">
 <style>
@@ -110,14 +109,17 @@ nav.scrolled{border-color:var(--amber-border);background:rgba(9,9,8,.95);backdro
 }
 </style>
 
-<Nav variant="sub" backLabel="← Projects" />
+<nav id="nav">
+  <a class="nav-logo" href="/">matter<span>unknown</span></a>
+  <a class="nav-back" href="/projects">← Projects</a>
+</nav>
 
 <div class="page">
 
   <div class="hdr">
     <div class="hdr-top">
       <h1>17,425 cards. <em>25 targets.</em></h1>
-      <div class="hdr-meta">Updated 2026-07-25</div>
+      <div class="hdr-meta">Updated 2026-07-26</div>
     </div>
     <div class="hdr-stats">
       <div class="hdr-stat"><strong>10</strong> buy</div>
