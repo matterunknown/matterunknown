@@ -69,6 +69,44 @@ import Base from '../../layouts/Base.astro';
   .empty-msg { color: #666; font-size: .85rem; padding: 2rem 1rem; text-align: center; }
   .trend-note { color: #666; font-size: .75rem; padding: .6rem .8rem; background: #141410;
                   border: 1px solid #2a2a1e; border-radius: 6px; margin-bottom: 1rem; }
+
+  /* Search */
+  .search-bar { display: flex; gap: 0; margin-bottom: 10px; }
+  .search-input { flex: 1; background: #161616; border: 1px solid rgba(107,155,58,.2);
+                    border-right: none; padding: 11px 16px; font-family: monospace;
+                    font-size: .72rem; color: #ddd; outline: none; }
+  .search-input::placeholder { color: #666; }
+  .search-input:focus { border-color: rgba(107,155,58,.5); }
+  .search-btn { background: rgba(107,155,58,.08); border: 1px solid rgba(107,155,58,.2);
+                  padding: 11px 18px; font-family: monospace; font-size: .6rem; color: var(--gpk-green);
+                  letter-spacing: .1em; cursor: pointer; white-space: nowrap; }
+  .search-btn:hover { background: rgba(107,155,58,.15); }
+  .search-filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+  .filter-chip { background: transparent; border: 1px solid rgba(255,255,255,.07); padding: 4px 11px;
+                   font-family: monospace; font-size: .55rem; color: #888; letter-spacing: .06em;
+                   cursor: pointer; transition: all .15s; white-space: nowrap; }
+  .filter-chip:hover { border-color: rgba(107,155,58,.3); color: #ccc; }
+  .filter-chip.on { border-color: rgba(107,155,58,.5); color: var(--gpk-green); background: rgba(107,155,58,.07); }
+  #gpk-results .search-status { font-family: monospace; font-size: .6rem; color: #666;
+                                   padding: 20px 0; text-align: center; }
+
+  .sr-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #111;
+              border: 1px solid rgba(255,255,255,.04); border-left: 2px solid transparent; margin-bottom: 2px; }
+  .sr-row.sig-BUY { border-left-color: var(--gpk-green); }
+  .sr-row.sig-WATCH { border-left-color: var(--gold); }
+  .sr-row.sig-HOLD { border-left-color: #444; }
+  .sr-row.sig-SELL { border-left-color: #c43a3a; }
+  .sr-row.sig-SURGE { border-left-color: #3ac4b8; }
+  .sr-row.sig-HYPE { border-left-color: #9b3ac4; }
+  .sr-img { width: 40px; height: auto; object-fit: contain; flex-shrink: 0; opacity: .9; border-radius: 3px; }
+  .sr-body { flex: 1; min-width: 0; }
+  .sr-name { font-size: .85rem; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sr-meta { font-family: monospace; font-size: .68rem; color: #666; margin-top: 2px; }
+  .sr-right { text-align: right; flex-shrink: 0; }
+  .sr-sig { font-family: monospace; font-size: .6rem; letter-spacing: .1em; border: 1px solid;
+              padding: 2px 7px; display: inline-block; margin-bottom: 2px; }
+  .sr-score { font-family: monospace; font-size: .82rem; display: block; }
+  .sr-price { font-family: monospace; font-size: .65rem; color: #888; }
 </style>
 
 <div class="page-wrap">
@@ -89,6 +127,7 @@ import Base from '../../layouts/Base.astro';
     <button class="tab-btn active" data-tab="top25">Top 25</button>
     <button class="tab-btn" data-tab="sell">Exit Alerts</button>
     <button class="tab-btn" data-tab="surge">Market Movers</button>
+    <button class="tab-btn" data-tab="search">Search</button>
   </div>
 
   <div class="tab-pane" id="tab-top25">
@@ -424,6 +463,34 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-HYPE">HYPE · 0.08</div>
     </div></div>
   </div>
+  <div class="tab-pane" id="tab-search">
+    
+<!-- Search Section -->
+<div class="search-section content" style="padding-top:0;padding-bottom:0;margin-top:40px">
+  <div style="font-family:var(--mono);font-size:.62rem;color:var(--gpk-green);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <span style="width:20px;height:1px;background:var(--gpk-green);display:inline-block"></span>Card Search
+    <span style="flex:1;height:1px;background:rgba(107,155,58,.2);display:inline-block"></span>
+  </div>
+  <div class="search-bar">
+    <input id="gpk-search" class="search-input" type="text" placeholder="Search by card name or set (e.g. Adam Bomb, 1985)..." autocomplete="off">
+    <button class="search-btn" onclick="gpkSearch()">SEARCH</button>
+  </div>
+  <div class="search-filters">
+    <span style="font-family:var(--mono);font-size:.55rem;color:#5a5752;align-self:center;letter-spacing:.06em">ERA:</span>
+    <div class="filter-chip" data-filter="era" data-val="os_vintage" onclick="gpkToggleFilter(this)">OS Vintage</div>
+    <div class="filter-chip" data-filter="era" data-val="2000s_revival" onclick="gpkToggleFilter(this)">2000s Revival</div>
+    <div class="filter-chip" data-filter="era" data-val="2010s_modern" onclick="gpkToggleFilter(this)">2010s Modern</div>
+    <div class="filter-chip" data-filter="era" data-val="chrome" onclick="gpkToggleFilter(this)">Chrome</div>
+    <div class="filter-chip" data-filter="era" data-val="anniversary" onclick="gpkToggleFilter(this)">40th Anniversary</div>
+    <span style="font-family:var(--mono);font-size:.55rem;color:#5a5752;align-self:center;letter-spacing:.06em;margin-left:8px">SIGNAL:</span>
+    <div class="filter-chip sig-buy" data-filter="signal" data-val="BUY" onclick="gpkToggleFilter(this)">BUY</div>
+    <div class="filter-chip sig-watch" data-filter="signal" data-val="WATCH" onclick="gpkToggleFilter(this)">WATCH</div>
+    <div class="filter-chip sig-hold" data-filter="signal" data-val="HOLD" onclick="gpkToggleFilter(this)">HOLD</div>
+  </div>
+  <div id="gpk-results"></div>
+</div>
+
+  </div>
 </div>
 
 <script is:inline>
@@ -441,6 +508,62 @@ import Base from '../../layouts/Base.astro';
   });
   const first = document.getElementById('tab-top25');
   if (first) first.classList.add('active');
+})();
+</script>
+<script is:inline>
+(function(){
+  var _era=null,_sig=null,_timer=null;
+  var API="https://automation.houseofidentity.io/api/gpk/search";
+  var SC={BUY:"#6b9b3a",WATCH:"#c4972a",HOLD:"#5a5752",SELL:"#c43a3a",SURGE:"#3ac4b8",HYPE:"#9b3ac4"};
+  function fmt(p){if(!p||p==0)return"—";return p>=1000?"$"+Math.round(p).toLocaleString():"$"+p.toFixed(2);}
+  function render(results,q){
+    var el=document.getElementById("gpk-results");
+    if(!results||!results.length){el.innerHTML='<div class="search-status">No results for "'+q+'"</div>';return;}
+    var h='<div style="margin-top:12px">';
+    results.forEach(function(r){
+      var sc=SC[r.signal]||"#5a5752";
+      var img=r.image_url?'<img class="sr-img" src="'+r.image_url+'" alt="" onerror="this.style.display=\'none\'">':'<div style="width:40px;flex-shrink:0"></div>';
+      var setLabel=(r.set_slug||"").replace(/-/g," ").replace(/\b\w/g,function(c){return c.toUpperCase();});
+      var scoreLabel=(r.score!=null)?r.score.toFixed(3):"—";
+      h+='<div class="sr-row sig-'+r.signal+'">'+img+
+        '<div class="sr-body">'+
+        '<div class="sr-name">'+r.raw_title+'</div>'+
+        '<div class="sr-meta">'+setLabel+' &middot; '+(r.era||"").replace(/_/g," ")+'</div>'+
+        '</div>'+
+        '<div class="sr-right">'+
+        '<span class="sr-sig" style="color:'+sc+';border-color:'+sc+'44">'+r.signal+'</span>'+
+        '<span class="sr-score" style="color:'+sc+'">'+scoreLabel+'</span>'+
+        '<div class="sr-price">'+fmt(r.used_price)+'</div>'+
+        '</div></div>';
+    });
+    h+='</div>';
+    el.innerHTML=h;
+  }
+  window.gpkSearch=function(){
+    var q=document.getElementById("gpk-search").value.trim();
+    if(!q&&!_era&&!_sig){document.getElementById("gpk-results").innerHTML="";return;}
+    document.getElementById("gpk-results").innerHTML='<div class="search-status">Searching...</div>';
+    var url=API+"?limit=40";
+    if(q)url+="&q="+encodeURIComponent(q);
+    if(_era)url+="&era="+_era;
+    if(_sig)url+="&signal="+_sig;
+    fetch(url).then(function(r){return r.json();}).then(function(d){
+      render(d.results,q||(_era||"")+(_sig?" "+_sig:""));
+    }).catch(function(){
+      document.getElementById("gpk-results").innerHTML='<div class="search-status">Search unavailable</div>';
+    });
+  };
+  window.gpkToggleFilter=function(chip){
+    var f=chip.dataset.filter,v=chip.dataset.val,was=chip.classList.contains("on");
+    document.querySelectorAll('.filter-chip[data-filter="'+f+'"]').forEach(function(c){c.classList.remove("on");});
+    if(!was){chip.classList.add("on");if(f==="era")_era=v;else _sig=v;}
+    else{if(f==="era")_era=null;else _sig=null;}
+    gpkSearch();
+  };
+  document.getElementById("gpk-search").addEventListener("keydown",function(e){
+    if(e.key==="Enter"){gpkSearch();return;}
+    clearTimeout(_timer);_timer=setTimeout(gpkSearch,350);
+  });
 })();
 </script>
 
