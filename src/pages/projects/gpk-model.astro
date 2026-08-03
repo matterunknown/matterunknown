@@ -116,6 +116,35 @@ import Base from '../../layouts/Base.astro';
                  border-radius: 4px; transition: background .15s; }
   .photo-btn:hover { background: rgba(107,155,58,.18); }
   .photo-hint { color: #666; font-size: .68rem; margin-top: 8px; font-family: monospace; }
+
+  /* Card detail modal */
+  .gpk-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75);
+                          z-index: 1000; padding: 20px; overflow-y: auto; }
+  .gpk-modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+  .gpk-modal { background: #141412; border: 1px solid #2a2a1e; border-radius: 8px;
+                 max-width: 640px; width: 100%; margin-top: 40px; padding: 28px; position: relative; }
+  .gpk-modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none;
+                        color: #888; font-size: 1.6rem; cursor: pointer; line-height: 1; padding: 4px 8px; }
+  .gpk-modal-close:hover { color: #ddd; }
+  .gpk-detail-head { display: flex; gap: 20px; margin-bottom: 20px; }
+  .gpk-detail-img { width: 120px; flex-shrink: 0; border-radius: 6px; }
+  .gpk-detail-title { font-size: 1.3rem; color: #f0e8d8; margin-bottom: 6px; }
+  .gpk-detail-meta { font-family: monospace; font-size: .72rem; color: #888; margin-bottom: 10px; }
+  .gpk-detail-signal { display: inline-block; font-family: monospace; font-size: .68rem;
+                          border: 1px solid; border-radius: 4px; padding: 3px 10px; letter-spacing: .05em; }
+  .gpk-price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0; }
+  .gpk-price-cell { background: #0d0d0b; border: 1px solid #232320; border-radius: 6px; padding: 12px; text-align: center; }
+  .gpk-price-label { font-family: monospace; font-size: .58rem; color: #666; text-transform: uppercase; letter-spacing: .08em; }
+  .gpk-price-val { font-family: monospace; font-size: 1rem; color: #ddd; margin-top: 4px; }
+  .gpk-section-label { font-family: monospace; font-size: .6rem; color: #666; text-transform: uppercase;
+                          letter-spacing: .1em; margin: 20px 0 10px; border-top: 1px solid #232320; padding-top: 16px; }
+  .gpk-related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .gpk-related-item { background: #0d0d0b; border: 1px solid #232320; border-radius: 6px; padding: 8px;
+                         cursor: pointer; text-align: center; }
+  .gpk-related-item:hover { border-color: #444; }
+  .gpk-related-item img { width: 100%; border-radius: 4px; margin-bottom: 6px; }
+  .gpk-related-item .rv-title { font-size: .65rem; color: #aaa; line-height: 1.3; }
+  .gpk-related-item .rv-price { font-family: monospace; font-size: .62rem; color: #888; margin-top: 3px; }
 </style>
 
 <div class="page-wrap">
@@ -140,7 +169,7 @@ import Base from '../../layouts/Base.astro';
   </div>
 
   <div class="tab-pane" id="tab-top25">
-    <div class="card-row sig-BUY">
+    <div class="card-row sig-BUY" onclick="gpkOpenCard('garbage-pail-kids-2020-sapphire/adam-bomb-padparadscha-8a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/3c4026e3c1258fb939c4c3f8b5a61f5d43fa6a589a769f0da89387953e5169a4/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#1</div>
       <div class="cr-body">
@@ -151,7 +180,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-BUY">BUY · 1.07</div>
     </div>
 
-    <div class="card-row sig-BUY">
+    <div class="card-row sig-BUY" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome-remember-the-name/new-wave-dave-superfractor-a-nwd')" style="cursor:pointer">
       <div class="cr-img"><img src="/images/no-image-available.png" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#2</div>
       <div class="cr-body">
@@ -162,7 +191,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-BUY">BUY · 0.87</div>
     </div>
 
-    <div class="card-row sig-BUY">
+    <div class="card-row sig-BUY" onclick="gpkOpenCard('2021-garbage-pail-kids-chrome/jack-o-lantern-superfractor-153a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/eaf81761219e2384892ccf7588cf1310db7084b545f9e1e199f15fd5eb1a7355/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#3</div>
       <div class="cr-body">
@@ -173,7 +202,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-BUY">BUY · 0.86</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2022-garbage-pail-kids-chrome/nat-nerd-superfractor-172a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/ref8941d141d4287d2421e3ad45a9597e138958738b6438b202c4fe80b02cd45134/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#4</div>
       <div class="cr-body">
@@ -184,7 +213,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.82</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2021-garbage-pail-kids-chrome/woody-alan-superfractor-125b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/ref95b210ee39f5fe571e29bf1e3de79603d84415036a189a00736ccc902c261ae2/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#5</div>
       <div class="cr-body">
@@ -195,7 +224,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.80</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2022-garbage-pail-kids-chrome/pinned-penny-superfractor-183b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/refe9c54ed331c07f2f603054a0b143ba3891ceb393a7ed2d1962a7aaaad89cbf44/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#6</div>
       <div class="cr-body">
@@ -206,7 +235,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.80</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2022-garbage-pail-kids-chrome/hardened-hollis-superfractor-213a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrvoisrmmorxuvuhgq/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#7</div>
       <div class="cr-body">
@@ -217,7 +246,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.80</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/vincent-van-gone-superfractor-an-4a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrybhhcxvqfoots5hr/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#8</div>
       <div class="cr-body">
@@ -228,7 +257,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.79</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2022-garbage-pail-kids-chrome/clark-can%27t-superfractor-172b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/ref4269ae04d422b14456d4617c4dd49385af6bdb968bb3fc46f5dd13f4b2dfbd4c/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#9</div>
       <div class="cr-body">
@@ -239,7 +268,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.79</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/homer-runt-superfractor-291a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrgq6333gqakur6y6e/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#10</div>
       <div class="cr-body">
@@ -250,7 +279,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.79</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2023-garbage-pail-kids-chrome/small-saul-superfractor-216b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrafikdnkintxyqvrf/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#11</div>
       <div class="cr-body">
@@ -261,7 +290,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.79</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/bull%27s-ira-superfractor-255b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrslinbq26zir76nls/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#12</div>
       <div class="cr-body">
@@ -272,7 +301,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.79</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2022-garbage-pail-kids-chrome/diaper-dan-superfractor-183a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/ref42fe17fa4be6d8078e2d56a3aa943f283009e0092909aeba7f1911e955acd999/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#13</div>
       <div class="cr-body">
@@ -283,7 +312,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.78</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2022-garbage-pail-kids-chrome/earl-painting-superfractor-178a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/ref8ff3f0f1d2f7587fb3d028cb744cda9cf8f795efeaf043cb025bbf2f9138a43f/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#14</div>
       <div class="cr-body">
@@ -294,7 +323,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.78</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2021-garbage-pail-kids-chrome/decapitated-hedy-superfractor-160a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/ref0ffb3a557776f6313ed43d1c5db03aa7e35ac35c78e0523b3d636382769d518a/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#15</div>
       <div class="cr-body">
@@ -305,7 +334,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.78</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/paula-plantain-superfractor-276c')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrpwuehghjamyikcja/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#16</div>
       <div class="cr-body">
@@ -316,7 +345,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.78</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('garbage-pail-kids-2022-sapphire/repaired-rex-padparadscha-174b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/refc417ce1ef55bc87ecdb17e2a69ef071fecd277a201f4a313a348232f7c398275/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#17</div>
       <div class="cr-body">
@@ -327,7 +356,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.78</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2023-garbage-pail-kids-chrome/flushing-floyd-superfractor-246b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/refc8576bc0c720d4c3333de8f3b68d8f212695cd51e32d9408cb529b27eccb303b/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#18</div>
       <div class="cr-body">
@@ -338,7 +367,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.78</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2025-topps-worst-of-garbage-pail-kids-40th-anniversary/adam-bomb-black-1a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrjjf2mxbcv5npwi4v/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#19</div>
       <div class="cr-body">
@@ -349,7 +378,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.77</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('garbage-pail-kids-2020-sapphire/adam-bomb-orange-8a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/23aafe8c5c47d40b753dd7f1bb77e10642ca58d00e139e11942690b57a937194/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#20</div>
       <div class="cr-body">
@@ -360,7 +389,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.76</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/jack-pot-superfractor-256a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corr7upjvmjrxixfaa3n/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#21</div>
       <div class="cr-body">
@@ -371,7 +400,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.76</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/barfin%27-barbara-superfractor-251a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrzf4a5qo6yzkcwqbo/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#22</div>
       <div class="cr-body">
@@ -382,7 +411,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.76</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/russ-pus-superfractor-253a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrnuc343rynnflmdiz/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#23</div>
       <div class="cr-body">
@@ -393,7 +422,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.76</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome/pamela-puke-superfractor-251c')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrsi6ff4zn434u5ltf/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#24</div>
       <div class="cr-body">
@@ -404,7 +433,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.76</div>
     </div>
 
-    <div class="card-row sig-WATCH">
+    <div class="card-row sig-WATCH" onclick="gpkOpenCard('2024-garbage-pail-kids-chrome-music-awards/acrobatic-alecia-superfractor-25b')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corrmq45bzes63k3xock/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#25</div>
       <div class="cr-body">
@@ -415,7 +444,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-WATCH">WATCH · 0.76</div>
     </div></div>
   <div class="tab-pane" id="tab-sell">
-    <div class="card-row sig-SELL">
+    <div class="card-row sig-SELL" onclick="gpkOpenCard('1985-garbage-pail-kids/adam-bomb-8a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/4ba4611c14159178d344bcd84bbd8fc1a7dc86b131e3397d980a299a8c86b111/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#1</div>
       <div class="cr-body">
@@ -426,7 +455,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-SELL">SELL · 0.55</div>
     </div>
 
-    <div class="card-row sig-SELL">
+    <div class="card-row sig-SELL" onclick="gpkOpenCard('garbage-pail-kids-2024-game-over/wrapper-gold-29')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/corr7dzfvnzoavfxos7s/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#2</div>
       <div class="cr-body">
@@ -439,7 +468,7 @@ import Base from '../../layouts/Base.astro';
   <div class="tab-pane" id="tab-surge-wrap">
     <div class="tab-pane" id="tab-surge"><p class="empty-msg">No price spikes detected yet — needs price history to build up.</p></div>
     <div class="tab-pane" id="tab-hype">
-    <div class="card-row sig-HYPE">
+    <div class="card-row sig-HYPE" onclick="gpkOpenCard('2006-garbage-pail-kids/meteor-mark-1a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/33c91447315f60af3cbbcd19685b19d5d76e8a8ec5b010592ee8b1d0717776dc/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#1</div>
       <div class="cr-body">
@@ -450,7 +479,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-HYPE">HYPE · 0.08</div>
     </div>
 
-    <div class="card-row sig-HYPE">
+    <div class="card-row sig-HYPE" onclick="gpkOpenCard('2022-garbage-pail-kids-chrome/dee-faced-xfractor-169a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/ref49b55a6dad184c7b050964c0ce24e0f6ce99bce40d9a7600e8abba99a1014f49/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#2</div>
       <div class="cr-body">
@@ -461,7 +490,7 @@ import Base from '../../layouts/Base.astro';
       <div class="cr-signal sig-HYPE">HYPE · 0.22</div>
     </div>
 
-    <div class="card-row sig-HYPE">
+    <div class="card-row sig-HYPE" onclick="gpkOpenCard('garbage-pail-kids-at-play-ill-influencers/roasted-rhett-1a')" style="cursor:pointer">
       <div class="cr-img"><img src="https://storage.googleapis.com/images.pricecharting.com/jyyqvs3nogquw7vn/60.jpg" loading="lazy" onerror="this.style.display='none'" /></div>
       <div class="cr-rank">#3</div>
       <div class="cr-body">
@@ -513,6 +542,14 @@ import Base from '../../layouts/Base.astro';
   </div>
 </div>
 
+<!-- Card detail modal -->
+<div id="gpk-modal-overlay" class="gpk-modal-overlay" onclick="if(event.target===this)gpkCloseCard()">
+  <div class="gpk-modal">
+    <button class="gpk-modal-close" onclick="gpkCloseCard()">&times;</button>
+    <div id="gpk-modal-body"><div class="search-status">Loading...</div></div>
+  </div>
+</div>
+
 <script is:inline>
 (function() {
   const btns = document.querySelectorAll('.tab-btn');
@@ -545,7 +582,7 @@ import Base from '../../layouts/Base.astro';
       var img=r.image_url?'<img class="sr-img" src="'+r.image_url+'" alt="" onerror="this.style.display=\'none\'">':'<div style="width:40px;flex-shrink:0"></div>';
       var setLabel=(r.set_slug||"").replace(/-/g," ").replace(/\b\w/g,function(c){return c.toUpperCase();});
       var scoreLabel=(r.score!=null)?r.score.toFixed(3):"—";
-      h+='<div class="sr-row sig-'+r.signal+'">'+img+
+      h+='<div class="sr-row sig-'+r.signal+'" onclick="gpkOpenCard(\''+r.id+'\')" style="cursor:pointer">'+img+
         '<div class="sr-body">'+
         '<div class="sr-name">'+r.raw_title+'</div>'+
         '<div class="sr-meta">'+setLabel+' &middot; '+(r.era||"").replace(/_/g," ")+'</div>'+
@@ -616,6 +653,73 @@ import Base from '../../layouts/Base.astro';
       el.innerHTML='<div class="search-status">Lookup unavailable — try Search instead.</div>';
     });
   };
+
+  var CARD_API="https://automation.houseofidentity.io/api/gpk/card";
+  function fmtDetail(p){if(p==null)return"—";return p>=1000?"$"+Math.round(p).toLocaleString():"$"+p.toFixed(2);}
+  function renderCardDetail(c){
+    var sc=SC[c.signal]||"#5a5752";
+    var setLabel=(c.set_slug||"").replace(/-/g," ").replace(/\b\w/g,function(ch){return ch.toUpperCase();});
+    var eraLabel=(c.era||"").replace(/_/g," ");
+    var scoreLabel=(c.score!=null)?c.score.toFixed(3):"—";
+    var img=c.image_url?'<img class="gpk-detail-img" src="'+c.image_url+'" alt="" onerror="this.style.display=\'none\'">':"";
+
+    var h='<div class="gpk-detail-head">'+img+
+      '<div><div class="gpk-detail-title">'+c.raw_title+'</div>'+
+      '<div class="gpk-detail-meta">'+setLabel+' &middot; '+eraLabel+' &middot; '+(c.year||"—")+'</div>'+
+      '<div class="gpk-detail-signal" style="color:'+sc+';border-color:'+sc+'">'+c.signal+' &middot; '+scoreLabel+'</div>'+
+      '</div></div>';
+
+    h+='<div class="gpk-price-grid">'+
+      '<div class="gpk-price-cell"><div class="gpk-price-label">Used / Raw</div><div class="gpk-price-val">'+fmtDetail(c.used_price)+'</div></div>'+
+      '<div class="gpk-price-cell"><div class="gpk-price-label">CIB</div><div class="gpk-price-val">'+fmtDetail(c.cib_price)+'</div></div>'+
+      '<div class="gpk-price-cell"><div class="gpk-price-label">New / Sealed</div><div class="gpk-price-val">'+fmtDetail(c.new_price)+'</div></div>'+
+      '</div>';
+
+    if(c.price_history&&c.price_history.length>1){
+      var first=c.price_history[0],last=c.price_history[c.price_history.length-1];
+      var pct=first.used_price?((last.used_price-first.used_price)/first.used_price*100):0;
+      h+='<div class="gpk-section-label">Price History ('+c.price_history.length+' snapshots)</div>'+
+        '<div class="photo-hint">'+(pct>=0?"▲":"▼")+' '+Math.abs(pct).toFixed(1)+'% since first tracked ('+fmtDetail(first.used_price)+' → '+fmtDetail(last.used_price)+')</div>';
+    } else {
+      h+='<div class="gpk-section-label">Price History</div><div class="photo-hint">Not enough data yet — builds up over ~2 weeks of nightly tracking.</div>';
+    }
+
+    if(c.related_variants&&c.related_variants.length){
+      h+='<div class="gpk-section-label">Other Versions ('+c.related_variants.length+')</div><div class="gpk-related-grid">';
+      c.related_variants.forEach(function(v){
+        var vImg=v.image_url?'<img src="'+v.image_url+'" alt="" onerror="this.style.display=\'none\'">':"";
+        h+='<div class="gpk-related-item" onclick="gpkOpenCard(\''+v.id+'\')">'+vImg+
+          '<div class="rv-title">'+(v.variant_tag||"Base")+'</div>'+
+          '<div class="rv-price">'+fmtDetail(v.used_price)+'</div></div>';
+      });
+      h+='</div>';
+    }
+
+    document.getElementById("gpk-modal-body").innerHTML=h;
+  }
+  window.gpkOpenCard=function(cardId){
+    if(!cardId)return;
+    var overlay=document.getElementById("gpk-modal-overlay");
+    document.getElementById("gpk-modal-body").innerHTML='<div class="search-status">Loading...</div>';
+    overlay.classList.add("open");
+    document.body.style.overflow="hidden";
+    fetch(CARD_API+"?id="+encodeURIComponent(cardId)).then(function(r){return r.json();}).then(function(d){
+      if(d.error){
+        document.getElementById("gpk-modal-body").innerHTML='<div class="search-status">'+d.error+'</div>';
+        return;
+      }
+      renderCardDetail(d);
+    }).catch(function(){
+      document.getElementById("gpk-modal-body").innerHTML='<div class="search-status">Could not load card details.</div>';
+    });
+  };
+  window.gpkCloseCard=function(){
+    document.getElementById("gpk-modal-overlay").classList.remove("open");
+    document.body.style.overflow="";
+  };
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape")gpkCloseCard();
+  });
 })();
 </script>
 
