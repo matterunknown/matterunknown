@@ -107,6 +107,15 @@ import Base from '../../layouts/Base.astro';
               padding: 2px 7px; display: inline-block; margin-bottom: 2px; }
   .sr-score { font-family: monospace; font-size: .82rem; display: block; }
   .sr-price { font-family: monospace; font-size: .65rem; color: #888; }
+
+  /* Photo lookup */
+  .photo-lookup { margin-bottom: 1.5rem; }
+  .photo-btn { display: inline-flex; align-items: center; gap: 8px; background: rgba(107,155,58,.1);
+                 border: 1px solid rgba(107,155,58,.35); color: var(--gpk-green); padding: 12px 20px;
+                 font-family: monospace; font-size: .72rem; letter-spacing: .05em; cursor: pointer;
+                 border-radius: 4px; transition: background .15s; }
+  .photo-btn:hover { background: rgba(107,155,58,.18); }
+  .photo-hint { color: #666; font-size: .68rem; margin-top: 8px; font-family: monospace; }
 </style>
 
 <div class="page-wrap">
@@ -468,8 +477,19 @@ import Base from '../../layouts/Base.astro';
 <!-- Search Section -->
 <div class="search-section content" style="padding-top:0;padding-bottom:0;margin-top:40px">
   <div style="font-family:var(--mono);font-size:.62rem;color:var(--gpk-green);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px">
-    <span style="width:20px;height:1px;background:var(--gpk-green);display:inline-block"></span>Card Search
+    <span style="width:20px;height:1px;background:var(--gpk-green);display:inline-block"></span>Identify a Card
     <span style="flex:1;height:1px;background:rgba(107,155,58,.2);display:inline-block"></span>
+  </div>
+  <div class="photo-lookup">
+    <label for="gpk-photo-input" class="photo-btn">
+      📷 Take or Upload a Photo
+      <input id="gpk-photo-input" type="file" accept="image/*" capture="environment" style="display:none" onchange="gpkPhotoLookup(this)">
+    </label>
+    <p class="photo-hint">Best results on standard (non-foil) cards, well-lit, nameplate visible at the bottom of the card.</p>
+    <div id="gpk-photo-results"></div>
+  </div>
+
+  <div style="font-family:var(--mono);font-size:.62rem;color:var(--gpk-green);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin:32px 0 20px"><span style="width:20px;height:1px;background:var(--gpk-green);display:inline-block"></span>Or Search by Name<span style="flex:1;height:1px;background:rgba(107,155,58,.2);display:inline-block"></span>
   </div>
   <div class="search-bar">
     <input id="gpk-search" class="search-input" type="text" placeholder="Search by card name or set (e.g. Adam Bomb, 1985)..." autocomplete="off">
@@ -564,6 +584,38 @@ import Base from '../../layouts/Base.astro';
     if(e.key==="Enter"){gpkSearch();return;}
     clearTimeout(_timer);_timer=setTimeout(gpkSearch,350);
   });
+
+  var LOOKUP_API="https://automation.houseofidentity.io/api/gpk/lookup";
+  function renderPhotoResult(data){
+    var el=document.getElementById("gpk-photo-results");
+    if(data.message){
+      el.innerHTML='<div class="search-status">'+data.message+'</div>';
+      return;
+    }
+    if(!data.matches||!data.matches.length){
+      el.innerHTML='<div class="search-status">No matches found.</div>';
+      return;
+    }
+    var confNote = data.confidence==="high" ? "" :
+      '<div class="photo-hint" style="margin-top:8px">Confidence: '+data.confidence+' — read "'+data.ocr_text+'" from the photo. Verify against the images below.</div>';
+    render(data.matches, data.ocr_text||"photo");
+    var resultsEl=document.getElementById("gpk-results");
+    // Move rendered results into the photo section instead of leaving them
+    // duplicated in the name-search results area below.
+    el.innerHTML = '<div class="photo-hint">Read from photo: <strong style="color:var(--gpk-green)">'+(data.ocr_text||"—")+'</strong></div>' + confNote + resultsEl.innerHTML;
+    resultsEl.innerHTML = "";
+  }
+  window.gpkPhotoLookup=function(input){
+    var file=input.files&&input.files[0];
+    if(!file)return;
+    var el=document.getElementById("gpk-photo-results");
+    el.innerHTML='<div class="search-status">Reading card...</div>';
+    fetch(LOOKUP_API,{method:"POST",body:file}).then(function(r){return r.json();}).then(function(d){
+      renderPhotoResult(d);
+    }).catch(function(){
+      el.innerHTML='<div class="search-status">Lookup unavailable — try Search instead.</div>';
+    });
+  };
 })();
 </script>
 
