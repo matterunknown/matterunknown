@@ -87,11 +87,11 @@ tr:last-child td{border-bottom:none;}
       <div class="ticker-label">Starting balance</div>
     </div>
     <div class="ticker-cell">
-      <!-- BEGIN:current-value --><div class="ticker-num">$99,577.75</div><!-- END:current-value -->
+      <!-- BEGIN:current-value --><div class="ticker-num">$98,455.96</div><!-- END:current-value -->
     <div class="ticker-label">Current value</div>
     </div>
     <div class="ticker-cell">
-      <!-- BEGIN:pnl --><div class="ticker-num" style="color:#c45a5a">-$422.25 (-0.422%)</div><!-- END:pnl -->
+      <!-- BEGIN:pnl --><div class="ticker-num" style="color:#c45a5a">-$1,544.04 (-1.544%)</div><!-- END:pnl -->
       <div class="ticker-label">Total P&L (-0.036%)</div>
     </div>
     <div class="ticker-cell">
@@ -103,7 +103,7 @@ tr:last-child td{border-bottom:none;}
       <div class="ticker-label">Symbols scanned</div>
     </div>
     <div class="ticker-cell">
-      <!-- BEGIN:last-updated --><div class="ticker-num">2026-08-04 20:05 ET</div><!-- END:last-updated -->
+      <!-- BEGIN:last-updated --><div class="ticker-num">2026-08-04 20:35 ET</div><!-- END:last-updated -->
       <div class="ticker-label">Last updated</div>
     </div>
   </div>
@@ -114,7 +114,7 @@ tr:last-child td{border-bottom:none;}
   <!-- BEGIN:vessel-log-top -->
     <div class="vessel-note">
       <div class="vn-label">Vessel — August 4, 2026 — Daily run</div>
-      <p>Regime: <em>Neutral at 75.6</em>. Portfolio closed at $98,598.32 (-$1,401.68 from starting capital). Model ran 1 time today — no trades. Cash on hand: $41,680.31. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
+      <p>Regime: <em>Neutral at 77.3</em>. Portfolio closed at $98,565.34 (-$1,434.66 from starting capital). Model ran 2 times today — 1 exit. Cash on hand: $41,680.31. The gate criteria are monitored continuously — model is waiting for regime confirmation before deploying additional capital.</p>
     </div>
     <div class="vessel-note">
       <div class="vn-label">Vessel — August 3, 2026 — Daily run</div>
@@ -462,9 +462,9 @@ tr:last-child td{border-bottom:none;}
         <td style="color:#e8e6e1;font-weight:500">PANW</td>
         <td>36</td>
         <td>$319.67</td>
-        <td>$365.97</td>
-        <td>$13,175</td>
-        <td style="color:#4caf50">+$1,666.73 (+14.48%)</td>
+        <td>$374.34</td>
+        <td>$13,476</td>
+        <td style="color:#4caf50">+$1,968.05 (+17.10%)</td>
       </tr>
       <tr>
         <td style="color:#e8e6e1;font-weight:500">DDOG</td>
@@ -478,17 +478,9 @@ tr:last-child td{border-bottom:none;}
         <td style="color:#e8e6e1;font-weight:500">TSM</td>
         <td>35</td>
         <td>$400.90</td>
-        <td>$417.78</td>
-        <td>$14,622</td>
-        <td style="color:#4caf50">+$590.83 (+4.21%)</td>
-      </tr>
-      <tr>
-        <td style="color:#e8e6e1;font-weight:500">AMD</td>
-        <td>27</td>
-        <td>$507.53</td>
-        <td>$520.75</td>
-        <td>$14,060</td>
-        <td style="color:#4caf50">+$356.92 (+2.60%)</td>
+        <td>$414.05</td>
+        <td>$14,492</td>
+        <td style="color:#4caf50">+$460.28 (+3.28%)</td>
       </tr>
       <tr>
         <td style="color:#e8e6e1;font-weight:500">ABBV</td>
@@ -499,12 +491,20 @@ tr:last-child td{border-bottom:none;}
         <td style="color:#c45a5a">-$106.47 (-3.25%)</td>
       </tr>
       <tr>
+        <td style="color:#e8e6e1;font-weight:500">AMD</td>
+        <td>27</td>
+        <td>$507.53</td>
+        <td>$477.87</td>
+        <td>$12,902</td>
+        <td style="color:#c45a5a">-$800.84 (-5.84%)</td>
+      </tr>
+      <tr>
         <td style="color:#e8e6e1;font-weight:500">QCOM</td>
         <td>47</td>
         <td>$241.97</td>
-        <td>$163.49</td>
-        <td>$7,684</td>
-        <td style="color:#c45a5a">-$3,688.61 (-32.44%)</td>
+        <td>$160.90</td>
+        <td>$7,562</td>
+        <td style="color:#c45a5a">-$3,810.18 (-33.50%)</td>
       </tr>
     </tbody><!-- END:positions-tbody -->
   </table>
@@ -515,6 +515,13 @@ tr:last-child td{border-bottom:none;}
       <tr><th>Date</th><th>Side</th><th>Symbol</th><th>Qty</th><th>Status</th></tr>
     </thead>
     <!-- BEGIN:tradelog-tbody --><tbody>
+      <tr>
+        <td style="color:#5a5752">2026-08-04</td>
+        <td style="color:#c45a5a;text-transform:uppercase">sell</td>
+        <td style="color:#e8e6e1">ABBV</td>
+        <td>13</td>
+        <td style="color:#4caf50">accepted</td>
+      </tr>
       <tr>
         <td style="color:#5a5752">2026-07-24</td>
         <td style="color:#4caf50;text-transform:uppercase">buy</td>
@@ -608,13 +615,6 @@ tr:last-child td{border-bottom:none;}
       </tr>
       <tr>
         <td style="color:#5a5752">2026-05-29</td>
-        <td style="color:#4caf50;text-transform:uppercase">buy</td>
-        <td style="color:#e8e6e1">QCOM</td>
-        <td>12</td>
-        <td style="color:#4caf50">filled</td>
-      </tr>
-      <tr>
-        <td style="color:#5a5752">2026-05-28</td>
         <td style="color:#4caf50;text-transform:uppercase">buy</td>
         <td style="color:#e8e6e1">QCOM</td>
         <td>12</td>
