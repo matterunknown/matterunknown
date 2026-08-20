@@ -1,5 +1,9 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "astro"
+  "framework": "astro",
+  "redirects": [
+    { "source": "/fund", "destination": "/about", "permanent": false },
+    { "source": "/projects/pokemon-advisor", "destination": "/projects", "permanent": false }
+  ]
 }

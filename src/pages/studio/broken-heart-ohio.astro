@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Footer from '../../components/layout/Footer.astro';
 ---
-<Base title="Broken Heart Ohio" description="A tattoo studio with a full custom website, online booking, and integrated payments. Built from scratch. Going live soon.">
+<Base title="Broken Heart Ohio" description="A tattoo studio with a full custom website, online booking, and integrated payments. Built from scratch. Now live.">
 <style>
 :root {
   --bg:#090908; --bg-2:#0d0d0b; --bg-3:#121210;
@@ -92,7 +92,6 @@ nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backd
     <li><a href="/studio" class="active">Studio</a></li>
     <li><a href="/projects">Lab</a></li>
     <li><a href="/about">About</a></li>
-    <li><a href="/fund">Fund</a></li>
   </ul>
   <a class="nav-back" href="/studio">← Studio</a>
   <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" onclick="(function(){var h=document.getElementById('nav-hamburger');var m=document.getElementById('nav-mobile-menu');h.classList.toggle('open');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';})()">
@@ -105,8 +104,6 @@ nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backd
   <a href="/studio" class="active">Studio</a>
   <a href="/projects">Lab</a>
   <a href="/about">About</a>
-  <a href="/fund">Fund</a>
-  <a href="/fund" class="nav-mobile-fund">Fund the Research</a>
 </div>
 
 <div class="hero">
@@ -114,7 +111,7 @@ nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backd
   <div class="hero-label">Studio / Tattoo</div>
   <h1>Broken Heart<br><em>Ohio.</em></h1>
   <p class="hero-sub">A tattoo studio with a custom website, online booking, and integrated payments. Built from scratch. No templates, no third-party platforms taking a cut. Just the artist and the client.</p>
-  <div class="hero-status"><div class="s-dot"></div>Going live soon</div>
+  <div class="hero-status"><div class="s-dot"></div>Now live — <a href="https://brokenheartoh.com" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">brokenheartoh.com</a></div>
 </div>
 
 <div class="content">
@@ -157,15 +154,15 @@ nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backd
     </div>
     <div class="detail">
       <div class="detail-label">Status</div>
-      <div class="detail-val">Going live soon</div>
-      <div class="detail-desc">More details added as the launch gets closer. The site, booking system, and payment flow will all be documented here.</div>
+      <div class="detail-val">Now live</div>
+      <div class="detail-desc">The site, booking system, and payment flow are live at brokenheartoh.com.</div>
     </div>
   </div>
 
   <div class="coming-soon">
     <div class="coming-soon-label">More coming</div>
     <h2>Full documentation on the way.</h2>
-    <p>Portfolio, booking demo, and behind-the-build breakdown will be added here as the studio goes live. Check back soon.</p>
+    <p>Portfolio, booking demo, and behind-the-build breakdown are coming now that the studio is live.</p>
   </div>
 
 </div>
