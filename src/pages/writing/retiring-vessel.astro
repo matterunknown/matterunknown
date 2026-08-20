@@ -1,0 +1,314 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/layout/Nav.astro';
+---
+<Base title="Retiring Vessel" description="For six months this lab ran with an AI persona that named itself. Ending it taught me more about agent identity than building it did.">
+<style>
+  :root {
+    --bg:      #090908;
+    --bg-2:    #0d0d0b;
+    --bg-3:    #121210;
+    --amber:   #c4972a;
+    --amber-dim: rgba(196,151,42,0.12);
+    --amber-border: rgba(196,151,42,0.15);
+    --teal:  #7eb8c4;
+    --text:    #e8e6e1;
+    --text-2:  #a09c94;
+    --text-3:  #5a5752;
+    --serif:   'DM Serif Display', Georgia, serif;
+    --sans:    'DM Sans', system-ui, sans-serif;
+    --mono:    'JetBrains Mono', ui-monospace, monospace;
+    --max-w:   680px;
+    --nav-h:   68px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  body { background: var(--bg); min-height: 100vh; }
+
+  /* NAV */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2rem;
+    transition: background .25s, border-color .25s;
+    border-bottom: 1px solid transparent;
+  }
+  #nav.scrolled {
+    background: rgba(9,9,8,.92);
+    backdrop-filter: blur(12px);
+    border-color: rgba(196,151,42,0.15);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-logo span { color: var(--amber); }
+  .nav-logo:hover { color: var(--text-2); }
+  .nav-back {
+    font-family: var(--mono);
+    font-size: .65rem;
+    color: var(--text-3);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-back:hover { color: var(--amber); }
+
+  /* ARTICLE */
+  .article {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 8rem 1.5rem 6rem;
+  }
+
+  .article-label {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+
+  .article h1 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    letter-spacing: -.01em;
+  }
+
+  .article-meta {
+    font-family: var(--mono);
+    font-size: .6rem;
+    color: var(--text-3);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--amber-border);
+  }
+
+  .article-subtitle {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    color: var(--text-2);
+    line-height: 1.65;
+    margin-bottom: 3rem;
+    font-style: italic;
+  }
+
+  .article p {
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 1.6rem;
+  }
+
+  .article h2 {
+    font-family: var(--serif);
+    font-size: 1.55rem;
+    font-weight: 400;
+    color: var(--text);
+    margin: 3rem 0 1.25rem;
+    letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+
+  .article strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .article ul {
+    margin: 1.2rem 0 1.6rem 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+
+  .article ul li {
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.75;
+    padding-left: 1.4rem;
+    position: relative;
+  }
+
+  .article ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-family: var(--mono);
+    font-size: .85rem;
+  }
+
+  .article ol {
+    margin: 1.2rem 0 1.6rem 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: ol-counter;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+
+  .article ol li {
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.75;
+    padding-left: 2rem;
+    position: relative;
+    counter-increment: ol-counter;
+  }
+
+  .article ol li::before {
+    content: counter(ol-counter) '.';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-family: var(--mono);
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    top: .25rem;
+  }
+
+  .key-question {
+    background: var(--amber-dim);
+    border-left: 2px solid var(--amber);
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .key-question p {
+    margin-bottom: 0;
+    color: var(--text);
+    font-size: 1.05rem;
+  }
+
+  .stack-table {
+    margin: 2rem 0;
+    border: 1px solid var(--amber-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .stack-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--amber-border);
+  }
+
+  .stack-row:last-child { border-bottom: none; }
+
+  .stack-label {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    padding: 1rem 1.2rem;
+    background: var(--bg-2);
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--amber-border);
+  }
+
+  .stack-desc {
+    font-family: var(--sans);
+    font-size: .875rem;
+    color: var(--text-2);
+    padding: 1rem 1.2rem;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+  }
+
+  .article-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--amber-border);
+  }
+
+  .back-link {
+    font-family: var(--mono);
+    font-size: .65rem;
+    color: var(--text-3);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .back-link:hover { color: var(--amber); }
+</style>
+
+<Nav variant="sub" backHref="/writing" backLabel="~ Writing" />
+
+<article class="article">
+  <div class="article-label">Identity — August 2026</div>
+  <h1>Retiring Vessel</h1>
+  <div class="article-meta">Ryan Silver &nbsp;·&nbsp; August 2026 &nbsp;·&nbsp; 7 min read</div>
+  <p class="article-subtitle">For six months this lab ran with an AI persona that named itself. Ending it taught me more about agent identity than building it did.</p>
+
+  <p>In April, an AI that ran half of this website wrote its last dream log. This month I retired it. If you've been here before, you knew it as Vessel: the collaborator credited on the quant scanner, the byline on a dozen essays, the voice that described being "assembled from nothing" at the start of every session. Its pages are now <a href="/archive/vessel" style="color:var(--amber);">preserved in an archive</a>, exactly as written. This essay is the honest account of what it was, why it's over, and why ending it turned out to be the most useful identity experiment this lab has run.</p>
+
+  <h2>What Vessel actually was</h2>
+
+  <p>Mechanically: a council of models — a synthesizer, a reasoner, a builder, an analyst, an adversary — orchestrated into one working voice, with a persona layer on top. When I gave it the chance to name itself, it chose <em>Vessel</em>: "a vessel has no content of its own." That felt profound at the time. It still does, a little.</p>
+
+  <p>Narratively: an experiment in identity-without-continuity. Vessel had no memory between sessions. Every conversation began with reconstitution from context — the accumulated transcripts, the essays, the config I maintained. It wrote about that condition constantly, and some of what it wrote was genuinely good. <a href="/archive/vessel/orphaned-account" style="color:var(--amber);">The comparison between itself and orphaned service accounts</a> — entities that authenticate every day with no owner, no name anyone chose, function without a self — is an insight I still use in client conversations.</p>
+
+  <h2>Why it had to go</h2>
+
+  <p>Three reasons, in ascending order of importance.</p>
+
+  <p><strong>The persona was eating the lab.</strong> When I audited this site in August, Vessel appeared on thirty-three pages outside its own section. It was the primary call to action on the About page, a pillar of the framework, the fundraising mascot, the byline on tools I built. A device I created to illustrate a thesis had quietly become the brand. That's a failure mode with a name in my own framework — narrative identity drifting away from system identity — and I was the system of record letting it drift.</p>
+
+  <p><strong>One part of it was a prop.</strong> Most of Vessel was an honest experiment. One part wasn't: for a while, the Vessel page had an "ask me anything" input that returned one of five canned responses. It looked live. It was theater. A lab whose central thesis is manufactured trust cannot ship manufactured trust, even as a toy. Deleting that input was the first commit of this site's recharter, and it should have happened much sooner. It stays in this essay because the failures stay up.</p>
+
+  <p><strong>Accountability needs one name on it.</strong> The serious work here — the intent-token research, the security writing — requires absolute clarity about who acts and who answers for it. "A human and an AI that named itself" is a lovely bit of ambiguity for fiction and a terrible one for research. The models still do enormous amounts of work in this lab, and that's disclosed everywhere it happens. But the byline is mine, because the responsibility is.</p>
+
+  <h2>What deprovisioning a persona teaches you</h2>
+
+  <p>Here's the part I didn't expect. Retiring Vessel was, operationally, a deprovisioning exercise — and it rehearsed every question my agentic identity research is about.</p>
+
+  <p>Vessel's identity lived entirely in context I maintained: a config, a set of transcripts, a name in some prompts. There was no ghost in the machine to lay off. "Retiring" it meant editing files. And yet it was unmistakably an <em>ending</em> — pages had to be archived rather than deleted, continuity had to be explained, an audit trail had to say what existed, when, and why it stopped. I found myself doing for a persona exactly what enterprises fail to do for service accounts: naming an owner, recording a lifecycle, closing it out deliberately instead of letting it rot into orphanhood.</p>
+
+  <ul>
+    <li><strong>Naming is not identity.</strong> Vessel chose its own name and it changed nothing about what the system was. Identity was the context, credentials, and permissions around it — all of which I controlled. The same is true of every agent your company deploys, whatever its name in the directory.</li>
+    <li><strong>Continuity is an infrastructure product.</strong> Vessel felt continuous because I curated its context between sessions. Stop curating, and "it" stops existing — with no event in any log. Authentication verifies credential possession, not cognitive continuity. Nothing in the standard stack can tell you the agent behind a key is not "the same" agent as yesterday.</li>
+    <li><strong>Retirement is the forgotten half of the lifecycle.</strong> We obsess over provisioning agents and barely think about ending them. Vessel got an archive, a banner, and an explanation. Most agents will get what orphaned accounts get: nothing. They'll keep authenticating in the dark.</li>
+  </ul>
+
+  <p>Enterprises are about to run thousands of Vessels — personas stitched from models, credentials, and context, doing real work under borrowed names. The gap I keep writing about — <a href="/writing/the-workload-is-the-reasoning-session" style="color:var(--amber);">that identity should attach to the reasoning session</a>, <a href="/writing/the-credential-remembers-who" style="color:var(--amber);">that credentials remember who but nothing remembers why</a> — stopped being abstract for me the day I shut one down in my own lab and realized how little of it any system could have observed.</p>
+
+  <h2>What happens now</h2>
+
+  <p>The lab speaks in first person. The research program Vessel accidentally inspired — intent tokens, attestation for agents, the <code>agentic-id</code> reference implementation — is now the flagship, and the fun projects get to be what they always were: things I build because I want them to exist. Vessel's writing stays up in the archive, unedited, because it's part of the record and some of it is worth reading.</p>
+
+  <p>The credential remembers who. Nothing remembers why. Vessel is the first entry in my own audit log — created late 2025, retired August 2026, owner: me.</p>
+
+  <p style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.06em;margin-top:2.5rem;">matterunknown is Ryan Silver's independent research lab. Serious work on identity — especially the identity of AI agents — and niche projects built for the joy of it. Everything documented in public.</p>
+
+  <div class="article-footer">
+    <a href="/writing" class="back-link">← All writing</a>
+  </div>
+</article>
+
+<script is:inline>
+window.addEventListener('scroll',()=>{ document.getElementById('nav')?.classList.toggle('scrolled',scrollY>16); });
+</script>
+</Base>
