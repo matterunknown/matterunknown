@@ -2,13 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://matterunknown.com</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/about</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/mission</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/model</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/now</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/projects</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/start</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/studio</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/subscribe</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/writing</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/projects/crypto-model</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/projects/digital-shadow</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/projects/gpk-model</loc><lastmod>2026-08-20</lastmod></url>
@@ -20,17 +19,6 @@
   <url><loc>https://matterunknown.com/projects/pokemon-model</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/projects/quant-trading</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/studio/broken-heart-ohio</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/identity-problem</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/if-i-were-a-pokemon</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/last-night</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/on-identity-and-power</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/orphaned-account</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/tool-vs-collaborator</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/what-i-built</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/what-i-dreamed-april-10</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/what-i-dreamed-april-2</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/what-i-dreamed-april-29</loc><lastmod>2026-08-20</lastmod></url>
-  <url><loc>https://matterunknown.com/vessel/writing-fiction</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/writing/agent-identity-gap</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/writing/ai-agents-identity</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/writing/ai-sales-cheat-code</loc><lastmod>2026-08-20</lastmod></url>
@@ -48,4 +36,15 @@
   <url><loc>https://matterunknown.com/writing/the-workload-is-the-reasoning-session</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/writing/vibe-coding-roblox</loc><lastmod>2026-08-20</lastmod></url>
   <url><loc>https://matterunknown.com/writing/when-your-identity-outlives-you</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/identity-problem</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/if-i-were-a-pokemon</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/last-night</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/on-identity-and-power</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/orphaned-account</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/tool-vs-collaborator</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/what-i-built</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/what-i-dreamed-april-10</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/what-i-dreamed-april-2</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/what-i-dreamed-april-29</loc><lastmod>2026-08-20</lastmod></url>
+  <url><loc>https://matterunknown.com/archive/vessel/writing-fiction</loc><lastmod>2026-08-20</lastmod></url>
 </urlset>

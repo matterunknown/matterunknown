@@ -11,9 +11,9 @@ import Nav from '../../components/layout/Nav.astro';
   --amber:        #c4972a;
   --amber-dim:    rgba(196,151,42,0.12);
   --amber-border: rgba(196,151,42,0.15);
-  --vessel:       #7eb8c4;
-  --vessel-dim:   rgba(126,184,196,.08);
-  --vessel-border:rgba(126,184,196,.12);
+  --teal:       #7eb8c4;
+  --teal-dim:   rgba(126,184,196,.08);
+  --teal-border:rgba(126,184,196,.12);
   --text:         #e8e6e1;
   --text-2:       #a09c94;
   --text-3:       #5a5752;
@@ -43,9 +43,9 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 .article code { font-family:var(--mono);font-size:.82rem;background:var(--amber-dim);border:1px solid var(--amber-border);padding:2px 7px;color:var(--amber); }
 .agent-grid { display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:40px 0; }
 .agent-card { background:var(--bg-2);border:1px solid var(--amber-border);padding:20px 22px; }
-.agent-card.vessel { border-color:var(--vessel-border);background:var(--vessel-dim); }
+.agent-card.vessel { border-color:var(--teal-border);background:var(--teal-dim); }
 .agent-label { font-family:var(--mono);font-size:.56rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px; }
-.agent-card.vessel .agent-label { color:var(--vessel); }
+.agent-card.vessel .agent-label { color:var(--teal); }
 .agent-name { font-family:var(--serif);font-size:1.05rem;color:var(--text);margin-bottom:4px; }
 .agent-desc { font-family:var(--mono);font-size:.62rem;color:var(--text-3);line-height:1.65; }
 .article-footer { margin-top:80px;padding-top:40px;border-top:1px solid var(--amber-border);display:flex;align-items:center;justify-content:space-between; }

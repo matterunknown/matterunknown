@@ -55,8 +55,8 @@ def run():
         fmt = fmt_count(total)
         print(f"  Pokemon: {total:,} cards | {buys} BUY")
         content = re.sub(
-            r'(<p>)[\d,\+]+ cards scored across 172 sets\..*?(</p>)',
-            f'\\g<1>{fmt} cards scored across 172 sets. Vintage, modern, and sealed — ranked by rarity, era momentum, price signal, and CM trend. Top 25 updated daily.\\g<2>',
+            r'(<p>)[\d,\+]+ cards scored across \d+ sets\..*?(</p>)',
+            f'\\g<1>{fmt} cards scored across 168 sets. Vintage, modern, and sealed — ranked by rarity, era momentum, price signal, and CM trend. Top 25 updated daily.\\g<2>',
             content)
         content = re.sub(
             r'Live — [\d,\+]+ cards(?=</div><span class="proj-arrow">)',

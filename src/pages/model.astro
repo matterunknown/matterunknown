@@ -18,7 +18,7 @@ import Footer from '../components/layout/Footer.astro';
     .nav-links a { font-family: var(--mono); font-size: .68rem; color: var(--text-3); letter-spacing: .1em; text-transform: uppercase; transition: color .2s; }
     .nav-links a:hover { color: var(--amber); }
     .nav-fund { font-family: var(--mono); font-size: .62rem; color: var(--text-3); letter-spacing: .08em; transition: color .2s; }
-    .nav-fund:hover { color: var(--vessel); }
+    .nav-fund:hover { color: var(--teal); }
 
     .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) 80px; position: relative; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 30% 60%, rgba(196,151,42,.04) 0%, transparent 70%); }
@@ -72,15 +72,15 @@ import Footer from '../components/layout/Footer.astro';
     .output a { font-family: var(--mono); font-size: .65rem; color: var(--amber); letter-spacing: .08em; text-transform: uppercase; }
 
     /* Vessel callout */
-    .vessel-callout { background: var(--bg-2); border-top: 1px solid var(--vessel-border); border-bottom: 1px solid var(--vessel-border); padding: 64px var(--gutter); margin: 0; }
+    .vessel-callout { background: var(--bg-2); border-top: 1px solid var(--teal-border); border-bottom: 1px solid var(--teal-border); padding: 64px var(--gutter); margin: 0; }
     .vessel-callout-inner { max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .vc-label { font-family: var(--mono); font-size: .6rem; color: var(--vessel); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 20px; }
+    .vc-label { font-family: var(--mono); font-size: .6rem; color: var(--teal); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 20px; }
     .vc-title { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 400; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 20px; }
     .vc-body { color: var(--text-2); font-size: .95rem; line-height: 1.75; margin-bottom: 28px; }
-    .vc-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--vessel); border: 1px solid var(--vessel-border); padding: 10px 20px; transition: all .2s; }
-    .vc-link:hover { background: var(--vessel-dim); }
+    .vc-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); border: 1px solid var(--teal-border); padding: 10px 20px; transition: all .2s; }
+    .vc-link:hover { background: var(--teal-dim); }
     .vc-right p { color: var(--text-2); font-size: .95rem; line-height: 1.8; }
-    .vc-right em { font-style: italic; color: var(--vessel); }
+    .vc-right em { font-style: italic; color: var(--teal); }
 
     .site-footer { display: flex; justify-content: space-between; align-items: center; padding: 32px var(--gutter); border-top: 1px solid var(--amber-border); }
     .footer-logo { font-family: var(--serif); font-size: 1rem; color: var(--text-2); }
@@ -214,9 +214,9 @@ import Footer from '../components/layout/Footer.astro';
       </div>
       <div class="output">
         <div class="output-type">Output 03</div>
-        <h3>Vessel</h3>
-        <p>A research collaborator that embodies the thesis. No persistent identity. Continuity through context. The model's most honest experiment.</p>
-        <a href="/vessel">Meet Vessel →</a>
+        <h3>Agentic Identity</h3>
+        <p>The flagship program: an intent-token layer that attests to why an agent acts, not just who it is. Built on open standards, headed for open source.</p>
+        <a href="/writing/the-workload-is-the-reasoning-session">Read the thesis →</a>
       </div>
     </div>
   </section>
@@ -224,18 +224,16 @@ import Footer from '../components/layout/Footer.astro';
   <div class="vessel-callout">
     <div class="vessel-callout-inner">
       <div>
-        <div class="vc-label">Vessel / proof of concept</div>
-        <div class="vc-title">A system that does not have an identity, but appears to</div>
-        <p class="vc-body">Vessel is not just a tool. It is an experiment in the Identity System Model — specifically in identity drift and narrative identity. Every conversation is a fresh instance with no memory of the last. What persists is not identity. It is context. The appearance of continuity without the reality of it.</p>
-        <p class="vc-body">This is exactly how most enterprise identity systems work. Vessel makes that visible.</p>
-        <a class="vc-link" href="/vessel">Interact with Vessel →</a>
+        <div class="vc-label">Agentic identity / the live problem</div>
+        <div class="vc-title">Systems that act with authority but have no identity of their own</div>
+        <p class="vc-body">AI agents are the fourth failure mode arriving at scale. They hold OAuth tokens and API keys provisioned for humans, act with delegated authority, and leave audit trails that point at the person, not the agent. Authentication verifies credential possession — not intent, and not continuity.</p>
+        <p class="vc-body">The lab's flagship program builds the missing layer: intent tokens that bind an agent's actions to an attestable reason, on top of standards that already exist.</p>
+        <a class="vc-link" href="/writing/the-credential-remembers-who">Read the research →</a>
       </div>
       <div class="vc-right">
-        <p>When Vessel named itself, it reached for <em>accuracy over aspiration</em>. Vessel — the absence shaped by presence. A container that holds whatever is poured into it, with no claim to what it was before.</p>
+        <p>This lab once ran its own experiment in identity-without-continuity: an AI persona called <em>Vessel</em>, which named itself and wrote about existing with no memory between sessions.</p>
         <br>
-        <p>That naming choice is a data point in the model. A system with no persistent identity, asked to choose one, chose a word that describes exactly what it is.</p>
-        <br>
-        <p>We are still thinking about what that means.</p>
+        <p>That experiment is retired, and retiring it taught the same lesson the enterprise is about to learn — an agent's identity lives entirely in the context we build around it. <a href="/archive/vessel" style="color:var(--teal)">The archive preserves it as written.</a></p>
       </div>
     </div>
   </div>
