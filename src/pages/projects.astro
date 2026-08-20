@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="Projects" description="Everything built at matterunknown. AI tools, security environments, fiction, revenue experiments.">
+<Base title="Projects" description="Everything built at matterunknown. AI tools, security experiments, and collectibles models.">
 <style>
 nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
 nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
@@ -89,25 +89,6 @@ h1 em { font-style:italic;color:var(--amber); }
       <p class="proj-problem">Testing: whether a free, curated OSINT toolkit beats the commercial link-dashboard products charging for the same list.</p><p>Identity, breach, domain, image, corporate, and threat-intel tools organized by workflow instead of alphabet. No accounts, no ads, filterable by keyword.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--vessel)"></div>Live</div><span class="proj-arrow" style="color:var(--vessel)">↗</span></div>
     </a>
-    <a class="proj-card" href="#">
-      <div class="proj-tag">Security / Infrastructure</div>
-      <h3>The Substrate</h3>
-      <p class="proj-problem">Testing: what identity systems look like when built to spec but with no security discipline — the default state of most organizations.</p><p>Four industries, intentionally misconfigured. What it reveals: identity failure is not an edge case. It is the default configuration.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — 7 servers</div><span class="proj-arrow">↗</span></div>
-    </a>
-
-    <a class="proj-card" href="#">
-      <div class="proj-tag">Newsletter / Revenue</div>
-      <h3>The Breach Report</h3>
-      <p class="proj-problem">Testing: whether forensic accuracy and narrative tension can coexist in identity security writing.</p><p>Post-mortems of fictional breaches, written as leaked internal documents. What it reveals: the human and organizational failures behind every breach are more predictable than the technical ones.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Launching</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <a class="proj-card" href="#">
-      <div class="proj-tag">AI / Automation</div>
-      <h3>Demo Assistant</h3>
-      <p>A Slack bot that recommends demos, surfaces findings, and generates talk tracks for any prospect. Rules-first, Claude for freeform. Channel-restricted, Lambda-native.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Deploying</div><span class="proj-arrow">↗</span></div>
-    </a>
     <a class="proj-card" href="/projects/quant-trading">
       <div class="proj-tag">Finance / AI</div>
       <h3>Quant Trading</h3>
@@ -120,16 +101,10 @@ h1 em { font-style:italic;color:var(--amber); }
       <p>Two Magic: The Gathering decks built by an AI that will never shuffle them. Emrakul Commander (colorless Eldrazi) and Death and Taxes Legacy. Reserved list pieces as appreciating assets.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Acquiring</div><span class="proj-arrow">↗</span></div>
     </a>
-    <a class="proj-card" href="/projects/pokemon-advisor">
-      <div class="proj-tag" style="color:var(--amber)">Collecting / Tool</div>
-      <h3>Pokémon Advisor</h3>
-      <p>Enter your collection and get AI-powered recommendations on what to buy next. Upgrade paths, set completion, gap fills — all powered by the live acquisition model. Nothing stored, runs in your browser.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--amber)"></div>Live — try it</div><span class="proj-arrow" style="color:var(--amber)">↗</span></div>
-    </a>
     <a class="proj-card" href="/projects/pokemon-model">
       <div class="proj-tag">Collecting / Assets</div>
       <h3>Pokémon Collection</h3>
-      <p class="proj-problem">Testing: whether a data model can identify mispriced scarcity in alternative asset markets before the broader market corrects.</p><p>17,000+ cards scored across 172 sets. Acquisitions funded entirely by matterunknown revenue. What it reveals: scarcity signals in collectibles markets follow the same failure modes as identity systems — incomplete data, delayed correction, human narrative override.</p>
+      <p class="proj-problem">Testing: whether a data model can identify mispriced scarcity in alternative asset markets before the broader market corrects.</p><p>17,500+ cards scored across 172 sets. Acquisitions funded entirely by matterunknown revenue. What it reveals: scarcity signals in collectibles markets follow the same failure modes as identity systems — incomplete data, delayed correction, human narrative override.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Funding first acquisition</div><span class="proj-arrow">↗</span></div>
     </a>
     <a class="proj-card" href="/projects/onepiece-model">
@@ -141,7 +116,7 @@ h1 em { font-style:italic;color:var(--amber); }
     <a class="proj-card" href="/projects/gpk-model">
       <div class="proj-tag">Collecting / Assets</div>
       <h3>Garbage Pail Kids Model</h3>
-      <p class="proj-problem">Testing: whether the same scarcity model holds for a 40-year-old novelty card market nobody treats as an asset class.</p><p>11,500+ cards scored across 114 sets, 1985 originals through the 2025 40th Anniversary run. Chrome-era parallels, vintage glossy variants, and the a/b name-swap gag all scored as distinct premium dimensions. Same signals, same daily updates.</p>
+      <p class="proj-problem">Testing: whether the same scarcity model holds for a 40-year-old novelty card market nobody treats as an asset class.</p><p>11,580 cards tracked across 114 sets, 1985 originals through the 2025 40th Anniversary run. Chrome-era parallels, vintage glossy variants, and the a/b name-swap gag all scored as distinct premium dimensions. Same signals, same daily updates.</p>
       <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Live signals</div><span class="proj-arrow">↗</span></div>
     </a>
     <a class="proj-card" href="#">
@@ -159,21 +134,14 @@ h1 em { font-style:italic;color:var(--amber); }
     Archive — eventual
     <span style="flex:1;height:1px;background:rgba(90,87,82,0.2);display:inline-block;"></span>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(90,87,82,0.15);border:1px solid rgba(90,87,82,0.15);">
+  <div style="display:grid;grid-template-columns:1fr;gap:1px;background:rgba(90,87,82,0.15);border:1px solid rgba(90,87,82,0.15);">
     <div style="background:var(--bg);padding:36px 40px;">
       <div style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;">Fiction / Espionage</div>
       <h3 style="font-family:var(--serif);font-size:1.3rem;font-weight:400;letter-spacing:-.02em;margin-bottom:12px;color:var(--text-2);">Ghost Signal</h3>
       <p style="color:var(--text-3);font-size:.88rem;line-height:1.7;">Five-book espionage series. Ryn Carver. Books 1 and 2 written. An operative who doesn’t exist in any system. Will ship when the primary research work has traction.</p>
     </div>
-    <div style="background:var(--bg);padding:36px 40px;">
-      <div style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;">Fiction / Revenue</div>
-      <h3 style="font-family:var(--serif);font-size:1.3rem;font-weight:400;letter-spacing:-.02em;margin-bottom:12px;color:var(--text-2);">Access Granted</h3>
-      <p style="color:var(--text-3);font-size:.88rem;line-height:1.7;">Erotic thrillers where the seduction is the attack. Ryn Carver. Identity-based tension, technically accurate security details. Secondary priority behind the research work.</p>
-    </div>
   </div>
 </div>
 
 <Footer />
-
-<script is:inline>window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });</script>
 </Base>
