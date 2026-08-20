@@ -4,6 +4,11 @@
   "framework": "astro",
   "redirects": [
     { "source": "/fund", "destination": "/about", "permanent": false },
-    { "source": "/projects/pokemon-advisor", "destination": "/projects", "permanent": false }
+    { "source": "/projects/pokemon-advisor", "destination": "/projects", "permanent": false },
+    { "source": "/start", "destination": "/about", "permanent": true },
+    { "source": "/mission", "destination": "/about", "permanent": true },
+    { "source": "/studio", "destination": "/projects", "permanent": true },
+    { "source": "/vessel", "destination": "/archive/vessel", "permanent": true },
+    { "source": "/vessel/:slug", "destination": "/archive/vessel/:slug", "permanent": true }
   ]
 }

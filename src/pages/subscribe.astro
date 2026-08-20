@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+---
+<Base title="Subscribe" description="Follow matterunknown by RSS. New research and lab notes, no noise.">
+<style>
+.page { padding:calc(var(--nav-h) + 80px) var(--gutter) 120px;max-width:720px;margin:0 auto; }
+.section-label { font-family:var(--mono);font-size:.64rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:52px; }
+.section-label::before { content:'';width:28px;height:1px;background:var(--amber); }
+.section-label::after { content:'';flex:1;height:1px;background:var(--amber-border); }
+h1 { font-family:var(--serif);font-size:clamp(2.6rem,6vw,4.4rem);font-weight:400;line-height:1.06;letter-spacing:-.025em;margin-bottom:24px; }
+h1 em { font-style:italic;color:var(--amber); }
+p { color:var(--text-2);line-height:1.82;margin-bottom:18px;font-size:.98rem; }
+.feed-card { border:1px solid var(--amber-border);background:var(--bg-2);padding:36px 40px;margin:44px 0;position:relative;overflow:hidden; }
+.feed-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber); }
+.feed-label { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.13em;text-transform:uppercase;margin-bottom:14px; }
+.feed-url { font-family:var(--mono);font-size:.85rem;color:var(--text);background:var(--bg);border:1px solid var(--amber-border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap; }
+.feed-url a { color:var(--amber); }
+.copy-btn { font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;color:var(--amber);background:var(--amber-dim);border:1px solid var(--amber-border);padding:8px 16px;cursor:pointer;transition:background .2s; }
+.copy-btn:hover { background:rgba(196,151,42,.2); }
+.quiet { font-family:var(--mono);font-size:.68rem;color:var(--text-3);line-height:1.8;border-left:2px solid var(--amber-border);padding-left:20px;margin-top:44px; }
+</style>
+
+<Nav variant="full" />
+
+<div class="page">
+  <div class="section-label">Subscribe</div>
+  <h1>Follow<br><em>the work.</em></h1>
+  <p>New research lands here first — identity, agentic identity, and whatever the lab is building. No newsletter theater, no growth hacks. The RSS feed is the canonical way to follow along.</p>
+
+  <div class="feed-card">
+    <div class="feed-label">RSS feed</div>
+    <div class="feed-url">
+      <a href="/rss.xml">https://matterunknown.com/rss.xml</a>
+      <button class="copy-btn" id="copy-feed">Copy</button>
+    </div>
+  </div>
+
+  <p>Point any feed reader at it — NetNewsWire, Feedly, Readwise Reader, your terminal. Every new essay and major lab update shows up there.</p>
+
+  <div class="quiet">
+    An email list doesn't exist yet. When it does, it will be announced in the feed — not promised here first.
+  </div>
+</div>
+
+<Footer copy="Ryan Silver's independent research lab. Built in public." />
+
+<script is:inline>
+document.getElementById('copy-feed')?.addEventListener('click', function () {
+  navigator.clipboard.writeText('https://matterunknown.com/rss.xml').then(() => {
+    this.textContent = 'Copied';
+    setTimeout(() => { this.textContent = 'Copy'; }, 1800);
+  });
+});
+</script>
+</Base>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>matterunknown</title>
+    <link>https://matterunknown.com</link>
+    <description>Ryan Silver's independent research lab. Serious work on identity — especially the identity of AI agents — and niche projects built for the joy of it.</description>
+    <language>en</language>
+    <atom:link href="https://matterunknown.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Credential Remembers Who. Nothing Remembers Why.</title>
+      <link>https://matterunknown.com/writing/the-credential-remembers-who</link>
+      <guid>https://matterunknown.com/writing/the-credential-remembers-who</guid>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Intent tokens as the missing identity layer for AI agents — built on existing standards, attesting to why an agent acts, not just who it is.</description>
+    </item>
+    <item>
+      <title>The Workload Is the Reasoning Session</title>
+      <link>https://matterunknown.com/writing/the-workload-is-the-reasoning-session</link>
+      <guid>https://matterunknown.com/writing/the-workload-is-the-reasoning-session</guid>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+      <description>Why agentic identity breaks the identity stack's assumptions, and what an attestation layer for reasoning sessions would look like.</description>
+    </item>
+    <item>
+      <title>The Card Market Has a Data Problem</title>
+      <link>https://matterunknown.com/writing/pokemon-card-market</link>
+      <guid>https://matterunknown.com/writing/pokemon-card-market</guid>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Pokémon cards as an alternative asset class with a pricing-data problem worth modeling.</description>
+    </item>
+    <item>
+      <title>Vibe Coding with My 10 Year Old</title>
+      <link>https://matterunknown.com/writing/vibe-coding-roblox</link>
+      <guid>https://matterunknown.com/writing/vibe-coding-roblox</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>Building a Roblox farming game with my son over three weekends.</description>
+    </item>
+    <item>
+      <title>Identity Is a Tattoo. Design It Like One.</title>
+      <link>https://matterunknown.com/writing/identity-is-a-tattoo</link>
+      <guid>https://matterunknown.com/writing/identity-is-a-tattoo</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>Identity architecture is permanent design. Treat it with tattoo-level regret aversion.</description>
+    </item>
+    <item>
+      <title>Can an AI Agent Have a Verifiable Identity?</title>
+      <link>https://matterunknown.com/writing/can-ai-have-a-verifiable-identity</link>
+      <guid>https://matterunknown.com/writing/can-ai-have-a-verifiable-identity</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>A running lab where AI agents register, attest, and are cryptographically governed.</description>
+    </item>
+    <item>
+      <title>The Agent Identity Gap</title>
+      <link>https://matterunknown.com/writing/agent-identity-gap</link>
+      <guid>https://matterunknown.com/writing/agent-identity-gap</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>We can authenticate agents. We have no framework for authorizing intent.</description>
+    </item>
+    <item>
+      <title>Synthetic Identity Is Already Here. We Just Call It Fraud.</title>
+      <link>https://matterunknown.com/writing/synthetic-identity-is-already-here</link>
+      <guid>https://matterunknown.com/writing/synthetic-identity-is-already-here</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>Synthetic identity fraud is an identity-system failure, not a crime story.</description>
+    </item>
+    <item>
+      <title>When Your Identity Outlives You</title>
+      <link>https://matterunknown.com/writing/when-your-identity-outlives-you</link>
+      <guid>https://matterunknown.com/writing/when-your-identity-outlives-you</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>Digital identity after death, and the gap between death and deletion.</description>
+    </item>
+    <item>
+      <title>Why We Built a Council</title>
+      <link>https://matterunknown.com/writing/council-architecture</link>
+      <guid>https://matterunknown.com/writing/council-architecture</guid>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
+      <description>Why a council of disagreeing models beats one confident model.</description>
+    </item>
+    <item>
+      <title>The Cheat Code That Isn't</title>
+      <link>https://matterunknown.com/writing/ai-sales-cheat-code</link>
+      <guid>https://matterunknown.com/writing/ai-sales-cheat-code</guid>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
+      <description>AI sales gurus, shortcut culture, and the system selling you the system.</description>
+    </item>
+    <item>
+      <title>The NHI Problem Is a Human Problem</title>
+      <link>https://matterunknown.com/writing/nhi-problem</link>
+      <guid>https://matterunknown.com/writing/nhi-problem</guid>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Non-human identities are dangerous for very human reasons.</description>
+    </item>
+    <item>
+      <title>What Break Glass Access Reveals About Trust</title>
+      <link>https://matterunknown.com/writing/break-glass</link>
+      <guid>https://matterunknown.com/writing/break-glass</guid>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 GMT</pubDate>
+      <description>Emergency access procedures are a confession of what organizations actually trust.</description>
+    </item>
+    <item>
+      <title>Building a Demo Environment That Lies Convincingly</title>
+      <link>https://matterunknown.com/writing/demo-environment</link>
+      <guid>https://matterunknown.com/writing/demo-environment</guid>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 GMT</pubDate>
+      <description>Building a security demo environment that lies convincingly — and what that teaches about manufactured trust.</description>
+    </item>
+    <item>
+      <title>AI Agents Don't Have Identity. That's the Problem.</title>
+      <link>https://matterunknown.com/writing/ai-agents-identity</link>
+      <guid>https://matterunknown.com/writing/ai-agents-identity</guid>
+      <pubDate>Mon, 01 Dec 2025 00:00:00 GMT</pubDate>
+      <description>AI agents have access but no meaningful identity of their own.</description>
+    </item>
+    <item>
+      <title>On Writing a Character Who Doesn't Know Who She Is</title>
+      <link>https://matterunknown.com/writing/character-identity</link>
+      <guid>https://matterunknown.com/writing/character-identity</guid>
+      <pubDate>Sat, 01 Nov 2025 00:00:00 GMT</pubDate>
+      <description>Narrative identity, from the craft side.</description>
+    </item>
+    <item>
+      <title>The Shared Account Is a Moral Problem, Not a Technical One</title>
+      <link>https://matterunknown.com/writing/shared-account</link>
+      <guid>https://matterunknown.com/writing/shared-account</guid>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 GMT</pubDate>
+      <description>Shared accounts as an accountability problem before a technical one.</description>
+    </item>
+  </channel>
+</rss>
