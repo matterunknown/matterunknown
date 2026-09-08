@@ -28,9 +28,9 @@ const links = [
 ---
 <style>
   header {
-    max-width: 42rem;
+    max-width: 1060px;
     margin: 0 auto;
-    padding: 2rem 1.25rem 0;
+    padding: 30px clamp(20px, 4vw, 44px) 0;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -39,20 +39,21 @@ const links = [
   }
   .wordmark {
     font-family: var(--serif);
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     color: var(--text);
     text-decoration: none;
     white-space: nowrap;
   }
   .wordmark span { color: var(--amber); }
-  nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  nav { display: flex; gap: 1.6rem; flex-wrap: wrap; }
   nav a {
-    font-size: .92rem;
+    font-size: .95rem;
     color: var(--text-2);
     text-decoration: none;
   }
   nav a:hover { color: var(--amber); }
   nav a.active { color: var(--text); border-bottom: 1px solid var(--amber); }
+  nav a.cta { color: var(--amber); }
 </style>
 
 <header>
@@ -60,7 +61,7 @@ const links = [
   {variant === 'full' ? (
     <nav>
       {links.map(link => (
-        <a href={link.href} class={active === link.href ? 'active' : ''}>{link.label}</a>
+        <a href={link.href} class={(active === link.href ? 'active ' : '') + (link.href === '/subscribe' ? 'cta' : '')}>{link.label}</a>
       ))}
     </nav>
   ) : (

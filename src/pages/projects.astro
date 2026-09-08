@@ -4,37 +4,49 @@ import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
 <Base title="Projects" description="Everything built at matterunknown: identity research experiments, and smaller things made for the joy of it.">
+<style>
+  .head { padding: 56px 0 20px; max-width: 46rem; }
+  .head p { color: var(--text-2); font-size: 1.05rem; margin-top: 8px; }
+  .cols2 { margin-top: 24px; }
+  .prow { padding: 12px 0; }
+  .prow .pd { display: block; font-size: .9rem; color: var(--text-3); margin-top: 2px; }
+  .status { color: var(--text-3); font-size: .82rem; }
+  .shelf { margin-top: 48px; max-width: 46rem; font-size: .9rem; color: var(--text-3); }
+  .shelf a { color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+</style>
 
 <Nav variant="full" active="/projects" />
 
-<main class="col">
-  <h1>Projects</h1>
-  <p>Two kinds of work live here. The research experiments exist to make identity failures visible. The rest exists because building it was fun. Everything listed is real and running unless it says otherwise.</p>
+<main class="wrapb">
+  <div class="head">
+    <h1 class="statement">Projects</h1>
+    <p>Two kinds of work. The research experiments exist to make identity failures visible; the rest exists because building it was fun. Everything listed is real and running unless it says otherwise.</p>
+  </div>
 
-  <h2>Research</h2>
-  <ul class="rows">
-    <li><a class="t" href="/model">The Identity Model</a> — the framework behind the research: three layers, four failure modes</li>
-    <li><a class="t" href="/projects/identity-map">Identity Surface Map</a> — an interactive map of every system holding a version of you</li>
-    <li><a class="t" href="/projects/password-graveyard">The Password Graveyard</a> — enter a password, learn when it died and what killed it</li>
-    <li><a class="t" href="/projects/digital-shadow">Your Digital Shadow</a> — what data brokers and ad networks probably know about you</li>
-    <li><a class="t" href="/projects/osint-dashboard">OSINT Dashboard</a> — identity-research tools, organized by workflow instead of alphabet</li>
-    <li><span class="t">agentic-id</span> — intent tokens for AI agents, built on RFC 8693 and SPIFFE <span class="note">(in progress, will be open source)</span></li>
-  </ul>
+  <div class="cols2">
+    <div>
+      <div class="sc" style="display:block;margin-bottom:12px">Research</div>
+      <a class="prow" href="/model"><span class="pt">The Identity Model</span><span class="pd">The framework behind the research: three identity layers, four failure modes.</span></a>
+      <a class="prow" href="/projects/identity-map"><span class="pt">Identity Surface Map</span><span class="pd">An interactive map of every system holding a version of you.</span></a>
+      <a class="prow" href="/projects/password-graveyard"><span class="pt">The Password Graveyard</span><span class="pd">Enter a password, learn when it died and what killed it.</span></a>
+      <a class="prow" href="/projects/digital-shadow"><span class="pt">Your Digital Shadow</span><span class="pd">What data brokers and ad networks probably know about you.</span></a>
+      <a class="prow" href="/projects/osint-dashboard"><span class="pt">OSINT Dashboard</span><span class="pd">Identity-research tools, organized by workflow instead of alphabet.</span></a>
+      <span class="prow"><span class="pt">agentic-id</span> <span class="status">· in progress</span><span class="pd">Intent tokens for AI agents, built on RFC 8693 and SPIFFE. Will be open source.</span></span>
+    </div>
+    <div>
+      <div class="sc" style="display:block;margin-bottom:12px">For the joy of it</div>
+      <a class="prow" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener"><span class="pt">Commonlist</span><span class="pd">One clean address book: connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud.</span></a>
+      <a class="prow" href="/projects/quant-trading"><span class="pt">Quant scanner</span> <span class="status">· paper trading</span><span class="pd">100 symbols scanned nightly, defensive rotation thesis, every trade public.</span></a>
+      <a class="prow" href="/projects/pokemon-model"><span class="pt">Pokémon model</span><span class="pd">17,000+ cards scored daily for mispriced scarcity.</span></a>
+      <a class="prow" href="/projects/onepiece-model"><span class="pt">One Piece model</span><span class="pd">The same scoring model, applied to a market with no serious tooling.</span></a>
+      <a class="prow" href="/projects/gpk-model"><span class="pt">Garbage Pail Kids model</span><span class="pd">Forty years of a novelty card market, treated like an asset class.</span></a>
+      <a class="prow" href="/projects/mtg-decks"><span class="pt">MTG decks</span><span class="pd">Emrakul Commander and Death &amp; Taxes Legacy, built as appreciating assets.</span></a>
+      <a class="prow" href="/studio/broken-heart-ohio"><span class="pt">Broken Heart Ohio</span><span class="pd">A tattoo studio's website, booking, and payments, built from scratch.</span></a>
+      <span class="prow"><span class="pt">Harvest Haven</span> <span class="status">· building</span><span class="pd">A Roblox farming game built with my 10 year old.</span></span>
+    </div>
+  </div>
 
-  <h2>For the joy of it</h2>
-  <ul class="rows">
-    <li><a class="t" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">Commonlist</a> — one clean address book: connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud</li>
-    <li><a class="t" href="/projects/quant-trading">Quant scanner</a> — 100 symbols scanned nightly, defensive rotation thesis, every trade public <span class="note">(paper trading)</span></li>
-    <li><a class="t" href="/projects/pokemon-model">Pokémon model</a> — 17,000+ cards scored daily for mispriced scarcity</li>
-    <li><a class="t" href="/projects/onepiece-model">One Piece model</a> — the same scoring model, applied to a market with no serious tooling</li>
-    <li><a class="t" href="/projects/gpk-model">Garbage Pail Kids model</a> — 40 years of a novelty card market, treated like an asset class</li>
-    <li><a class="t" href="/projects/mtg-decks">MTG decks</a> — Emrakul Commander and Death &amp; Taxes Legacy, built as appreciating assets</li>
-    <li><a class="t" href="/studio/broken-heart-ohio">Broken Heart Ohio</a> — a tattoo studio's website, booking, and payments, built from scratch</li>
-    <li><span class="t">Harvest Haven</span> — a Roblox farming game built with my 10 year old <span class="note">(building)</span></li>
-  </ul>
-
-  <h2 style="font-size:1.15rem">Shelved</h2>
-  <p class="note">Ghost Signal, a five-book espionage series (two books written), waits until the research work has traction. The Vessel experiment is <a href="/archive/vessel">preserved in the archive</a>.</p>
+  <p class="shelf">Shelved: Ghost Signal, a five-book espionage series (two books written), waits for the research to have traction. The Vessel experiment is <a href="/archive/vessel">preserved in the archive</a>.</p>
 </main>
 
 <Footer />

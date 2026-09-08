@@ -4,14 +4,29 @@ import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
 <Base title="Subscribe" description="Follow matterunknown by RSS.">
+<style>
+  .head { padding: 56px 0 0; max-width: 46rem; }
+  .body { max-width: 46rem; }
+  .body p { color: var(--text-2); margin-top: 12px; font-size: 1.02rem; }
+  .feed { border: 1px solid var(--amber-border); background: var(--bg-2); padding: 24px 28px; margin: 28px 0 20px; }
+  .feed .sc { display: block; margin-bottom: 8px; }
+  .feed a { color: var(--amber); font-size: 1.02rem; }
+  .feed a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .note { font-size: .88rem; color: var(--text-3); }
+</style>
 
 <Nav variant="full" active="/subscribe" />
 
-<main class="col">
-  <h1>Subscribe</h1>
-  <p>New essays and lab updates land in the RSS feed first. Point any feed reader at:</p>
-  <p><a href="/rss.xml">https://matterunknown.com/rss.xml</a></p>
-  <p class="note">There's no email list yet. When there is, it will be announced in the feed.</p>
+<main class="wrapb">
+  <div class="head"><h1 class="statement">Subscribe</h1></div>
+  <div class="body">
+    <p>New essays and lab updates land in the RSS feed first. Point any feed reader at:</p>
+    <div class="feed">
+      <span class="sc">RSS feed</span>
+      <a href="/rss.xml">https://matterunknown.com/rss.xml</a>
+    </div>
+    <p class="note">There's no email list yet. When there is, it will be announced in the feed.</p>
+  </div>
 </main>
 
 <Footer />

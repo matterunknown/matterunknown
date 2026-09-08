@@ -5,45 +5,56 @@ import Footer from '../components/layout/Footer.astro';
 ---
 <Base title="Now" description="What's running in the lab and what I'm thinking about right now.">
 <style>
-  .stamp { font-size: .82rem; color: var(--text-3); margin-bottom: 2.5rem; }
-  .sys { font-size: .95rem; }
-  .sys .stat { color: var(--text-3); font-size: .88rem; font-variant-numeric: tabular-nums; }
+  .head { padding: 56px 0 0; max-width: 46rem; }
+  .head p { color: var(--text-2); font-size: 1.05rem; margin-top: 8px; }
+  .stamp { font-size: .82rem; color: var(--text-3); margin-top: 10px; font-variant-numeric: tabular-nums; }
+  .think { max-width: 46rem; margin-top: 40px; }
+  .think p { color: var(--text-2); margin-top: 10px; }
+  .think a { color: var(--amber); }
+  .think a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .cols2 { margin-top: 44px; }
+  .prow .stat { display: block; font-size: .88rem; color: var(--text-3); font-variant-numeric: tabular-nums; margin-top: 2px; }
 </style>
 
 <Nav variant="full" active="/now" />
 
-<main class="col">
-  <h1>Now</h1>
-  <p>What's running, and what I'm thinking about. The numbers refresh nightly; the thinking refreshes when it changes.</p>
-  <p class="stamp">Model data as of 2026-08-19 · page updated 2026-09-08</p>
+<main class="wrapb">
+  <div class="head">
+    <h1 class="statement">Now</h1>
+    <p>What's running, and what I'm thinking about. The numbers refresh nightly; the thinking refreshes when it changes.</p>
+    <p class="stamp">Model data as of 2026-08-19 · page updated 2026-09-08</p>
+  </div>
 
-  <h2>Thinking about</h2>
-  <p>Agentic identity. AI agents authenticate with borrowed credentials and leave audit trails that point at their humans. I'm building an intent-token layer on existing standards — RFC 8693 token exchange, SPIFFE workload identity — to attest not just <em>who</em> an agent is but <em>why</em> it's acting, working toward an open-source package and a paper. <a href="/writing/the-credential-remembers-who">The Credential Remembers Who</a> and <a href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a> make the argument; <a href="/writing/retiring-vessel">Retiring Vessel</a> is the story behind it.</p>
+  <div class="think">
+    <div class="sc">Thinking about</div>
+    <p>Agentic identity. AI agents authenticate with borrowed credentials and leave audit trails that point at their humans. I'm building an intent-token layer on existing standards — RFC 8693 token exchange, SPIFFE workload identity — to attest not just <em>who</em> an agent is but <em>why</em> it's acting, working toward an open-source package and a paper. <a href="/writing/the-credential-remembers-who">The Credential Remembers Who</a> and <a href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a> make the argument; <a href="/writing/retiring-vessel">Retiring Vessel</a> is the story behind it.</p>
+  </div>
 
-  <h2>Running</h2>
-  <ul class="rows sys">
-    <!-- now:commonlist -->
-    <li><a class="t" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">Commonlist</a> — <span class="stat">contacts connected, cleaned, and merged across Google, Microsoft, Outlook, and iCloud</span></li>
-    <!-- now:quant -->
-    <li><a class="t" href="/projects/quant-trading">Quant scanner</a> — <span class="stat">100 symbols scanned daily · 8 positions open · paper trading</span></li>
-    <!-- now:crypto -->
-    <li><a class="t" href="/projects/crypto-model">Crypto model</a> — <span class="stat">21 assets scored daily · 0 buy signals</span></li>
-    <!-- now:pokemon -->
-    <li><a class="t" href="/projects/pokemon-model">Pokémon model</a> — <span class="stat">17,428 cards · 168 sets · top 25 updated daily</span></li>
-    <!-- now:onepiece -->
-    <li><a class="t" href="/projects/onepiece-model">One Piece model</a> — <span class="stat">1,035 cards · 43 sets</span></li>
-    <!-- now:gpk -->
-    <li><a class="t" href="/projects/gpk-model">Garbage Pail Kids model</a> — <span class="stat">11,580 cards tracked · 114 sets</span></li>
-    <!-- now:building -->
-    <li><span class="t">Building</span> — <span class="stat">agentic-id (intent tokens) · Harvest Haven (Roblox) · Perimeter OS</span></li>
-  </ul>
-
-  <h2>Latest writing</h2>
-  <ul class="rows">
-    <li><span class="d">Aug 2026</span><a class="t" href="/writing/retiring-vessel">Retiring Vessel</a></li>
-    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-credential-remembers-who">The Credential Remembers Who. Nothing Remembers Why.</a></li>
-    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a></li>
-  </ul>
+  <div class="cols2">
+    <div>
+      <div class="sc" style="display:block;margin-bottom:12px">Running</div>
+      <!-- now:commonlist -->
+      <a class="prow" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener"><span class="pt">Commonlist</span><span class="stat">contacts connected, cleaned, and merged across Google, Microsoft, Outlook, and iCloud</span></a>
+      <!-- now:quant -->
+      <a class="prow" href="/projects/quant-trading"><span class="pt">Quant scanner</span><span class="stat">100 symbols scanned daily · 8 positions open · paper trading</span></a>
+      <!-- now:crypto -->
+      <a class="prow" href="/projects/crypto-model"><span class="pt">Crypto model</span><span class="stat">21 assets scored daily · 0 buy signals</span></a>
+      <!-- now:pokemon -->
+      <a class="prow" href="/projects/pokemon-model"><span class="pt">Pokémon model</span><span class="stat">17,428 cards · 168 sets · top 25 updated daily</span></a>
+      <!-- now:onepiece -->
+      <a class="prow" href="/projects/onepiece-model"><span class="pt">One Piece model</span><span class="stat">1,035 cards · 43 sets</span></a>
+      <!-- now:gpk -->
+      <a class="prow" href="/projects/gpk-model"><span class="pt">Garbage Pail Kids model</span><span class="stat">11,580 cards tracked · 114 sets</span></a>
+      <!-- now:building -->
+      <span class="prow"><span class="pt">Building</span><span class="stat">agentic-id (intent tokens) · Harvest Haven (Roblox) · Perimeter OS</span></span>
+    </div>
+    <div>
+      <div class="sc" style="display:block;margin-bottom:12px">Latest writing</div>
+      <a class="wrow" href="/writing/retiring-vessel"><span class="wt">Retiring Vessel</span><span class="wd">Aug 2026</span></a>
+      <a class="wrow" href="/writing/the-credential-remembers-who"><span class="wt">The Credential Remembers Who. Nothing Remembers Why.</span><span class="wd">Jul 2026</span></a>
+      <a class="wrow" href="/writing/the-workload-is-the-reasoning-session"><span class="wt">The Workload Is the Reasoning Session</span><span class="wd">Jul 2026</span></a>
+    </div>
+  </div>
 </main>
 
 <Footer />

@@ -5,38 +5,61 @@ import Footer from '../components/layout/Footer.astro';
 ---
 <Base title="matterunknown" description="Ryan Silver's site. Research on identity — especially the identity of AI agents — and smaller projects built in the open.">
 <style>
-  .lede { font-size: 1.08rem; }
-  .lede p { color: var(--text); }
-  .lede p + p { color: var(--text-2); }
+  .intro { padding: 56px 0 44px; }
+  .panels { margin-bottom: 52px; }
+  .allw { margin-top: 14px; font-size: .9rem; }
+  .allw a { color: var(--amber); }
 </style>
 
 <Nav variant="full" active="/" />
 
-<main class="col">
-  <div class="lede">
-    <p>I'm Ryan Silver. I work on identity — how systems decide who you are, and lately, what identity means for AI agents acting on our behalf.</p>
-    <p>This site is where I publish that research, and where I keep the smaller things I build because I want them to exist: a contacts app, a market scanner, card-pricing models, a Roblox farm made with my son. All of it runs in the open — the methods, the trades, and the mistakes are public.</p>
+<main class="wrapb">
+  <div class="intro">
+    <h1 class="statement">Identity, examined<br><em>in the open.</em></h1>
+    <p class="lede">I'm Ryan Silver. I research how systems decide who you are — lately, what identity means for AI agents — and I build smaller things for the joy of it. Methods, trades, and mistakes all public.</p>
   </div>
 
-  <h2>Writing</h2>
-  <ul class="rows">
-    <li><span class="d">Aug 2026</span><a class="t" href="/writing/retiring-vessel">Retiring Vessel</a></li>
-    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-credential-remembers-who">The Credential Remembers Who. Nothing Remembers Why.</a></li>
-    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a></li>
-    <li><span class="d">Jun 2026</span><a class="t" href="/writing/pokemon-card-market">The Card Market Has a Data Problem</a></li>
-    <li><span class="d">May 2026</span><a class="t" href="/writing/vibe-coding-roblox">Vibe Coding with My 10 Year Old</a></li>
-  </ul>
-  <p class="note" style="margin-top:.75rem"><a href="/writing">All writing</a> · start with <a href="/model">the identity framework</a></p>
+  <div class="panels">
+    <a class="panel" href="/writing/retiring-vessel">
+      <div class="sc">Latest essay</div>
+      <h3>Retiring Vessel</h3>
+      <p>For six months this site ran with an AI persona that named itself. Ending it taught me more about agent identity than building it did.</p>
+      <div class="go">Read →</div>
+    </a>
+    <a class="panel" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
+      <div class="sc">New from the lab</div>
+      <h3>Commonlist</h3>
+      <p>One clean address book. Connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud.</p>
+      <div class="go">Try it →</div>
+    </a>
+  </div>
 
-  <h2>Projects</h2>
-  <ul class="rows">
-    <li><a class="t" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">Commonlist</a> — one clean address book across Google, Microsoft, Outlook, and iCloud</li>
-    <li><a class="t" href="/projects/quant-trading">Quant scanner</a> — 100 symbols scanned nightly, every trade public</li>
-    <li><a class="t" href="/projects/pokemon-model">Card models</a> — Pokémon, One Piece, and Garbage Pail Kids, scored daily</li>
-    <li><a class="t" href="/projects/identity-map">Identity Surface Map</a> — how many versions of you exist across systems</li>
-    <li><a class="t" href="/projects/password-graveyard">The Password Graveyard</a> — when your password died, and what killed it</li>
-  </ul>
-  <p class="note" style="margin-top:.75rem"><a href="/projects">All projects</a> · what's running right now is on <a href="/now">the now page</a></p>
+  <div class="cols2">
+    <div>
+      <div class="sc" style="display:block;margin-bottom:16px">Writing</div>
+      <a class="wrow" href="/writing/retiring-vessel"><span class="wt">Retiring Vessel</span><span class="wd">Aug 2026</span></a>
+      <a class="wrow" href="/writing/the-credential-remembers-who"><span class="wt">The Credential Remembers Who. Nothing Remembers Why.</span><span class="wd">Jul 2026</span></a>
+      <a class="wrow" href="/writing/the-workload-is-the-reasoning-session"><span class="wt">The Workload Is the Reasoning Session</span><span class="wd">Jul 2026</span></a>
+      <a class="wrow" href="/writing/pokemon-card-market"><span class="wt">The Card Market Has a Data Problem</span><span class="wd">Jun 2026</span></a>
+      <a class="wrow" href="/writing/vibe-coding-roblox"><span class="wt">Vibe Coding with My 10 Year Old</span><span class="wd">May 2026</span></a>
+      <a class="wrow" href="/writing/identity-is-a-tattoo"><span class="wt">Identity Is a Tattoo. Design It Like One.</span><span class="wd">May 2026</span></a>
+      <p class="allw"><a href="/writing">All writing →</a></p>
+    </div>
+    <div>
+      <div class="sc" style="display:block;margin-bottom:16px">Projects</div>
+      <div class="gh" style="margin-top:0">Research</div>
+      <a class="prow" href="/model"><span class="pt">The Identity Model</span> — the framework: three layers, four failure modes</a>
+      <a class="prow" href="/projects/identity-map"><span class="pt">Identity Surface Map</span> — every system holding a version of you</a>
+      <a class="prow" href="/projects/password-graveyard"><span class="pt">The Password Graveyard</span> — when your password died, and what killed it</a>
+      <span class="prow"><span class="pt">agentic-id</span> — intent tokens for AI agents · in progress</span>
+      <div class="gh">For the joy of it</div>
+      <a class="prow" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener"><span class="pt">Commonlist</span> — one clean address book across four providers</a>
+      <a class="prow" href="/projects/quant-trading"><span class="pt">Quant scanner</span> — 100 symbols nightly, every trade public</a>
+      <a class="prow" href="/projects/pokemon-model"><span class="pt">Card models</span> — Pokémon · One Piece · GPK, scored daily</a>
+      <span class="prow"><span class="pt">Harvest Haven</span> — a Roblox farm built with my son</span>
+      <p class="allw"><a href="/projects">All projects →</a></p>
+    </div>
+  </div>
 </main>
 
 <Footer />

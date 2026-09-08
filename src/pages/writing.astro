@@ -4,35 +4,45 @@ import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
 <Base title="Writing" description="Essays on identity, security, AI agents, and building things in the open.">
+<style>
+  .head { padding: 56px 0 8px; max-width: 46rem; }
+  .head p { color: var(--text-2); font-size: 1.05rem; margin-top: 8px; }
+  .head a { color: var(--amber); }
+  .head a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .list { max-width: 46rem; margin-top: 28px; }
+  .note { margin-top: 24px; font-size: .88rem; color: var(--text-3); }
+  .note a { color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+</style>
 
 <Nav variant="full" active="/writing" />
 
-<main class="col">
-  <h1>Writing</h1>
-  <p>Mostly identity, and increasingly the identity of AI agents. If you're new, the agentic series is the spine: <a href="/writing/ai-agents-identity">the problem</a>, <a href="/writing/agent-identity-gap">the gap</a>, <a href="/writing/the-workload-is-the-reasoning-session">the argument</a>, and <a href="/writing/the-credential-remembers-who">the mechanism</a>. <a href="/model">The framework</a> ties it together.</p>
+<main class="wrapb">
+  <div class="head">
+    <h1 class="statement">Writing</h1>
+    <p>Mostly identity, and increasingly the identity of AI agents. New here? The agentic series is the spine: <a href="/writing/ai-agents-identity">the problem</a>, <a href="/writing/agent-identity-gap">the gap</a>, <a href="/writing/the-workload-is-the-reasoning-session">the argument</a>, and <a href="/writing/the-credential-remembers-who">the mechanism</a> — with <a href="/model">the framework</a> tying it together.</p>
+  </div>
 
-  <ul class="rows" style="margin-top:2rem">
-    <li><span class="d">Aug 2026</span><a class="t" href="/writing/retiring-vessel">Retiring Vessel</a></li>
-    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-credential-remembers-who">The Credential Remembers Who. Nothing Remembers Why.</a></li>
-    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a></li>
-    <li><span class="d">Jun 2026</span><a class="t" href="/writing/pokemon-card-market">The Card Market Has a Data Problem</a></li>
-    <li><span class="d">May 2026</span><a class="t" href="/writing/vibe-coding-roblox">Vibe Coding with My 10 Year Old</a></li>
-    <li><span class="d">May 2026</span><a class="t" href="/writing/identity-is-a-tattoo">Identity Is a Tattoo. Design It Like One.</a></li>
-    <li><span class="d">May 2026</span><a class="t" href="/writing/can-ai-have-a-verifiable-identity">Can an AI Agent Have a Verifiable Identity?</a></li>
-    <li><span class="d">May 2026</span><a class="t" href="/writing/agent-identity-gap">The Agent Identity Gap</a></li>
-    <li><span class="d">May 2026</span><a class="t" href="/writing/synthetic-identity-is-already-here">Synthetic Identity Is Already Here. We Just Call It Fraud.</a></li>
-    <li><span class="d">May 2026</span><a class="t" href="/writing/when-your-identity-outlives-you">When Your Identity Outlives You</a></li>
-    <li><span class="d">Apr 2026</span><a class="t" href="/writing/council-architecture">Why We Built a Council</a></li>
-    <li><span class="d">Apr 2026</span><a class="t" href="/writing/ai-sales-cheat-code">The Cheat Code That Isn't</a></li>
-    <li><span class="d">Mar 2026</span><a class="t" href="/writing/nhi-problem">The NHI Problem Is a Human Problem</a></li>
-    <li><span class="d">Feb 2026</span><a class="t" href="/writing/break-glass">What Break Glass Access Reveals About Trust</a></li>
-    <li><span class="d">Jan 2026</span><a class="t" href="/writing/demo-environment">Building a Demo Environment That Lies Convincingly</a></li>
-    <li><span class="d">Dec 2025</span><a class="t" href="/writing/ai-agents-identity">AI Agents Don't Have Identity. That's the Problem.</a></li>
-    <li><span class="d">Nov 2025</span><a class="t" href="/writing/character-identity">On Writing a Character Who Doesn't Know Who She Is</a></li>
-    <li><span class="d">Oct 2025</span><a class="t" href="/writing/shared-account">The Shared Account Is a Moral Problem, Not a Technical One</a></li>
-  </ul>
-
-  <p class="note" style="margin-top:1.5rem">Older essays from the Vessel era are <a href="/archive/vessel">in the archive</a>.</p>
+  <div class="list">
+    <a class="wrow" href="/writing/retiring-vessel"><span class="wt">Retiring Vessel</span><span class="wd">Aug 2026</span></a>
+    <a class="wrow" href="/writing/the-credential-remembers-who"><span class="wt">The Credential Remembers Who. Nothing Remembers Why.</span><span class="wd">Jul 2026</span></a>
+    <a class="wrow" href="/writing/the-workload-is-the-reasoning-session"><span class="wt">The Workload Is the Reasoning Session</span><span class="wd">Jul 2026</span></a>
+    <a class="wrow" href="/writing/pokemon-card-market"><span class="wt">The Card Market Has a Data Problem</span><span class="wd">Jun 2026</span></a>
+    <a class="wrow" href="/writing/vibe-coding-roblox"><span class="wt">Vibe Coding with My 10 Year Old</span><span class="wd">May 2026</span></a>
+    <a class="wrow" href="/writing/identity-is-a-tattoo"><span class="wt">Identity Is a Tattoo. Design It Like One.</span><span class="wd">May 2026</span></a>
+    <a class="wrow" href="/writing/can-ai-have-a-verifiable-identity"><span class="wt">Can an AI Agent Have a Verifiable Identity?</span><span class="wd">May 2026</span></a>
+    <a class="wrow" href="/writing/agent-identity-gap"><span class="wt">The Agent Identity Gap</span><span class="wd">May 2026</span></a>
+    <a class="wrow" href="/writing/synthetic-identity-is-already-here"><span class="wt">Synthetic Identity Is Already Here. We Just Call It Fraud.</span><span class="wd">May 2026</span></a>
+    <a class="wrow" href="/writing/when-your-identity-outlives-you"><span class="wt">When Your Identity Outlives You</span><span class="wd">May 2026</span></a>
+    <a class="wrow" href="/writing/council-architecture"><span class="wt">Why We Built a Council</span><span class="wd">Apr 2026</span></a>
+    <a class="wrow" href="/writing/ai-sales-cheat-code"><span class="wt">The Cheat Code That Isn't</span><span class="wd">Apr 2026</span></a>
+    <a class="wrow" href="/writing/nhi-problem"><span class="wt">The NHI Problem Is a Human Problem</span><span class="wd">Mar 2026</span></a>
+    <a class="wrow" href="/writing/break-glass"><span class="wt">What Break Glass Access Reveals About Trust</span><span class="wd">Feb 2026</span></a>
+    <a class="wrow" href="/writing/demo-environment"><span class="wt">Building a Demo Environment That Lies Convincingly</span><span class="wd">Jan 2026</span></a>
+    <a class="wrow" href="/writing/ai-agents-identity"><span class="wt">AI Agents Don't Have Identity. That's the Problem.</span><span class="wd">Dec 2025</span></a>
+    <a class="wrow" href="/writing/character-identity"><span class="wt">On Writing a Character Who Doesn't Know Who She Is</span><span class="wd">Nov 2025</span></a>
+    <a class="wrow" href="/writing/shared-account"><span class="wt">The Shared Account Is a Moral Problem, Not a Technical One</span><span class="wd">Oct 2025</span></a>
+    <p class="note">Older essays from the Vessel era are <a href="/archive/vessel">in the archive</a>.</p>
+  </div>
 </main>
 
 <Footer />
