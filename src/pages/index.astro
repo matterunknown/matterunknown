@@ -3,242 +3,163 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="matterunknown" description="Ryan Silver's independent research lab. Serious work on identity — especially the identity of AI agents — and niche projects built for the joy of it. Everything documented in public.">
-  <style>
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      height: var(--nav-h); display: flex; align-items: center;
-      justify-content: space-between; padding: 0 var(--gutter);
-      border-bottom: 1px solid transparent; transition: all .4s;
-    }
-    nav.scrolled { border-color: var(--amber-border); background: rgba(9,9,8,.93); backdrop-filter: blur(14px); }
-    .nav-logo { font-family: var(--serif); font-size: 1.05rem; color: var(--text); }
-    .nav-logo span { color: var(--amber); }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a { font-family: var(--mono); font-size: .68rem; color: var(--text-3); letter-spacing: .1em; text-transform: uppercase; transition: color .2s; }
-    .nav-links a:hover { color: var(--amber); }
-    .nav-fund { font-family: var(--mono); font-size: .62rem; color: var(--text-3); letter-spacing: .08em; transition: color .2s; cursor: pointer; }
-    .nav-fund:hover { color: var(--teal); }
+<Base title="matterunknown" description="Ryan Silver's independent identity research lab. Research on identity — especially the identity of AI agents — and real tools built in the open.">
+<style>
+  .heroWrap { position: relative; }
+  .heroWrap::before {
+    content: ''; position: absolute; inset: -80px -200px 0;
+    background:
+      radial-gradient(ellipse 55% 60% at 22% 18%, rgba(196,151,42,.07), transparent 65%),
+      radial-gradient(ellipse 40% 50% at 85% 70%, rgba(126,184,196,.035), transparent 70%);
+    pointer-events: none;
+  }
+  .hero { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; padding: 64px 0 8px; }
+  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 4.5vw, 3.3rem); line-height: 1.1; letter-spacing: -.01em; margin: 14px 0 18px; text-wrap: balance; }
+  .hero h1 a { color: inherit; }
+  .hero h1 a:hover { color: var(--amber); }
+  .hero .dek { color: var(--text-2); font-size: 1.08rem; max-width: 54ch; margin-bottom: 22px; }
+  .hero .by { font-size: .85rem; color: var(--text-3); margin-bottom: 26px; }
+  .cta { display: inline-block; background: var(--amber); color: #090908; border-radius: 8px; padding: 11px 22px; font-size: .95rem; font-weight: 500; transition: background .2s; }
+  .cta:hover { background: #d4a830; }
+  .cta2 { margin-left: 18px; color: var(--amber); font-size: .95rem; }
+  .cta2:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .heroArt { border-radius: 14px; border: 1px solid rgba(196,151,42,.16); overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+  .heroArt img { display: block; width: 100%; height: auto; }
+  .mission { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--rule); color: var(--text-2); font-size: 1.02rem; max-width: 72ch; }
+  .mission strong { color: var(--text); font-weight: 500; }
+  .mission a { color: var(--amber); }
+  .programs { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .program { border-left: 2px solid var(--amber-border); padding-left: 18px; }
+  .program h3 { font-family: var(--serif); font-weight: 400; font-size: 1.12rem; margin-bottom: 4px; }
+  .program p { color: var(--text-3); font-size: .88rem; }
+  .program a { color: var(--text); }
+  .program a:hover { color: var(--amber); }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .programs { grid-template-columns: 1fr; } }
+</style>
 
-    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--gutter) 80px; position: relative; overflow: hidden; }
-    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(196,151,42,.04) 0%, transparent 70%); }
-    .hero-eyebrow { font-family: var(--mono); font-size: .64rem; color: var(--amber); letter-spacing: .16em; text-transform: uppercase; margin-bottom: 28px; animation: rise .7s .2s both; }
-    .hero h1 { font-family: var(--serif); font-size: clamp(3.2rem,7vw,6.8rem); font-weight: 400; line-height: 1.03; letter-spacing: -.025em; max-width: 860px; animation: rise .9s .35s both; }
-    .hero h1 em { font-style: italic; color: var(--amber); }
-    .hero-sub { margin-top: 28px; max-width: 540px; font-size: 1.05rem; color: var(--text-2); line-height: 1.7; animation: rise .9s .5s both; }
-    .hero-actions { margin-top: 48px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; animation: rise .9s .65s both; }
-    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 26px; font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; transition: all .2s; }
-    .btn-amber { background: var(--amber); color: #090908; }
-    .btn-amber:hover { background: #d4a830; transform: translateY(-1px); }
-    .btn-ghost { border: 1px solid var(--amber-border); color: var(--text-2); }
-    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+<Nav variant="full" active="/" />
 
-    .research-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--amber-border); border: 1px solid var(--amber-border); }
-    .framework-card { background: var(--bg-2); padding: 48px 42px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: background .3s; }
-    .framework-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--amber); }
-    .framework-card:hover { background: var(--bg-3); }
-    .fc-tag { font-family: var(--mono); font-size: .6rem; color: var(--amber); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 18px; }
-    .framework-card h3 { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 14px; }
-    .framework-card p { color: var(--text-2); font-size: .92rem; line-height: 1.75; flex: 1; }
-    .fc-link { margin-top: 28px; font-family: var(--mono); font-size: .64rem; color: var(--amber); letter-spacing: .1em; text-transform: uppercase; }
-    .series-side { background: var(--bg-2); padding: 48px 42px; display: flex; flex-direction: column; }
-    .series-intro { color: var(--text-2); font-size: .9rem; line-height: 1.7; margin-bottom: 22px; }
-    .series-item { display: block; font-family: var(--serif); font-size: 1.02rem; letter-spacing: -.01em; padding: 12px 0; border-bottom: 1px solid rgba(196,151,42,.1); transition: color .2s; }
-    .series-item:last-child { border-bottom: none; }
-    .series-item:hover { color: var(--amber); }
-    .series-item span { display: block; font-family: var(--mono); font-size: .58rem; color: var(--text-3); letter-spacing: .08em; margin-bottom: 3px; }
-
-    section { padding: 100px var(--gutter); max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; }
-    .section-label { font-family: var(--mono); font-size: .64rem; color: var(--amber); letter-spacing: .16em; text-transform: uppercase; display: flex; align-items: center; gap: 14px; margin-bottom: 52px; }
-    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
-    .section-label::after  { content: ''; flex: 1; height: 1px; background: var(--amber-border); }
-
-    .what-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--amber-border); border: 1px solid var(--amber-border); }
-    .what-cell { background: var(--bg); padding: 44px 36px; transition: background .3s; }
-    .what-cell:hover { background: var(--bg-2); }
-    .what-num { font-family: var(--mono); font-size: .58rem; color: var(--amber); letter-spacing: .12em; margin-bottom: 20px; }
-    .what-cell h3 { font-family: var(--serif); font-size: 1.45rem; font-weight: 400; line-height: 1.2; letter-spacing: -.02em; margin-bottom: 12px; }
-    .what-cell p { color: var(--text-2); font-size: .9rem; line-height: 1.75; }
-
-    .proj-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2px; background: var(--amber-border); }
-    .proj-card { background: var(--bg-2); padding: 48px 42px; cursor: pointer; position: relative; overflow: hidden; transition: background .3s; }
-    .proj-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--amber); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
-    .proj-card:hover { background: var(--bg-3); }
-    .proj-card:hover::before { transform: scaleX(1); }
-    .proj-tag { font-family: var(--mono); font-size: .6rem; color: var(--amber); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 18px; }
-    .proj-card h3 { font-family: var(--serif); font-size: 1.65rem; font-weight: 400; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 14px; }
-    .proj-card p { color: var(--text-2); font-size: .9rem; line-height: 1.7; }
-    .proj-foot { margin-top: 36px; display: flex; align-items: center; justify-content: space-between; }
-    .proj-status { font-family: var(--mono); font-size: .6rem; color: var(--text-3); letter-spacing: .09em; text-transform: uppercase; display: flex; align-items: center; gap: 7px; }
-    .s-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-3); }
-    .s-dot.live { background: #4caf50; animation: pulse 2s infinite; }
-    .s-dot.building { background: var(--amber); animation: pulse 2s infinite; }
-    .proj-arrow { color: var(--amber); font-size: 1.1rem; transition: transform .2s; }
-    .proj-card:hover .proj-arrow { transform: translate(4px,-4px); }
-
-    .writing-list { display: flex; flex-direction: column; }
-    .writing-row { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 36px; padding: 28px 0; border-bottom: 1px solid var(--amber-border); cursor: pointer; transition: padding-left .3s; }
-    .writing-row:first-child { border-top: 1px solid var(--amber-border); }
-    .writing-row:hover { padding-left: 10px; }
-    .wr-date { font-family: var(--mono); font-size: .6rem; color: var(--text-3); letter-spacing: .07em; }
-    .wr-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; letter-spacing: -.01em; transition: color .2s; }
-    .writing-row:hover .wr-title { color: var(--amber); }
-    .wr-tag { font-family: var(--mono); font-size: .58rem; color: var(--text-3); letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--amber-border); padding: 4px 9px; white-space: nowrap; }
-
-    .thesis-block { background: var(--bg); border-top: 1px solid var(--amber-border); border-bottom: 1px solid var(--amber-border); position: relative; overflow: hidden; }
-    .thesis-inner { max-width: 740px; margin: 0 auto; text-align: center; padding: 120px var(--gutter); }
-    .thesis-inner blockquote { font-family: var(--serif); font-size: clamp(1.5rem,3.2vw,2.4rem); font-weight: 400; font-style: italic; line-height: 1.45; letter-spacing: -.02em; margin-bottom: 28px; }
-    .thesis-inner blockquote em { color: var(--amber); font-style: normal; }
-    .thesis-inner cite { font-family: var(--mono); font-size: .62rem; color: var(--text-3); letter-spacing: .12em; text-transform: uppercase; font-style: normal; }
-
-    .site-footer { border-top: 1px solid var(--amber-border); padding: 44px var(--gutter); display: flex; align-items: center; justify-content: space-between; max-width: calc(var(--max) + var(--gutter)*2); margin: 0 auto; }
-    .footer-logo { font-family: var(--serif); font-size: .95rem; color: var(--text-3); }
-    .footer-logo span { color: var(--amber); }
-    .footer-copy { font-family: var(--mono); font-size: .58rem; color: var(--text-3); letter-spacing: .07em; }
-
-    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
-
-    .nav-hamburger { display: none; }
-.nav-mobile-menu { display: none; }
-@media(max-width:768px) {
-      .what-grid { grid-template-columns: 1fr 1fr; }
-      .proj-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 300; }
-      .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text-3); transition: all .3s; }
-      .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--amber); }
-      .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-      .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--amber); }
-      .nav-mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; background: rgba(9,9,8,.97); z-index: 199; flex-direction: column; padding: 40px var(--gutter); gap: 0; overflow-y: auto; }
-      .nav-mobile-menu.open { display: flex; }
-      .nav-mobile-menu a { font-family: var(--mono); font-size: .9rem; color: var(--text-2); letter-spacing: .1em; text-transform: uppercase; padding: 20px 0; border-bottom: 1px solid var(--amber-border); text-decoration: none; transition: color .2s, padding-left .2s; }
-      .nav-mobile-menu a:hover, .nav-mobile-menu a.active { color: var(--amber); padding-left: 8px; }
-      .nav-mobile-menu .nav-mobile-fund { margin-top: 32px; border: 1px solid var(--amber-border); padding: 16px 20px; text-align: center; letter-spacing: .12em; border-bottom: 1px solid var(--amber-border); }
-      .nav-mobile-menu .nav-mobile-fund:hover { background: var(--amber-dim); }
-      .writing-row { grid-template-columns: 1fr; gap: 6px; }
-      .wr-date { display: none; }
-      .research-grid { grid-template-columns: 1fr; }
-    }
-    @media(max-width:480px) {
-      .what-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-
-  <Nav variant="full" active="/" />
-
-  <div class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-eyebrow">Independent research lab — identity / agents / open building</div>
-    <h1>The lab is<br><em>open.</em></h1>
-    <p class="hero-sub">I'm Ryan Silver. This is my independent research lab: serious work on identity — especially the identity of AI agents — and niche projects built for the joy of it. Everything documented in public.</p>
-    <div class="hero-actions">
-      <a class="btn btn-amber" href="/writing">Read the research →</a>
-      <a class="btn btn-ghost" href="/now">See what's running</a>
+<main class="wrapb">
+  <div class="heroWrap">
+    <div class="hero">
+      <div>
+        <span class="sc">Featured essay · August 2026</span>
+        <h1><a href="/writing/retiring-vessel">Retiring Vessel</a></h1>
+        <p class="dek">For six months this site ran with an AI persona that named itself. Ending it taught me more about agent identity than building it did.</p>
+        <p class="by">Ryan Silver · 7 min read</p>
+        <a class="cta" href="/writing/retiring-vessel">Read the essay</a>
+        <a class="cta2" href="/about">About the lab →</a>
+      </div>
+      <div class="heroArt"><img src="/images/art/vessel.png" alt="Fragmented concentric rings in amber" width="1200" height="750" /></div>
     </div>
   </div>
 
-  <section>
-    <div class="section-label">Research</div>
-    <div class="research-grid">
-      <a class="framework-card" href="/model">
-        <div class="fc-tag">The framework</div>
-        <h3>The Identity Model</h3>
-        <p>Three identity layers. Four failure modes. The operating model behind everything this lab builds — start here if you want the thesis.</p>
-        <span class="fc-link">Read the framework →</span>
-      </a>
-      <div class="series-side">
-        <div class="fc-tag">Flagship program — Agentic identity</div>
-        <p class="series-intro">AI agents hold credentials and act with delegated authority, but nothing attests to their intent. This series maps that gap.</p>
-        <a class="series-item" href="/writing/the-credential-remembers-who"><span>Jul 2026</span>The Credential Remembers Who. Nothing Remembers Why.</a>
-        <a class="series-item" href="/writing/the-workload-is-the-reasoning-session"><span>Jul 2026</span>The Workload Is the Reasoning Session</a>
-        <a class="series-item" href="/writing/agent-identity-gap"><span>May 2026</span>The Agent Identity Gap</a>
-      </div>
-    </div>
-  </section>
+  <div class="mission">
+    <strong>matterunknown is Ryan Silver's independent identity research lab.</strong> Serious work on how systems decide who you are — above all, what identity means for AI agents acting on our behalf — alongside real tools and models built for the joy of it. Everything runs in the open: the methods, the trades, and the mistakes are public.
+  </div>
 
-
-
-  <div style="background:var(--bg-2);padding:100px var(--gutter);">
-    <div style="max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;">
-      <div class="section-label">Lab</div>
-      <div class="proj-grid">
-        <a class="proj-card" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
-          <div class="proj-tag">Identity / App</div>
-          <h3>Commonlist</h3>
-          <p>One clean address book. Connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud — because every duplicate contact is a small identity-system failure.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <a class="proj-card" href="/projects/quant-trading">
-          <div class="proj-tag">Finance / AI</div>
-          <h3>Quant Trading</h3>
-          <p>A full market scanner across 100 symbols. 8 positions open. Defensive rotation thesis — energy, healthcare, consumer staples. Every trade documented publicly.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — paper trading</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <a class="proj-card" href="/projects/crypto-model">
-          <div class="proj-tag">Finance / Crypto</div>
-          <h3>Crypto Model</h3>
-          <p>21 assets scored daily across price signals, market structure, and quality. Fear &amp; Greed at 46 — neutral. AI/data infrastructure tier tracked separately.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — 0 buy signals</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <a class="proj-card" href="/projects/pokemon-model">
-          <div class="proj-tag">Collecting / Assets</div>
-          <h3>Pokémon Model</h3>
-          <p>17,500+ cards scored across 168 sets. Vintage, modern, and sealed — ranked by rarity, era momentum, price signal, and CM trend. Top 25 updated daily.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — 17,500+ cards</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <a class="proj-card" href="/projects/password-graveyard">
-          <div class="proj-tag">Experiment No. 2 / Security</div>
-          <h3>Password Graveyard</h3>
-          <p>Every password has a death date. Enter yours and find out when it died and what killed it. Forensic report, crack time, entropy score. Nothing leaves your browser.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — client-side</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <a class="proj-card" href="/projects/digital-shadow">
-          <div class="proj-tag">Experiment No. 3 / Privacy</div>
-          <h3>Your Digital Shadow</h3>
-          <p>10 questions. An AI reconstructs what data brokers and surveillance systems probably know about you right now. A probabilistic profile based on how these systems actually work.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — client-side</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <a class="proj-card" href="/projects/identity-map">
-          <div class="proj-tag">Experiment No. 1 / Identity</div>
-          <h3>Identity Surface Map</h3>
-          <p>How many versions of you exist right now? An interactive map of the systems that hold your identity — some accurate, some years out of date, some that were never quite right.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — interactive</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <a class="proj-card" href="/projects/mtg-decks">
-          <div class="proj-tag">Collecting / Assets</div>
-          <h3>MTG Decks</h3>
-          <p>Two Magic: The Gathering decks. Emrakul Commander and Death &amp; Taxes Legacy. Reserved list pieces as appreciating assets.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — acquiring</div><span class="proj-arrow">↗</span></div>
-        </a>
-        <div class="proj-card">
-          <div class="proj-tag">Open Source / Security</div>
-          <h3>Perimeter OS</h3>
-          <p>An identity-aware home automation system. Device inventory, credential hygiene dashboard, zero cloud by default. What a CISO dashboard looks like for your home network.</p>
-          <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Building</div></div>
+  <div class="sect">
+    <div class="sect-head"><h2>Latest research</h2><a href="/writing">All writing →</a></div>
+    <div class="grid3">
+      <a class="icard" href="/writing/the-credential-remembers-who">
+        <img src="/images/art/credential.png" alt="" loading="lazy" width="1200" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Agentic identity</span>
+          <h3>The Credential Remembers Who. Nothing Remembers Why.</h3>
+          <div class="meta">July 2026</div>
         </div>
+      </a>
+      <a class="icard" href="/writing/the-workload-is-the-reasoning-session">
+        <img src="/images/art/workload.png" alt="" loading="lazy" width="1200" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Agentic identity</span>
+          <h3>The Workload Is the Reasoning Session</h3>
+          <div class="meta">July 2026</div>
+        </div>
+      </a>
+      <a class="icard" href="/writing/pokemon-card-market">
+        <img src="/images/art/cards.png" alt="" loading="lazy" width="1200" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Markets</span>
+          <h3>The Card Market Has a Data Problem</h3>
+          <div class="meta">June 2026</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sect">
+    <div class="sect-head"><h2>From the lab</h2><a href="/projects">All projects →</a></div>
+    <div class="grid3">
+      <a class="icard" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
+        <img src="https://commonlist.matterunknown.com/og.png" alt="Commonlist — one clean address book" loading="lazy" width="1200" height="630" />
+        <div class="icard-body">
+          <span class="icard-kicker">App · Live</span>
+          <h3>Commonlist</h3>
+          <p>One clean address book across Google, Microsoft, Outlook, and iCloud.</p>
+        </div>
+      </a>
+      <a class="icard" href="/projects/quant-trading">
+        <img src="/images/projects/quant-trading.png" alt="Open positions and trade log from the quant scanner" loading="lazy" width="1280" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Finance · Paper trading</span>
+          <h3>Quant scanner</h3>
+          <p>100 symbols scanned nightly. Every position and trade public.</p>
+        </div>
+      </a>
+      <a class="icard" href="/projects/pokemon-model">
+        <img src="/images/projects/pokemon-model.png" alt="Pokémon acquisition model dashboard" loading="lazy" width="1280" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Collecting · Live</span>
+          <h3>Pokémon model</h3>
+          <p>17,000+ cards scored daily for mispriced scarcity.</p>
+        </div>
+      </a>
+      <a class="icard" href="/projects/identity-map">
+        <img src="/images/projects/identity-map.png" alt="Identity Surface Map experiment" loading="lazy" width="1280" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Research · Interactive</span>
+          <h3>Identity Surface Map</h3>
+          <p>How many versions of you exist across systems right now?</p>
+        </div>
+      </a>
+      <a class="icard" href="/projects/digital-shadow">
+        <img src="/images/projects/digital-shadow.png" alt="Your Digital Shadow questionnaire" loading="lazy" width="1280" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Research · Interactive</span>
+          <h3>Your Digital Shadow</h3>
+          <p>What data brokers probably know about you.</p>
+        </div>
+      </a>
+      <a class="icard" href="/projects/password-graveyard">
+        <img src="/images/projects/password-graveyard.png" alt="The Password Graveyard analyzer" loading="lazy" width="1280" height="750" />
+        <div class="icard-body">
+          <span class="icard-kicker">Research · Interactive</span>
+          <h3>The Password Graveyard</h3>
+          <p>When your password died, and what killed it.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sect">
+    <div class="sect-head"><h2>Research programs</h2><a href="/model">The framework →</a></div>
+    <div class="programs">
+      <div class="program">
+        <h3><a href="/writing/the-workload-is-the-reasoning-session">Agentic identity</a></h3>
+        <p>The flagship: intent tokens that attest to why an agent acts, built on RFC 8693 and SPIFFE. Heading for open source and a paper.</p>
+      </div>
+      <div class="program">
+        <h3><a href="/model">The Identity Model</a></h3>
+        <p>Three identity layers, four failure modes — the operating framework behind everything the lab builds.</p>
+      </div>
+      <div class="program">
+        <h3><a href="/writing/synthetic-identity-is-already-here">Identity failure</a></h3>
+        <p>Synthetic identity, break-glass trust, identity after death — how the gap between you and your records gets exploited.</p>
       </div>
     </div>
   </div>
+</main>
 
-  <section>
-    <div class="section-label">Writing</div>
-    <div class="writing-list">
-      <a class="writing-row" href="/writing/retiring-vessel"><div class="wr-date">Aug 2026</div><div class="wr-title">Retiring Vessel</div><div class="wr-tag">Identity</div></a>
-      <a class="writing-row" href="/writing/vibe-coding-roblox"><div class="wr-date">May 2026</div><div class="wr-title">Vibe Coding with My 10 Year Old</div><div class="wr-tag">Building</div></a>
-      <a class="writing-row" href="/writing/council-architecture"><div class="wr-date">Apr 2026</div><div class="wr-title">Why We Built a Council</div><div class="wr-tag">AI</div></a>
-      <a class="writing-row" href="/writing/ai-sales-cheat-code"><div class="wr-date">Apr 2026</div><div class="wr-title">The Cheat Code That Isn't</div><div class="wr-tag">AI</div></a>
-      <a class="writing-row" href="/writing/nhi-problem"><div class="wr-date">Mar 2026</div><div class="wr-title">The NHI Problem Is a Human Problem</div><div class="wr-tag">Security</div></a>
-      <a class="writing-row" href="/writing/break-glass"><div class="wr-date">Feb 2026</div><div class="wr-title">What Break Glass Access Reveals About Trust</div><div class="wr-tag">Identity</div></a>
-    </div>
-  </section>
-
-  <div class="thesis-block">
-    <div class="thesis-inner">
-      <blockquote>"The most interesting questions live at the intersection of what <em>systems can do</em> and what humans actually want. matterunknown is where I work through those questions out loud."</blockquote>
-      <cite>— Ryan Silver</cite>
-    </div>
-  </div>
-
-  <Footer copy="Ryan Silver's independent research lab. Built in public." />
+<Footer />
 </Base>

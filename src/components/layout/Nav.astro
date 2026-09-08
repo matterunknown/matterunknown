@@ -1,180 +1,70 @@
 ---
-// Nav.astro
-// Two variants:
-//   - "full": main site pages — logo + 4-link nav + Subscribe CTA + mobile hamburger
-//   - "sub":  tool/experiment/archive pages — logo + single "back" link, no hamburger
-//
-// This component is the single fix for the "ghost nav" bug that previously had to be
-// patched across 12 separate files (inconsistent `@media(max-width:768px)` vs
-// `@media (max-width: 768px)` syntax, and no baseline `display:none` outside the query).
-
+// Nav.astro — a quiet, static header. No fixed positioning, no scroll effects,
+// no hamburger: the links are short enough to wrap on small screens.
+//   - "full": wordmark + links (most pages)
+//   - "sub":  wordmark + a single back link (essays, tools, archive)
 export interface Props {
   variant?: 'full' | 'sub';
-  active?: string;       // path to mark as active in full nav, e.g. "/writing"
-  backHref?: string;     // required for variant="sub"
-  backLabel?: string;    // defaults to "~ Lab"
-  accent?: 'amber' | 'teal'; // per-page theme override — archived Vessel-era pages use teal hover
+  active?: string;       // path to underline in full nav, e.g. "/writing"
+  backHref?: string;     // for variant="sub"
+  backLabel?: string;
+  accent?: 'amber' | 'teal'; // legacy prop, accepted but unused
 }
 
 const {
   variant = 'full',
   active = '',
   backHref = '/projects',
-  backLabel = '~ Lab',
-  accent = 'amber',
+  backLabel = 'back',
 } = Astro.props as Props;
 
-const accentVar = accent === 'teal' ? 'var(--teal)' : 'var(--amber)';
-const accentBorderVar = accent === 'teal' ? 'var(--teal-border)' : 'var(--amber-border)';
-
 const links = [
-  { href: '/writing', label: 'Research' },
-  { href: '/projects', label: 'Lab' },
+  { href: '/writing', label: 'Writing' },
+  { href: '/projects', label: 'Projects' },
   { href: '/now', label: 'Now' },
   { href: '/about', label: 'About' },
+  { href: '/subscribe', label: 'Subscribe' },
 ];
 ---
-<style define:vars={{ accentVar, accentBorderVar }}>
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    height: var(--nav-h);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 var(--gutter);
-    border-bottom: 1px solid transparent;
-    transition: all .4s;
+<style>
+  header {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 30px clamp(20px, 4vw, 44px) 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    flex-wrap: wrap;
   }
-  nav.scrolled { border-color: var(--accentBorderVar); background: rgba(9,9,8,.93); backdrop-filter: blur(14px); }
-  .nav-logo { font-family: var(--serif); font-size: 1.05rem; color: var(--text); text-decoration: none; }
-  .nav-logo span { color: var(--amber); }
-
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    font-family: var(--mono); font-size: .68rem; color: var(--text-3);
-    letter-spacing: .1em; text-transform: uppercase; transition: color .2s;
+  .wordmark {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
   }
-  .nav-links a:hover, .nav-links a.active { color: var(--accentVar); }
-
-  .nav-fund {
-    font-family: var(--mono); font-size: .62rem; color: var(--text-3);
-    letter-spacing: .08em; text-transform: uppercase; transition: color .2s;
+  .wordmark span { color: var(--amber); }
+  nav { display: flex; gap: 1.6rem; flex-wrap: wrap; }
+  nav a {
+    font-size: .95rem;
+    color: var(--text-2);
+    text-decoration: none;
   }
-  .nav-fund:hover { color: var(--accentVar); }
-
-  .nav-back {
-    font-family: var(--mono); font-size: .65rem; color: var(--text-3);
-    letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
-    transition: color .2s;
-  }
-  .nav-back:hover { color: var(--accentVar); }
-
-  /* Mobile hamburger — baseline hidden on ALL viewports by default.
-     This single rule, defined ONCE, is what the 12-file bug was missing. */
-  .nav-hamburger {
-    display: none;
-    flex-direction: column; justify-content: center; gap: 5px;
-    width: 32px; height: 32px; background: none; border: none; cursor: pointer;
-    padding: 0;
-  }
-  .nav-hamburger span {
-    display: block; width: 100%; height: 1.5px; background: var(--text);
-    transition: transform .25s, opacity .25s;
-  }
-  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-  .nav-mobile-menu {
-    display: none;
-    position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; z-index: 199;
-    background: rgba(9,9,8,.98); backdrop-filter: blur(14px);
-    flex-direction: column; padding: 32px var(--gutter); gap: 4px;
-    transform: translateY(-8px); opacity: 0; pointer-events: none;
-    transition: transform .3s, opacity .3s;
-  }
-  .nav-mobile-menu.open {
-    display: flex; transform: translateY(0); opacity: 1; pointer-events: auto;
-  }
-  .nav-mobile-menu a {
-    font-family: var(--mono); font-size: .85rem; color: var(--text-2);
-    letter-spacing: .06em; text-transform: uppercase; padding: 14px 0;
-    border-bottom: 1px solid var(--amber-border);
-  }
-  .nav-mobile-menu a:hover, .nav-mobile-menu a.active { color: var(--accentVar); }
-  .nav-mobile-menu .nav-mobile-fund {
-    margin-top: 32px; border: 1px solid var(--amber-border); padding: 16px 20px;
-    text-align: center; letter-spacing: .12em; border-bottom: 1px solid var(--amber-border);
-  }
-  .nav-mobile-menu .nav-mobile-fund:hover { background: var(--amber-dim); }
-
-  @media(max-width: 768px) {
-    .nav-links { display: none; }
-    .nav-fund { display: none; }
-    .nav-hamburger { display: flex; }
-  }
+  nav a:hover { color: var(--amber); }
+  nav a.active { color: var(--text); border-bottom: 1px solid var(--amber); }
+  nav a.cta { color: var(--amber); }
 </style>
 
-<nav id="site-nav">
-  <a class="nav-logo" href="/">matter<span>unknown</span></a>
-
-  {variant === 'full' && (
-    <>
-      <ul class="nav-links">
-        {links.map(link => (
-          <li><a href={link.href} class={active === link.href ? 'active' : ''}>{link.label}</a></li>
-        ))}
-      </ul>
-      <a class="nav-fund" href="/subscribe">Subscribe</a>
-      <button
-        class="nav-hamburger"
-        id="nav-hamburger"
-        aria-label="Toggle navigation menu"
-        aria-expanded="false"
-        aria-controls="nav-mobile-menu"
-      >
-        <span></span><span></span><span></span>
-      </button>
-    </>
+<header>
+  <a class="wordmark" href="/">matter<span>unknown</span></a>
+  {variant === 'full' ? (
+    <nav>
+      {links.map(link => (
+        <a href={link.href} class={(active === link.href ? 'active ' : '') + (link.href === '/subscribe' ? 'cta' : '')}>{link.label}</a>
+      ))}
+    </nav>
+  ) : (
+    <nav><a href={backHref}>← {backLabel.replace(/^[~←]\s*/, '')}</a></nav>
   )}
-
-  {variant === 'sub' && (
-    <a href={backHref} class="nav-back">{backLabel}</a>
-  )}
-</nav>
-
-{variant === 'full' && (
-  <div id="nav-mobile-menu" class="nav-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
-    {links.map(link => (
-      <a href={link.href} class={active === link.href ? 'active' : ''}>{link.label}</a>
-    ))}
-    <a href="/subscribe" class="nav-mobile-fund">Subscribe</a>
-  </div>
-)}
-
-<script is:inline>
-(function () {
-  // Scroll shadow — shared by both variants
-  window.addEventListener('scroll', () => {
-    document.getElementById('site-nav')?.classList.toggle('scrolled', scrollY > 16);
-  });
-
-  // Hamburger toggle — proper ARIA state + Escape-to-close + focus trap basics.
-  // Replaces the inline onclick="" handler previously duplicated per-page.
-  const hamburger = document.getElementById('nav-hamburger');
-  const mobileMenu = document.getElementById('nav-mobile-menu');
-  if (hamburger && mobileMenu) {
-    const toggle = (open) => {
-      hamburger.classList.toggle('open', open);
-      mobileMenu.classList.toggle('open', open);
-      hamburger.setAttribute('aria-expanded', String(open));
-      document.body.style.overflow = open ? 'hidden' : '';
-    };
-    hamburger.addEventListener('click', () => {
-      toggle(!mobileMenu.classList.contains('open'));
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) toggle(false);
-    });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
-  }
-})();
-</script>
+</header>
