@@ -7,10 +7,10 @@ import Footer from '../components/layout/Footer.astro';
 <style>
   .heroWrap { position: relative; }
   .heroWrap::before {
-    content: ''; position: absolute; inset: -80px -200px 0;
+    content: ''; position: absolute; inset: -80px 0 0;
     background:
-      radial-gradient(ellipse 55% 60% at 22% 18%, rgba(196,151,42,.07), transparent 65%),
-      radial-gradient(ellipse 40% 50% at 85% 70%, rgba(126,184,196,.035), transparent 70%);
+      radial-gradient(ellipse 90% 60% at 18% 18%, rgba(196,151,42,.07), transparent 68%),
+      radial-gradient(ellipse 70% 50% at 92% 72%, rgba(126,184,196,.035), transparent 72%);
     pointer-events: none;
   }
   .hero { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; padding: 64px 0 8px; }
@@ -50,7 +50,7 @@ import Footer from '../components/layout/Footer.astro';
         <a class="cta" href="/writing/retiring-vessel">Read the essay</a>
         <a class="cta2" href="/about">About the lab →</a>
       </div>
-      <div class="heroArt"><img src="/images/art/vessel.png" alt="Fragmented concentric rings in amber" width="1200" height="750" /></div>
+      <div class="heroArt"><img src="/images/art/vessel.jpg" alt="Fragmented concentric rings in amber" width="1200" height="750" /></div>
     </div>
   </div>
 
@@ -62,7 +62,7 @@ import Footer from '../components/layout/Footer.astro';
     <div class="sect-head"><h2>Latest research</h2><a href="/writing">All writing →</a></div>
     <div class="grid3">
       <a class="icard" href="/writing/the-credential-remembers-who">
-        <img src="/images/art/credential.png" alt="" loading="lazy" width="1200" height="750" />
+        <img src="/images/art/credential.jpg" alt="" loading="lazy" width="1200" height="750" />
         <div class="icard-body">
           <span class="icard-kicker">Agentic identity</span>
           <h3>The Credential Remembers Who. Nothing Remembers Why.</h3>
@@ -70,7 +70,7 @@ import Footer from '../components/layout/Footer.astro';
         </div>
       </a>
       <a class="icard" href="/writing/the-workload-is-the-reasoning-session">
-        <img src="/images/art/workload.png" alt="" loading="lazy" width="1200" height="750" />
+        <img src="/images/art/workload.jpg" alt="" loading="lazy" width="1200" height="750" />
         <div class="icard-body">
           <span class="icard-kicker">Agentic identity</span>
           <h3>The Workload Is the Reasoning Session</h3>
@@ -78,7 +78,7 @@ import Footer from '../components/layout/Footer.astro';
         </div>
       </a>
       <a class="icard" href="/writing/pokemon-card-market">
-        <img src="/images/art/cards.png" alt="" loading="lazy" width="1200" height="750" />
+        <img src="/images/art/cards.jpg" alt="" loading="lazy" width="1200" height="750" />
         <div class="icard-body">
           <span class="icard-kicker">Markets</span>
           <h3>The Card Market Has a Data Problem</h3>
