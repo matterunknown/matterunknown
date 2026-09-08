@@ -3,15 +3,11 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="Projects" description="Everything built at matterunknown: identity research experiments, and smaller things made for the joy of it.">
+<Base title="Projects" description="Everything built at matterunknown: identity research experiments, and real tools made for the joy of it.">
 <style>
-  .head { padding: 56px 0 20px; max-width: 46rem; }
+  .head { padding: 56px 0 4px; max-width: 46rem; }
   .head p { color: var(--text-2); font-size: 1.05rem; margin-top: 8px; }
-  .cols2 { margin-top: 24px; }
-  .prow { padding: 12px 0; }
-  .prow .pd { display: block; font-size: .9rem; color: var(--text-3); margin-top: 2px; }
-  .status { color: var(--text-3); font-size: .82rem; }
-  .shelf { margin-top: 48px; max-width: 46rem; font-size: .9rem; color: var(--text-3); }
+  .shelf { margin-top: 56px; max-width: 46rem; font-size: .9rem; color: var(--text-3); }
   .shelf a { color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
 </style>
 
@@ -20,29 +16,70 @@ import Footer from '../components/layout/Footer.astro';
 <main class="wrapb">
   <div class="head">
     <h1 class="statement">Projects</h1>
-    <p>Two kinds of work. The research experiments exist to make identity failures visible; the rest exists because building it was fun. Everything listed is real and running unless it says otherwise.</p>
+    <p>Two kinds of work. The research experiments exist to make identity failures visible; the rest exists because building it was fun. Everything shown is real and running unless it says otherwise.</p>
   </div>
 
-  <div class="cols2">
-    <div>
-      <div class="sc" style="display:block;margin-bottom:12px">Research</div>
-      <a class="prow" href="/model"><span class="pt">The Identity Model</span><span class="pd">The framework behind the research: three identity layers, four failure modes.</span></a>
-      <a class="prow" href="/projects/identity-map"><span class="pt">Identity Surface Map</span><span class="pd">An interactive map of every system holding a version of you.</span></a>
-      <a class="prow" href="/projects/password-graveyard"><span class="pt">The Password Graveyard</span><span class="pd">Enter a password, learn when it died and what killed it.</span></a>
-      <a class="prow" href="/projects/digital-shadow"><span class="pt">Your Digital Shadow</span><span class="pd">What data brokers and ad networks probably know about you.</span></a>
-      <a class="prow" href="/projects/osint-dashboard"><span class="pt">OSINT Dashboard</span><span class="pd">Identity-research tools, organized by workflow instead of alphabet.</span></a>
-      <span class="prow"><span class="pt">agentic-id</span> <span class="status">· in progress</span><span class="pd">Intent tokens for AI agents, built on RFC 8693 and SPIFFE. Will be open source.</span></span>
+  <div class="sect" style="margin-top:44px">
+    <div class="sect-head"><h2>Research</h2><a href="/model">The framework →</a></div>
+    <div class="grid3">
+      <a class="icard" href="/projects/identity-map">
+        <img src="/images/projects/identity-map.png" alt="Identity Surface Map" loading="lazy" width="1280" height="750" />
+        <div class="icard-body"><span class="icard-kicker">Interactive · Live</span><h3>Identity Surface Map</h3><p>An interactive map of every system holding a version of you.</p></div>
+      </a>
+      <a class="icard" href="/projects/password-graveyard">
+        <img src="/images/projects/password-graveyard.png" alt="The Password Graveyard" loading="lazy" width="1280" height="750" />
+        <div class="icard-body"><span class="icard-kicker">Interactive · Live</span><h3>The Password Graveyard</h3><p>Enter a password, learn when it died and what killed it.</p></div>
+      </a>
+      <a class="icard" href="/projects/digital-shadow">
+        <img src="/images/projects/digital-shadow.png" alt="Your Digital Shadow" loading="lazy" width="1280" height="750" />
+        <div class="icard-body"><span class="icard-kicker">Interactive · Live</span><h3>Your Digital Shadow</h3><p>What data brokers and ad networks probably know about you.</p></div>
+      </a>
+      <a class="icard" href="/projects/osint-dashboard">
+        <div class="icard-body"><span class="icard-kicker">Reference · Live</span><h3>OSINT Dashboard</h3><p>Identity-research tools, organized by workflow instead of alphabet.</p></div>
+      </a>
+      <span class="icard">
+        <div class="icard-body"><span class="icard-kicker">Standards · In progress</span><h3>agentic-id</h3><p>Intent tokens for AI agents, built on RFC 8693 and SPIFFE. Will be open source, with a paper.</p></div>
+      </span>
+      <a class="icard" href="/model">
+        <div class="icard-body"><span class="icard-kicker">Framework</span><h3>The Identity Model</h3><p>Three identity layers, four failure modes — the lab's operating framework.</p></div>
+      </a>
     </div>
-    <div>
-      <div class="sc" style="display:block;margin-bottom:12px">For the joy of it</div>
-      <a class="prow" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener"><span class="pt">Commonlist</span><span class="pd">One clean address book: connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud.</span></a>
-      <a class="prow" href="/projects/quant-trading"><span class="pt">Quant scanner</span> <span class="status">· paper trading</span><span class="pd">100 symbols scanned nightly, defensive rotation thesis, every trade public.</span></a>
-      <a class="prow" href="/projects/pokemon-model"><span class="pt">Pokémon model</span><span class="pd">17,000+ cards scored daily for mispriced scarcity.</span></a>
-      <a class="prow" href="/projects/onepiece-model"><span class="pt">One Piece model</span><span class="pd">The same scoring model, applied to a market with no serious tooling.</span></a>
-      <a class="prow" href="/projects/gpk-model"><span class="pt">Garbage Pail Kids model</span><span class="pd">Forty years of a novelty card market, treated like an asset class.</span></a>
-      <a class="prow" href="/projects/mtg-decks"><span class="pt">MTG decks</span><span class="pd">Emrakul Commander and Death &amp; Taxes Legacy, built as appreciating assets.</span></a>
-      <a class="prow" href="/studio/broken-heart-ohio"><span class="pt">Broken Heart Ohio</span><span class="pd">A tattoo studio's website, booking, and payments, built from scratch.</span></a>
-      <span class="prow"><span class="pt">Harvest Haven</span> <span class="status">· building</span><span class="pd">A Roblox farming game built with my 10 year old.</span></span>
+  </div>
+
+  <div class="sect">
+    <div class="sect-head"><h2>For the joy of it</h2></div>
+    <div class="grid3">
+      <a class="icard" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
+        <img src="https://commonlist.matterunknown.com/og.png" alt="Commonlist" loading="lazy" width="1200" height="630" />
+        <div class="icard-body"><span class="icard-kicker">App · Live</span><h3>Commonlist</h3><p>One clean address book: connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud.</p></div>
+      </a>
+      <a class="icard" href="/projects/quant-trading">
+        <img src="/images/projects/quant-trading.png" alt="Quant scanner positions and trade log" loading="lazy" width="1280" height="750" />
+        <div class="icard-body"><span class="icard-kicker">Finance · Paper trading</span><h3>Quant scanner</h3><p>100 symbols scanned nightly, defensive rotation thesis, every trade public.</p></div>
+      </a>
+      <a class="icard" href="/projects/pokemon-model">
+        <img src="/images/projects/pokemon-model.png" alt="Pokémon model dashboard" loading="lazy" width="1280" height="750" />
+        <div class="icard-body"><span class="icard-kicker">Collecting · Live</span><h3>Pokémon model</h3><p>17,000+ cards scored daily for mispriced scarcity.</p></div>
+      </a>
+      <a class="icard" href="/projects/crypto-model">
+        <img src="/images/projects/crypto-model.png" alt="Crypto model signals" loading="lazy" width="1280" height="750" />
+        <div class="icard-body"><span class="icard-kicker">Finance · Live</span><h3>Crypto model</h3><p>21 assets scored daily on price signals, market structure, and quality.</p></div>
+      </a>
+      <a class="icard" href="/projects/onepiece-model">
+        <div class="icard-body"><span class="icard-kicker">Collecting · Live</span><h3>One Piece model</h3><p>The same scoring model, applied to a market with no serious tooling.</p></div>
+      </a>
+      <a class="icard" href="/projects/gpk-model">
+        <div class="icard-body"><span class="icard-kicker">Collecting · Live</span><h3>Garbage Pail Kids model</h3><p>Forty years of a novelty card market, treated like an asset class.</p></div>
+      </a>
+      <a class="icard" href="/projects/mtg-decks">
+        <div class="icard-body"><span class="icard-kicker">Collecting</span><h3>MTG decks</h3><p>Emrakul Commander and Death &amp; Taxes Legacy, built as appreciating assets.</p></div>
+      </a>
+      <a class="icard" href="/studio/broken-heart-ohio">
+        <div class="icard-body"><span class="icard-kicker">Client build · Live</span><h3>Broken Heart Ohio</h3><p>A tattoo studio's website, booking, and payments, built from scratch.</p></div>
+      </a>
+      <span class="icard">
+        <div class="icard-body"><span class="icard-kicker">Roblox · Building</span><h3>Harvest Haven</h3><p>A farming game built with my 10 year old.</p></div>
+      </span>
     </div>
   </div>
 
