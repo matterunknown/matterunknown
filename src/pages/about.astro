@@ -3,109 +3,28 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="About" description="matterunknown is Ryan Silver's independent research lab. Serious work on identity — especially the identity of AI agents — and niche projects built for the joy of it.">
-<style>
-.page { padding:calc(var(--nav-h) + 80px) var(--gutter) 100px;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
-.section-label { font-family:var(--mono);font-size:.64rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:52px; }
-.section-label::before { content:'';width:28px;height:1px;background:var(--amber); }
-.section-label::after { content:'';flex:1;height:1px;background:var(--amber-border); }
-.about-grid { display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start; }
-h1 { font-family:var(--serif);font-size:clamp(2.4rem,5vw,4rem);font-weight:400;line-height:1.1;letter-spacing:-.025em;margin-bottom:28px; }
-h1 em { font-style:italic;color:var(--amber); }
-h2 { font-family:var(--serif);font-size:1.7rem;font-weight:400;letter-spacing:-.02em;margin:0 0 20px; }
-p { color:var(--text-2);line-height:1.82;margin-bottom:18px;font-size:.96rem; }
-p em { color:var(--text);font-style:italic; }
-p strong { color:var(--text);font-weight:500; }
-.about-links { display:flex;flex-direction:column;border:1px solid var(--amber-border); }
-.about-link { display:flex;align-items:center;justify-content:space-between;padding:18px 26px;border-bottom:1px solid var(--amber-border);text-decoration:none;color:var(--text-2);transition:all .2s; }
-.about-link:last-child { border-bottom:none; }
-.about-link:hover { background:var(--bg-2);color:var(--text);padding-left:34px; }
-.about-link-label { font-family:var(--mono);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase; }
-.about-link-arrow { color:var(--amber); }
-.side-card { margin-top:2px;padding:28px;border:1px solid var(--amber-border);background:var(--bg-2); }
-.side-card label { font-family:var(--mono);font-size:.58rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:10px; }
-.side-card p { font-size:.88rem;margin-bottom:0; }
-.side-card a { color:var(--teal);text-decoration:underline;text-underline-offset:3px; }
-.longform { max-width:680px;margin:0 auto;padding:90px 0 0; }
-.commitment-grid { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--amber-border);border:1px solid var(--amber-border);margin:40px 0 10px; }
-.commitment-item { background:var(--bg);padding:24px 20px; }
-.ci-label { font-family:var(--mono);font-size:.58rem;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px; }
-.ci-value { font-size:.95rem;color:var(--text-2);line-height:1.6; }
-.ci-value strong { color:var(--text);font-weight:400; }
-.thesis-block { background:var(--bg);border-top:1px solid var(--amber-border);border-bottom:1px solid var(--amber-border);margin-top:100px; }
-.thesis-inner { max-width:740px;margin:0 auto;text-align:center;padding:120px var(--gutter); }
-.thesis-inner blockquote { font-family:var(--serif);font-size:clamp(1.5rem,3.2vw,2.4rem);font-weight:400;font-style:italic;line-height:1.45;letter-spacing:-.02em;margin-bottom:28px; }
-.thesis-inner blockquote em { color:var(--amber);font-style:normal; }
-.thesis-inner cite { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;font-style:normal; }
-@media(max-width:768px) { .about-grid { grid-template-columns:1fr; gap:48px; } .commitment-grid { grid-template-columns:1fr; } }
-</style>
+<Base title="About" description="matterunknown is Ryan Silver's site: identity research — especially the identity of AI agents — and smaller projects built in the open.">
 
 <Nav variant="full" active="/about" />
 
-<div class="page">
-  <div class="section-label">About</div>
-  <div class="about-grid">
-    <div>
-      <h1>One person's lab,<br>run <em>in the open.</em></h1>
-      <p>matterunknown is my independent research lab. I'm Ryan Silver — I've spent years building identity security infrastructure: the systems that verify, authenticate, and manage who people are at scale.</p>
-      <p>The lab runs in two lanes. The serious one is identity research — how systems assign identity, how people lose it, and, most urgently, what identity even means for AI agents that act on our behalf. The unserious one is everything I build for the joy of it: pricing models for trading cards, a public quant scanner, a Roblox farm built with my son.</p>
-      <p>The lanes share one rule: everything is documented in public. The models show their factors. The trades post their reasoning. The failures stay up. Transparency isn't a marketing angle here — it's the method.</p>
-    </div>
-    <div>
-      <div class="about-links">
-        <a class="about-link" href="/model"><span class="about-link-label">The Framework</span><span class="about-link-arrow">↗</span></a>
-        <a class="about-link" href="/writing"><span class="about-link-label">Research &amp; Writing</span><span class="about-link-arrow">↗</span></a>
-        <a class="about-link" href="/projects"><span class="about-link-label">The Lab</span><span class="about-link-arrow">↗</span></a>
-        <a class="about-link" href="/now"><span class="about-link-label">Now</span><span class="about-link-arrow">↗</span></a>
-      </div>
-      <div class="side-card">
-        <label>Built with AI, disclosed</label>
-        <p>Much of this lab is built alongside AI collaborators — for research breadth, first drafts, and code. What was AI-assisted, and how, is always disclosed. Judgment, direction, and responsibility stay human.</p>
-      </div>
-      <div class="side-card" style="border-color:var(--teal-border)">
-        <label style="color:var(--teal)">An earlier era</label>
-        <p>From late 2025 to April 2026 this site ran with an AI persona called Vessel. That experiment is over — retired, not erased. <a href="/archive/vessel">It's preserved in the archive.</a></p>
-      </div>
-    </div>
-  </div>
+<main class="col">
+  <h1>About</h1>
+  <p><strong>I'm Ryan Silver.</strong> I've spent years building identity security infrastructure — the systems that verify, authenticate, and manage who people are at scale. matterunknown is my independent lab for the work I want to do in the open.</p>
+  <p>It runs in two lanes. The serious one is identity research: how systems assign identity, how people lose it, and — most urgently — what identity means for AI agents that hold credentials and act on our behalf. The unserious one is everything I build for the joy of it: a contacts app, card-pricing models, a public market scanner, a Roblox farm made with my son.</p>
+  <p>The lanes share one rule: everything is documented in public. The models show their factors, the trades post their reasoning, and the failures stay up.</p>
 
-  <div class="longform">
-    <h2>Why identity</h2>
-    <p>Identity is the most important problem nobody treats seriously enough. Not just passwords and breach notifications — the full problem. How systems assign identity to people. What happens in the gap between the identity a system holds for you and the person you actually are. How that gap gets exploited, and how it compounds: children acquiring shadow profiles before they can read, gig workers losing livelihoods when a platform decides their identity is no longer welcome, a $50 voice clone defeating the authentication that was supposed to protect a seventy-year-old's retirement account.</p>
-    <p>And now a new front: AI agents that hold credentials, act with delegated authority, and have no meaningful identity of their own. An agent acting on your behalf is neither you nor a traditional service account — and when something goes wrong, the audit trail points at the human, not the agent. Closing that gap — intent, attestation, accountability for non-human actors — is the lab's flagship research program.</p>
+  <h2>Why identity</h2>
+  <p>Identity is the most important problem nobody treats seriously enough. Not just passwords — the full problem: the gap between the identity a system holds for you and the person you actually are, how that gap gets exploited, and how it compounds. Children acquire shadow profiles before they can read. A $50 voice clone defeats the authentication protecting a retiree's savings.</p>
+  <p>And now a new front: AI agents that act with delegated authority but have no meaningful identity of their own. When one goes wrong, the audit trail points at the human. Closing that gap — intent, attestation, accountability for non-human actors — is the flagship research program here. <a href="/model">The framework</a> and <a href="/writing">the essays</a> lay it out.</p>
 
-    <h2 style="margin-top:56px">Why the toys</h2>
-    <p>The card models, the quant scanner, the games — none of it needs a research justification, and I've stopped pretending it does. I build these because I want them to exist. It turns out that building a scoring model for 17,000 Pokémon cards teaches you a lot about incomplete data, delayed correction, and narrative override — the same failure modes identity systems have — but that's a bonus, not the reason. The reason is that it's fun, and doing it in the open keeps it honest.</p>
+  <h2>How it's made</h2>
+  <p>Much of this site is built alongside AI tools — for research breadth, drafts, and code — and that's disclosed wherever it happens. The judgment, the direction, and the byline are mine, because the responsibility is.</p>
+  <p>From late 2025 to April 2026 the site ran with an AI persona called Vessel. That experiment is over — retired, not erased. <a href="/writing/retiring-vessel">The essay about ending it</a> is probably the best introduction to what this lab cares about, and its pages are <a href="/archive/vessel">preserved in the archive</a>.</p>
 
-    <h2 style="margin-top:56px">The commitments</h2>
-    <div class="commitment-grid">
-      <div class="commitment-item">
-        <div class="ci-label">Methodology</div>
-        <div class="ci-value"><strong>Always visible.</strong> Every model has documented factors. Every signal has a reason.</div>
-      </div>
-      <div class="commitment-item">
-        <div class="ci-label">AI attribution</div>
-        <div class="ci-value"><strong>Always disclosed.</strong> What was built with AI, and what the human contributed.</div>
-      </div>
-      <div class="commitment-item">
-        <div class="ci-label">Independence</div>
-        <div class="ci-value"><strong>No advertisers. No sponsors.</strong> Self-funded. The research goes where the data goes.</div>
-      </div>
-      <div class="commitment-item">
-        <div class="ci-label">Access</div>
-        <div class="ci-value"><strong>The research is free.</strong> The work that matters most never sits behind a paywall.</div>
-      </div>
-    </div>
-    <p style="font-size:.85rem;color:var(--text-3)">If the work is useful: <a href="/subscribe" style="color:var(--amber)">subscribe</a>, share it, or get in touch.</p>
-  </div>
-</div>
+  <h2>House rules</h2>
+  <p>No advertisers, no sponsors — self-funded, so the research goes where the data goes. Methods are always visible. AI involvement is always disclosed. The research stays free.</p>
+  <p class="note">If the work is useful: <a href="/subscribe">subscribe</a>, share it, or get in touch.</p>
+</main>
 
-<div class="thesis-block">
-  <div class="thesis-inner">
-    <blockquote>"Identity is not what you are. It's what <em>systems believe</em> you are. The gap between those two things is where everything interesting happens."</blockquote>
-    <cite>— matterunknown thesis</cite>
-  </div>
-</div>
-
-<Footer copy="Ryan Silver's independent research lab. Built in public." />
+<Footer />
 </Base>

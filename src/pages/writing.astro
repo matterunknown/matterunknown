@@ -3,141 +3,37 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="Research & Writing" description="Identity research — especially agentic identity — plus essays on security, AI, and building in the open.">
-<style>
-:root {
-  --bg:           #090908;
-  --bg-2:         #0d0d0b;
-  --bg-3:         #121210;
-  --amber:        #c4972a;
-  --amber-dim:    rgba(196,151,42,0.12);
-  --amber-border: rgba(196,151,42,0.15);
-  --teal:       #7eb8c4;
-  --teal-dim:   rgba(126,184,196,.08);
-  --teal-border:rgba(126,184,196,.12);
-  --teal-glow:  rgba(126,184,196,.04);
-  --text:         #e8e6e1;
-  --text-2:       #a09c94;
-  --text-3:       #5a5752;
-  --serif:        'DM Serif Display', Georgia, serif;
-  --sans:         'DM Sans', system-ui, sans-serif;
-  --mono:         'JetBrains Mono', ui-monospace, monospace;
-  --gutter:       clamp(24px, 5vw, 80px);
-  --max:          1160px;
-  --nav-h:        68px;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
-nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
-.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
-.nav-logo span { color:var(--amber); }
-.nav-links { display:flex;gap:32px;list-style:none; }
-.nav-links a { font-family:var(--mono);font-size:.68rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:color .2s; }
-.nav-links a:hover,.nav-links a.active { color:var(--amber); }
-.nav-fund { font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;transition:color .2s; }
-.nav-fund:hover { color:var(--teal); }
-.page { padding:calc(var(--nav-h) + 80px) var(--gutter) 100px;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
-.section-label { font-family:var(--mono);font-size:.64rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:52px; }
-.section-label::before { content:'';width:28px;height:1px;background:var(--amber); }
-.section-label::after { content:'';flex:1;height:1px;background:var(--amber-border); }
-h1 { font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:400;line-height:1.06;letter-spacing:-.025em;margin-bottom:14px; }
-.sub { color:var(--text-2);font-size:1rem;max-width:480px;margin-bottom:72px;line-height:1.7; }
-.writing-list { display:flex;flex-direction:column; }
-.writing-row { display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:36px;padding:28px 0;border-bottom:1px solid var(--amber-border);text-decoration:none;color:inherit;transition:padding-left .3s; }
-.writing-row:first-child { border-top:1px solid var(--amber-border); }
-.writing-row:hover { padding-left:10px; }
-.wr-date { font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.07em; }
-.wr-title { font-family:var(--serif);font-size:1.2rem;font-weight:400;letter-spacing:-.01em;transition:color .2s; }
-.writing-row:hover .wr-title { color:var(--amber); }
-.wr-tag { font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--amber-border);padding:4px 9px;white-space:nowrap; }
-.site-footer { border-top:1px solid var(--amber-border);padding:44px var(--gutter);display:flex;align-items:center;justify-content:space-between; }
-.footer-logo { font-family:var(--serif);font-size:.95rem;color:var(--text-3); }
-.footer-logo span { color:var(--amber); }
-.footer-copy { font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em; }
-
-/* Agentic identity series block */
-.series-block { border:1px solid var(--amber-border); background:var(--bg-2); padding:40px 44px; margin-bottom:24px; position:relative; overflow:hidden; }
-.series-block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--amber); }
-.series-head { display:flex; align-items:baseline; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:14px; }
-.series-label { font-family:var(--mono); font-size:.62rem; color:var(--amber); letter-spacing:.14em; text-transform:uppercase; }
-.series-framework { font-family:var(--mono); font-size:.62rem; color:var(--amber); letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--amber-border); padding:8px 14px; transition:background .2s; }
-.series-framework:hover { background:var(--amber-dim); }
-.series-desc { color:var(--text-2); font-size:.92rem; line-height:1.75; max-width:640px; margin-bottom:24px; }
-.series-list { display:flex; flex-direction:column; }
-.series-row { display:grid; grid-template-columns:72px 1fr; gap:28px; align-items:baseline; padding:14px 0; border-bottom:1px solid rgba(196,151,42,.1); transition:padding-left .2s; }
-.series-row:last-child { border-bottom:none; }
-.series-row:hover { padding-left:8px; }
-.sr-date { font-family:var(--mono); font-size:.6rem; color:var(--text-3); letter-spacing:.07em; }
-.sr-title { font-family:var(--serif); font-size:1.05rem; letter-spacing:-.01em; transition:color .2s; }
-.series-row:hover .sr-title { color:var(--amber); }
-@media(max-width:640px) { .series-block { padding:28px 24px; } .series-row { grid-template-columns:1fr; gap:4px; } }
-
-.nav-hamburger { display: none; }
-.nav-mobile-menu { display: none; }
-@media(max-width:768px) { .writing-row { grid-template-columns:1fr;gap:6px; } .wr-date { display:none; }
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 300; }
-      .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text-3); transition: all .3s; }
-      .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--amber); }
-      .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-      .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--amber); }
-      .nav-mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; background: rgba(9,9,8,.97); z-index: 199; flex-direction: column; padding: 40px var(--gutter); gap: 0; overflow-y: auto; }
-      .nav-mobile-menu.open { display: flex; }
-      .nav-mobile-menu a { font-family: var(--mono); font-size: .9rem; color: var(--text-2); letter-spacing: .1em; text-transform: uppercase; padding: 20px 0; border-bottom: 1px solid var(--amber-border); text-decoration: none; transition: color .2s, padding-left .2s; }
-      .nav-mobile-menu a:hover, .nav-mobile-menu a.active { color: var(--amber); padding-left: 8px; }
-      .nav-mobile-menu .nav-mobile-fund { margin-top: 32px; border: 1px solid var(--amber-border); padding: 16px 20px; text-align: center; letter-spacing: .12em; border-bottom: 1px solid var(--amber-border); }
-      .nav-mobile-menu .nav-mobile-fund:hover { background: var(--amber-dim); } }
-</style>
+<Base title="Writing" description="Essays on identity, security, AI agents, and building things in the open.">
 
 <Nav variant="full" active="/writing" />
 
-<div class="page">
-  <div class="section-label">Research &amp; Writing</div>
-  <h1>Research &amp; Writing</h1>
-  <p class="sub">Identity research first — the agentic identity program is the flagship — plus essays on security, AI, and building in the open.</p>
+<main class="col">
+  <h1>Writing</h1>
+  <p>Mostly identity, and increasingly the identity of AI agents. If you're new, the agentic series is the spine: <a href="/writing/ai-agents-identity">the problem</a>, <a href="/writing/agent-identity-gap">the gap</a>, <a href="/writing/the-workload-is-the-reasoning-session">the argument</a>, and <a href="/writing/the-credential-remembers-who">the mechanism</a>. <a href="/model">The framework</a> ties it together.</p>
 
-  <div class="series-block">
-    <div class="series-head">
-      <div class="series-label">Research program — Agentic Identity</div>
-      <a class="series-framework" href="/model">The framework →</a>
-    </div>
-    <p class="series-desc">AI agents hold credentials and act with delegated authority, but nothing attests to their intent — and when something goes wrong, the audit trail points at the human. This series maps that gap and builds toward closing it.</p>
-    <div class="series-list">
-      <a class="series-row" href="/writing/the-credential-remembers-who"><span class="sr-date">Jul 2026</span><span class="sr-title">The Credential Remembers Who. Nothing Remembers Why.</span></a>
-      <a class="series-row" href="/writing/the-workload-is-the-reasoning-session"><span class="sr-date">Jul 2026</span><span class="sr-title">The Workload Is the Reasoning Session</span></a>
-      <a class="series-row" href="/writing/can-ai-have-a-verifiable-identity"><span class="sr-date">May 2026</span><span class="sr-title">Can an AI Agent Have a Verifiable Identity?</span></a>
-      <a class="series-row" href="/writing/agent-identity-gap"><span class="sr-date">May 2026</span><span class="sr-title">The Agent Identity Gap</span></a>
-      <a class="series-row" href="/writing/ai-agents-identity"><span class="sr-date">Dec 2025</span><span class="sr-title">AI Agents Don't Have Identity. That's the Problem.</span></a>
-    </div>
-  </div>
+  <ul class="rows" style="margin-top:2rem">
+    <li><span class="d">Aug 2026</span><a class="t" href="/writing/retiring-vessel">Retiring Vessel</a></li>
+    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-credential-remembers-who">The Credential Remembers Who. Nothing Remembers Why.</a></li>
+    <li><span class="d">Jul 2026</span><a class="t" href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a></li>
+    <li><span class="d">Jun 2026</span><a class="t" href="/writing/pokemon-card-market">The Card Market Has a Data Problem</a></li>
+    <li><span class="d">May 2026</span><a class="t" href="/writing/vibe-coding-roblox">Vibe Coding with My 10 Year Old</a></li>
+    <li><span class="d">May 2026</span><a class="t" href="/writing/identity-is-a-tattoo">Identity Is a Tattoo. Design It Like One.</a></li>
+    <li><span class="d">May 2026</span><a class="t" href="/writing/can-ai-have-a-verifiable-identity">Can an AI Agent Have a Verifiable Identity?</a></li>
+    <li><span class="d">May 2026</span><a class="t" href="/writing/agent-identity-gap">The Agent Identity Gap</a></li>
+    <li><span class="d">May 2026</span><a class="t" href="/writing/synthetic-identity-is-already-here">Synthetic Identity Is Already Here. We Just Call It Fraud.</a></li>
+    <li><span class="d">May 2026</span><a class="t" href="/writing/when-your-identity-outlives-you">When Your Identity Outlives You</a></li>
+    <li><span class="d">Apr 2026</span><a class="t" href="/writing/council-architecture">Why We Built a Council</a></li>
+    <li><span class="d">Apr 2026</span><a class="t" href="/writing/ai-sales-cheat-code">The Cheat Code That Isn't</a></li>
+    <li><span class="d">Mar 2026</span><a class="t" href="/writing/nhi-problem">The NHI Problem Is a Human Problem</a></li>
+    <li><span class="d">Feb 2026</span><a class="t" href="/writing/break-glass">What Break Glass Access Reveals About Trust</a></li>
+    <li><span class="d">Jan 2026</span><a class="t" href="/writing/demo-environment">Building a Demo Environment That Lies Convincingly</a></li>
+    <li><span class="d">Dec 2025</span><a class="t" href="/writing/ai-agents-identity">AI Agents Don't Have Identity. That's the Problem.</a></li>
+    <li><span class="d">Nov 2025</span><a class="t" href="/writing/character-identity">On Writing a Character Who Doesn't Know Who She Is</a></li>
+    <li><span class="d">Oct 2025</span><a class="t" href="/writing/shared-account">The Shared Account Is a Moral Problem, Not a Technical One</a></li>
+  </ul>
 
-  <div class="section-label" style="margin-top:72px">All essays</div>
-  <div class="writing-list">
-    <a class="writing-row" href="/writing/retiring-vessel"><div class="wr-date">Aug 2026</div><div class="wr-title">Retiring Vessel</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/writing/the-credential-remembers-who"><div class="wr-date">Jul 2026</div><div class="wr-title">The Credential Remembers Who. Nothing Remembers Why.</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/writing/the-workload-is-the-reasoning-session"><div class="wr-date">Jul 2026</div><div class="wr-title">The Workload Is the Reasoning Session</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/writing/pokemon-card-market"><div class="wr-date">Jun 2026</div><div class="wr-title">The Card Market Has a Data Problem</div><div class="wr-tag">Finance</div></a>
-    <a class="writing-row" href="/writing/vibe-coding-roblox"><div class="wr-date">May 2026</div><div class="wr-title">Vibe Coding with My 10 Year Old</div><div class="wr-tag">Building</div></a>
-    <a class="writing-row" href="/writing/identity-is-a-tattoo"><div class="wr-date">May 2026</div><div class="wr-title">Identity Is a Tattoo. Design It Like One.</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/writing/can-ai-have-a-verifiable-identity"><div class="wr-date">May 2026</div><div class="wr-title">Can an AI Agent Have a Verifiable Identity?</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/writing/agent-identity-gap"><div class="wr-date">May 2026</div><div class="wr-title">The Agent Identity Gap</div><div class="wr-tag">AI</div></a>
-    <a class="writing-row" href="/writing/synthetic-identity-is-already-here"><div class="wr-date">May 2026</div><div class="wr-title">Synthetic Identity Is Already Here. We Just Call It Fraud.</div><div class="wr-tag">Security</div></a>
-    <a class="writing-row" href="/writing/when-your-identity-outlives-you"><div class="wr-date">May 2026</div><div class="wr-title">When Your Identity Outlives You</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/writing/council-architecture"><div class="wr-date">Apr 2026</div><div class="wr-title">Why We Built a Council</div><div class="wr-tag">AI</div></a>
-    <a class="writing-row" href="/writing/ai-sales-cheat-code"><div class="wr-date">Apr 2026</div><div class="wr-title">The Cheat Code That Isn't</div><div class="wr-tag">AI</div></a>
-    <a class="writing-row" href="/writing/nhi-problem"><div class="wr-date">Mar 2026</div><div class="wr-title">The NHI Problem Is a Human Problem</div><div class="wr-tag">Security</div></a>
-    <a class="writing-row" href="/writing/break-glass"><div class="wr-date">Feb 2026</div><div class="wr-title">What Break Glass Access Reveals About Trust</div><div class="wr-tag">Identity</div></a>
-    <a class="writing-row" href="/writing/demo-environment"><div class="wr-date">Jan 2026</div><div class="wr-title">Building a Demo Environment That Lies Convincingly</div><div class="wr-tag">Building</div></a>
-    <a class="writing-row" href="/writing/ai-agents-identity"><div class="wr-date">Dec 2025</div><div class="wr-title">AI Agents Don't Have Identity. That's the Problem.</div><div class="wr-tag">AI</div></a>
-    <a class="writing-row" href="/writing/character-identity"><div class="wr-date">Nov 2025</div><div class="wr-title">On Writing a Character Who Doesn't Know Who She Is</div><div class="wr-tag">Fiction</div></a>
-    <a class="writing-row" href="/writing/shared-account"><div class="wr-date">Oct 2025</div><div class="wr-title">The Shared Account Is a Moral Problem, Not a Technical One</div><div class="wr-tag">Identity</div></a>
-  </div>
-
-  <p style="margin-top:48px;font-family:var(--mono);font-size:.62rem;color:var(--text-3);letter-spacing:.08em;">Looking for the Vessel-era essays and dream logs? They're preserved in <a href="/archive/vessel" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">the archive</a>.</p>
-</div>
+  <p class="note" style="margin-top:1.5rem">Older essays from the Vessel era are <a href="/archive/vessel">in the archive</a>.</p>
+</main>
 
 <Footer />
-<script is:inline>window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>16); });</script>
 </Base>

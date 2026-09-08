@@ -9,12 +9,13 @@
   --amber:        #c4972a;
   --amber-dim:    rgba(196,151,42,0.12);
   --amber-border: rgba(196,151,42,0.15);
-  --teal:       #7eb8c4;
-  --teal-dim:   rgba(126,184,196,0.1);
-  --teal-border:rgba(126,184,196,0.12);
+  --teal:         #7eb8c4;
+  --teal-dim:     rgba(126,184,196,0.1);
+  --teal-border:  rgba(126,184,196,0.12);
   --text:         #e8e6e1;
-  --text-2:       #a09c94;
-  --text-3:       #5a5752;
+  --text-2:       #a8a49c;
+  --text-3:       #6a6660;
+  --rule:         rgba(232,230,225,0.09);
   --serif:        'DM Serif Display', Georgia, serif;
   --sans:         'DM Sans', system-ui, sans-serif;
   --mono:         'JetBrains Mono', monospace;
@@ -23,15 +24,63 @@
   --nav-h:        68px;
 }
 
-html { font-size: 16px; scroll-behavior: smooth; }
+html { font-size: 16px; }
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 a { color: inherit; text-decoration: none; }
+
+/* ---- Simple single-column pages (2026 redesign) ----
+   Redesigned pages opt in with <main class="col">. Untouched pages keep
+   their own scoped styles and ignore everything below. */
+
+.col {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem 0;
+  font-size: 1.04rem;
+}
+.col h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 2.1rem;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  margin-bottom: 1.25rem;
+  text-wrap: balance;
+}
+.col h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.45rem;
+  letter-spacing: -.01em;
+  margin: 3rem 0 .9rem;
+}
+.col p { margin-bottom: 1rem; color: var(--text-2); }
+.col p strong { color: var(--text); font-weight: 500; }
+.col a { color: var(--amber); }
+.col a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.col ul.rows { list-style: none; }
+.col ul.rows li {
+  padding: .55rem 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--text-2);
+}
+.col ul.rows li:last-child { border-bottom: none; }
+.col ul.rows .t { color: var(--text); }
+.col ul.rows .d {
+  font-size: .82rem;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  margin-right: .9rem;
+  white-space: nowrap;
+}
+.col .note { font-size: .88rem; color: var(--text-3); }

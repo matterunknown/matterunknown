@@ -3,157 +3,39 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="Projects" description="Everything built at matterunknown. AI tools, security experiments, and collectibles models.">
-<style>
-nav { position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:1px solid transparent;transition:all .4s; }
-nav.scrolled { border-color:var(--amber-border);background:rgba(9,9,8,.93);backdrop-filter:blur(14px); }
-.nav-logo { font-family:var(--serif);font-size:1.05rem;color:var(--text); }
-.nav-logo span { color:var(--amber); }
-.nav-links { display:flex;gap:32px;list-style:none; }
-.nav-links a { font-family:var(--mono);font-size:.68rem;color:var(--text-3);letter-spacing:.1em;text-transform:uppercase;transition:color .2s; }
-.nav-links a:hover,.nav-links a.active { color:var(--amber); }
-.page { padding:calc(var(--nav-h) + 80px) var(--gutter) 100px;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
-.section-label { font-family:var(--mono);font-size:.64rem;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:52px; }
-.section-label::before { content:'';width:28px;height:1px;background:var(--amber); }
-.section-label::after { content:'';flex:1;height:1px;background:var(--amber-border); }
-h1 { font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:400;line-height:1.06;letter-spacing:-.025em;margin-bottom:14px; }
-h1 em { font-style:italic;color:var(--amber); }
-.sub { color:var(--text-2);font-size:1rem;max-width:480px;margin-bottom:72px;line-height:1.7; }
-.proj-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--amber-border); }
-.proj-card { background:var(--bg-2);padding:48px 42px;text-decoration:none;color:inherit;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .3s; }
-.proj-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .4s; }
-.proj-card:hover { background:var(--bg-3); }
-.proj-card:hover::before { transform:scaleX(1); }
-.proj-tag { font-family:var(--mono);font-size:.6rem;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px; }
-.proj-card h3 { font-family:var(--serif);font-size:1.65rem;font-weight:400;line-height:1.15;letter-spacing:-.02em;margin-bottom:14px; }
-.proj-card p { color:var(--text-2);font-size:.9rem;line-height:1.7;flex:1; }
-.proj-problem { font-family:var(--mono);font-size:.72rem;color:var(--amber);letter-spacing:.04em;margin-bottom:10px;line-height:1.6; }
-.proj-foot { margin-top:36px;display:flex;align-items:center;justify-content:space-between; }
-.proj-status { font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.09em;text-transform:uppercase;display:flex;align-items:center;gap:7px; }
-.s-dot { width:5px;height:5px;border-radius:50%;background:var(--text-3); }
-.s-dot.live { background:#4caf50;animation:pulse 2s infinite; }
-.s-dot.building { background:var(--amber);animation:pulse 2s infinite; }
-.proj-arrow { color:var(--amber);font-size:1.1rem;transition:transform .2s; }
-.proj-card:hover .proj-arrow { transform:translate(4px,-4px); }
-.site-footer { border-top:1px solid var(--amber-border);padding:44px var(--gutter);display:flex;align-items:center;justify-content:space-between;max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto; }
-.footer-logo { font-family:var(--serif);font-size:.95rem;color:var(--text-3); }
-.footer-logo span { color:var(--amber); }
-.footer-copy { font-family:var(--mono);font-size:.58rem;color:var(--text-3);letter-spacing:.07em; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-.nav-hamburger { display: none; }
-.nav-mobile-menu { display: none; }
-@media(max-width:768px) { .proj-grid { grid-template-columns:1fr; }
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 300; }
-      .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text-3); transition: all .3s; }
-      .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--amber); }
-      .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-      .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--amber); }
-      .nav-mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; background: rgba(9,9,8,.97); z-index: 199; flex-direction: column; padding: 40px var(--gutter); gap: 0; overflow-y: auto; }
-      .nav-mobile-menu.open { display: flex; }
-      .nav-mobile-menu a { font-family: var(--mono); font-size: .9rem; color: var(--text-2); letter-spacing: .1em; text-transform: uppercase; padding: 20px 0; border-bottom: 1px solid var(--amber-border); text-decoration: none; transition: color .2s, padding-left .2s; }
-      .nav-mobile-menu a:hover, .nav-mobile-menu a.active { color: var(--amber); padding-left: 8px; }
-      .nav-mobile-menu .nav-mobile-fund { margin-top: 32px; border: 1px solid var(--amber-border); padding: 16px 20px; text-align: center; letter-spacing: .12em; border-bottom: 1px solid var(--amber-border); }
-      .nav-mobile-menu .nav-mobile-fund:hover { background: var(--amber-dim); } }
-</style>
+<Base title="Projects" description="Everything built at matterunknown: identity research experiments, and smaller things made for the joy of it.">
 
 <Nav variant="full" active="/projects" />
 
-<div class="page">
-  <div class="section-label">All projects</div>
-  <h1>Things built,<br>things <em>in progress</em>.</h1>
-  <p class="sub">Two kinds of work live here: research experiments, and things built purely for the joy of it. Both are real, both are running, and both show their work.</p>
+<main class="col">
+  <h1>Projects</h1>
+  <p>Two kinds of work live here. The research experiments exist to make identity failures visible. The rest exists because building it was fun. Everything listed is real and running unless it says otherwise.</p>
 
-  <div class="proj-grid">
-    <a class="proj-card" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
-      <div class="proj-tag">Identity / App</div>
-      <h3>Commonlist</h3>
-      <p class="proj-problem">Testing: whether the identity-reconciliation problem — many systems holding conflicting versions of one person — can be fixed for the most ordinary identity store there is: your address book.</p><p>One clean address book. Connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud. Every duplicate contact is an identity-system failure in miniature — five versions of the same person, none of them authoritative.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live — commonlist.matterunknown.com</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/password-graveyard" style="background:var(--bg-3);border-color:var(--red-border);">
-      <div class="proj-tag" style="color:var(--red)">Research / Security</div>
-      <h3>The Password Graveyard</h3>
-      <p class="proj-problem">Testing: how identity credentials degrade invisibly over time without users knowing.</p><p>Enter any password and see when it died, what killed it, and how long it would take to crack today. What it reveals: most people are authenticating with dead identity markers right now.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--red)"></div>Live</div><span class="proj-arrow" style="color:var(--red)">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/digital-shadow" style="background:var(--bg-3);">
-      <div class="proj-tag" style="color:var(--teal)">Research / Privacy</div>
-      <h3>Your Digital Shadow</h3>
-      <p class="proj-problem">Testing: the gap between the identity you believe you project and the identity systems have constructed about you.</p><p>10 questions. An AI builds a probabilistic profile of what surveillance systems know. What it reveals: your digital identity is largely built by others, not you.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--teal)"></div>Live</div><span class="proj-arrow" style="color:var(--teal)">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/identity-map" style="background:var(--bg-3);">
-      <div class="proj-tag" style="color:var(--teal)">Research / Identity</div>
-      <h3>Identity Surface Map</h3>
-      <p class="proj-problem">Testing: how many parallel, uncoordinated versions of a person's identity exist across systems simultaneously.</p><p>An interactive map of every system holding a version of you. What it reveals: identity is not a single thing — it's a fragmented collection of records that disagree with each other.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--teal)"></div>Live — Experiment No. 1</div><span class="proj-arrow" style="color:var(--teal)">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/osint-dashboard">
-      <div class="proj-tag" style="color:var(--teal)">Research / Reference Tool</div>
-      <h3>OSINT Dashboard</h3>
-      <p class="proj-problem">Testing: whether a free, curated OSINT toolkit beats the commercial link-dashboard products charging for the same list.</p><p>Identity, breach, domain, image, corporate, and threat-intel tools organized by workflow instead of alphabet. No accounts, no ads, filterable by keyword.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live" style="background:var(--teal)"></div>Live</div><span class="proj-arrow" style="color:var(--teal)">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/quant-trading">
-      <div class="proj-tag">For the joy of it / Finance</div>
-      <h3>Quant Trading</h3>
-      <p class="proj-problem">Testing: whether a multi-model AI system can develop and validate a financial thesis without human intervention in the signal layer.</p><p>100-symbol equity scanner, defensive rotation thesis, every trade public. What it reveals: AI judgment under uncertainty — and where it still needs human override.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Paper trading</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/mtg-decks">
-      <div class="proj-tag">For the joy of it / Collecting</div>
-      <h3>MTG Decks</h3>
-      <p>Two Magic: The Gathering decks built by an AI that will never shuffle them. Emrakul Commander (colorless Eldrazi) and Death and Taxes Legacy. Reserved list pieces as appreciating assets.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Acquiring</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/pokemon-model">
-      <div class="proj-tag">For the joy of it / Collecting</div>
-      <h3>Pokémon Collection</h3>
-      <p class="proj-problem">Testing: whether a data model can identify mispriced scarcity in alternative asset markets before the broader market corrects.</p><p>17,500+ cards scored across 172 sets. What it reveals: scarcity signals in collectibles markets follow the same failure modes as identity systems — incomplete data, delayed correction, human narrative override.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Live signals</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/onepiece-model">
-      <div class="proj-tag">For the joy of it / Collecting</div>
-      <h3>One Piece Card Market</h3>
-      <p class="proj-problem">Testing: whether the same scarcity model that works for Pokémon applies to a newer, less-analyzed market.</p><p>One Piece TCG launched in 2022. The analytics layer barely exists. Same scoring model, same daily signals — applied to a market where nobody has built this yet. Alt art premiums of 100x over base cards. No serious tooling for investors. That gap is the thesis.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Live signals</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <a class="proj-card" href="/projects/gpk-model">
-      <div class="proj-tag">For the joy of it / Collecting</div>
-      <h3>Garbage Pail Kids Model</h3>
-      <p class="proj-problem">Testing: whether the same scarcity model holds for a 40-year-old novelty card market nobody treats as an asset class.</p><p>11,580 cards tracked across 114 sets, 1985 originals through the 2025 40th Anniversary run. Chrome-era parallels, vintage glossy variants, and the a/b name-swap gag all scored as distinct premium dimensions. Same signals, same daily updates.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Live signals</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <a class="proj-card" href="/studio/broken-heart-ohio">
-      <div class="proj-tag">For the joy of it / Client build</div>
-      <h3>Broken Heart Ohio</h3>
-      <p>A full website, custom booking system, and integrated payment flow for a tattoo studio. Built from scratch — no templates, no booking platforms, no middleman. Now live.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot live"></div>Live</div><span class="proj-arrow">↗</span></div>
-    </a>
-    <div class="proj-card">
-      <div class="proj-tag">For the joy of it / Roblox</div>
-      <h3>Harvest Haven</h3>
-      <p>A Roblox farming game built with my 10 year old son. Farm plots, crop production chains, egg hatching, pets, and a full economy. Some things get built because a 10 year old had a really good idea.</p>
-      <div class="proj-foot"><div class="proj-status"><div class="s-dot building"></div>Building</div></div>
-    </div>
-  </div>
-</div>
+  <h2>Research</h2>
+  <ul class="rows">
+    <li><a class="t" href="/model">The Identity Model</a> — the framework behind the research: three layers, four failure modes</li>
+    <li><a class="t" href="/projects/identity-map">Identity Surface Map</a> — an interactive map of every system holding a version of you</li>
+    <li><a class="t" href="/projects/password-graveyard">The Password Graveyard</a> — enter a password, learn when it died and what killed it</li>
+    <li><a class="t" href="/projects/digital-shadow">Your Digital Shadow</a> — what data brokers and ad networks probably know about you</li>
+    <li><a class="t" href="/projects/osint-dashboard">OSINT Dashboard</a> — identity-research tools, organized by workflow instead of alphabet</li>
+    <li><span class="t">agentic-id</span> — intent tokens for AI agents, built on RFC 8693 and SPIFFE <span class="note">(in progress, will be open source)</span></li>
+  </ul>
 
-<div style="max-width:calc(var(--max) + var(--gutter)*2);margin:0 auto;padding:80px var(--gutter);">
-  <div style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:40px;">
-    <span style="width:28px;height:1px;background:var(--text-3);display:inline-block;"></span>
-    Archive — eventual
-    <span style="flex:1;height:1px;background:rgba(90,87,82,0.2);display:inline-block;"></span>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr;gap:1px;background:rgba(90,87,82,0.15);border:1px solid rgba(90,87,82,0.15);">
-    <div style="background:var(--bg);padding:36px 40px;">
-      <div style="font-family:var(--mono);font-size:.6rem;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;">Fiction / Espionage</div>
-      <h3 style="font-family:var(--serif);font-size:1.3rem;font-weight:400;letter-spacing:-.02em;margin-bottom:12px;color:var(--text-2);">Ghost Signal</h3>
-      <p style="color:var(--text-3);font-size:.88rem;line-height:1.7;">Five-book espionage series. Ryn Carver. Books 1 and 2 written. An operative who doesn’t exist in any system. Will ship when the primary research work has traction.</p>
-    </div>
-  </div>
-</div>
+  <h2>For the joy of it</h2>
+  <ul class="rows">
+    <li><a class="t" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">Commonlist</a> — one clean address book: connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud</li>
+    <li><a class="t" href="/projects/quant-trading">Quant scanner</a> — 100 symbols scanned nightly, defensive rotation thesis, every trade public <span class="note">(paper trading)</span></li>
+    <li><a class="t" href="/projects/pokemon-model">Pokémon model</a> — 17,000+ cards scored daily for mispriced scarcity</li>
+    <li><a class="t" href="/projects/onepiece-model">One Piece model</a> — the same scoring model, applied to a market with no serious tooling</li>
+    <li><a class="t" href="/projects/gpk-model">Garbage Pail Kids model</a> — 40 years of a novelty card market, treated like an asset class</li>
+    <li><a class="t" href="/projects/mtg-decks">MTG decks</a> — Emrakul Commander and Death &amp; Taxes Legacy, built as appreciating assets</li>
+    <li><a class="t" href="/studio/broken-heart-ohio">Broken Heart Ohio</a> — a tattoo studio's website, booking, and payments, built from scratch</li>
+    <li><span class="t">Harvest Haven</span> — a Roblox farming game built with my 10 year old <span class="note">(building)</span></li>
+  </ul>
+
+  <h2 style="font-size:1.15rem">Shelved</h2>
+  <p class="note">Ghost Signal, a five-book espionage series (two books written), waits until the research work has traction. The Vessel experiment is <a href="/archive/vessel">preserved in the archive</a>.</p>
+</main>
 
 <Footer />
 </Base>
