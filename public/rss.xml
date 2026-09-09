@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://matterunknown.com/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>My Kid Has Better Identity Architecture Than Your Company</title>
+      <link>https://matterunknown.com/writing/kid-identity-architecture</link>
+      <guid>https://matterunknown.com/writing/kid-identity-architecture</guid>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>My son has four Roblox accounts and can explain the purpose of each one without thinking about it. That is a better identity design than most enterprises manage.</description>
+    </item>
+    <item>
       <title>Retiring Vessel</title>
       <link>https://matterunknown.com/writing/retiring-vessel</link>
       <guid>https://matterunknown.com/writing/retiring-vessel</guid>
