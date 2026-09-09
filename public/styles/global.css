@@ -154,3 +154,13 @@ a.icard:hover { border-color: rgba(196,151,42,.42); transform: translateY(-3px);
 .icard .meta { margin-top: auto; padding-top: 8px; font-size: .78rem; color: var(--text-3); }
 @media (max-width: 900px) { .grid3 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .grid3, .grid2 { grid-template-columns: 1fr; } }
+
+/* Typography-led essay card (no imagery) */
+.ecard { display: flex; flex-direction: column; gap: 8px; border-top: 2px solid var(--amber); padding: 18px 0 0; }
+.ecard .k { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); }
+.ecard h3 { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; line-height: 1.25; color: var(--text); }
+a.ecard:hover h3 { color: var(--amber); }
+.ecard p { color: var(--text-2); font-size: .93rem; }
+.ecard .m { margin-top: auto; padding-top: 6px; font-size: .78rem; color: var(--text-3); }
+/* Cards with no image: centre the body so the space reads as intentional */
+.icard > .icard-body:only-child { justify-content: center; }

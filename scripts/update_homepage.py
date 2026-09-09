@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """
-Auto-updates the /now page with live data from all models.
-Runs nightly after all model rebuilds complete.
+Updates the /now page with live data from the models. Runs nightly after
+the model rebuilds complete.
 
-(Formerly targeted index.astro; the 2026 redesign moved live stats to
-src/pages/now.astro — the homepage is stat-free by design.)
+Targets `data-stat="..."` attributes in src/pages/now.astro rather than
+matching prose, so copy edits on the page can't silently break the job.
+Anything it cannot read is left untouched.
+
+(Filename kept for the existing cron entry; this last targeted the
+homepage before the 2026 redesign moved live stats to /now.)
 """
 
 import json, sqlite3, re, subprocess
@@ -14,62 +18,90 @@ from pathlib import Path
 SITE = Path('/opt/orchid/apps/matterunknown')
 NOW  = SITE / 'src/pages/now.astro'
 
-def get_pokemon():
-    try:
-        conn = sqlite3.connect('/opt/orchid/apps/pokemon-model/db/cards.db')
-        c = conn.cursor()
-        c.execute('SELECT COUNT(*) FROM cards'); total = c.fetchone()[0]
-        conn.close()
-        return total
-    except: return None
 
-def get_crypto():
+def set_stat(content: str, key: str, value: str) -> str:
+    """Replace the text inside the element carrying data-stat="key"."""
+    pattern = re.compile(r'(data-stat="' + re.escape(key) + r'"[^>]*>)[^<]*')
+    updated, n = pattern.subn(lambda m: m.group(1) + value, content)
+    if n == 0:
+        print(f"  ! no data-stat=\"{key}\" found — skipped")
+    return updated
+
+
+def sqlite_count(db: str, table: str = 'cards') -> int | None:
+    try:
+        conn = sqlite3.connect(db)
+        n = conn.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]
+        conn.close()
+        return n
+    except Exception as e:
+        print(f"  ! {db}: {e}")
+        return None
+
+
+def run():
+    print(f"[{datetime.now():%Y-%m-%d %H:%M}] Updating /now …")
+    if not NOW.exists():
+        print(f"  ! {NOW} not found — nothing to do")
+        return
+
+    content = original = NOW.read_text()
+
+    # Pokémon
+    n = sqlite_count('/opt/orchid/apps/pokemon-model/db/cards.db')
+    if n:
+        print(f"  Pokemon: {n:,} cards")
+        content = set_stat(content, 'pokemon-cards', f'{n:,}')
+
+    # One Piece
+    n = sqlite_count('/opt/orchid/apps/onepiece-model/db/cards.db')
+    if n:
+        print(f"  One Piece: {n:,} cards")
+        content = set_stat(content, 'onepiece-cards', f'{n:,}')
+
+    # Garbage Pail Kids
+    n = sqlite_count('/opt/orchid/apps/gpk-model/db/cards.db')
+    if n:
+        print(f"  GPK: {n:,} cards")
+        content = set_stat(content, 'gpk-cards', f'{n:,}')
+
+    # Crypto
     try:
         d = json.load(open('/opt/orchid/apps/crypto-model/results.json'))
         assets = d.get('results', [])
         buys = sum(1 for a in assets if a.get('signal') == 'BUY')
-        return len(assets), buys
-    except: return None, None
+        print(f"  Crypto: {len(assets)} assets | {buys} BUY")
+        content = set_stat(content, 'crypto-assets', str(len(assets)))
+        content = set_stat(content, 'crypto-buys', str(buys))
+    except Exception as e:
+        print(f"  ! crypto: {e}")
 
-def get_trading():
+    # Quant
     try:
         d = json.load(open('/opt/orchid/apps/vessel-trading/portfolio.json'))
-        return len(d.get('positions', []))
-    except: return None
+        pos = len(d.get('positions', []))
+        print(f"  Trading: {pos} positions")
+        content = set_stat(content, 'quant-positions', str(pos))
+    except Exception as e:
+        print(f"  ! trading: {e}")
 
-def run():
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M')}] Updating /now...")
-    content = original = NOW.read_text()
-    today = datetime.now().strftime('%Y-%m-%d')
-
-    total = get_pokemon()
-    if total:
-        print(f"  Pokemon: {total:,} cards")
-        content = re.sub(r'[\d,]+ cards · (\d+) sets', f'{total:,} cards · \\g<1> sets', content, count=1)
-
-    n_assets, n_buys = get_crypto()
-    if n_assets:
-        print(f"  Crypto: {n_assets} assets | {n_buys} BUY")
-        content = re.sub(r'\d+ assets scored daily · \d+ buy signals?',
-                         f"{n_assets} assets scored daily · {n_buys} buy signal{'s' if n_buys != 1 else ''}",
-                         content)
-
-    n_pos = get_trading()
-    if n_pos is not None:
-        print(f"  Trading: {n_pos} positions")
-        content = re.sub(r'\d+ positions open', f'{n_pos} positions open', content)
-
-    if content != original:
-        content = re.sub(r'Model data as of \d{4}-\d{2}-\d{2}', f'Model data as of {today}', content)
-        NOW.write_text(content)
-        subprocess.run(['git', '-C', str(SITE), 'add', 'src/pages/now.astro'], capture_output=True)
-        subprocess.run(['git', '-C', str(SITE), 'commit', '-m',
-            f'chore: auto-update /now stats {today}'], capture_output=True)
-        r = subprocess.run(['git', '-C', str(SITE), 'push', 'origin', 'main'], capture_output=True, text=True)
-        print(f"  Pushed: {r.stdout.strip() or 'ok'}")
-    else:
+    if content == original:
         print("  No changes needed")
+        return
+
+    # Only stamp the as-of date when real numbers actually moved.
+    content = set_stat(content, 'asof', f'{datetime.now():%-d %B %Y}')
+    NOW.write_text(content)
+
+    git = ['git', '-C', str(SITE)]
+    subprocess.run(git + ['add', 'src/pages/now.astro'], capture_output=True)
+    subprocess.run(git + ['commit', '-m',
+                          f'chore: auto-update /now stats {datetime.now():%Y-%m-%d}'],
+                   capture_output=True)
+    r = subprocess.run(git + ['push', 'origin', 'main'], capture_output=True, text=True)
+    print(f"  Pushed: {r.stdout.strip() or r.stderr.strip() or 'ok'}")
     print("Done.")
+
 
 if __name__ == '__main__':
     run()

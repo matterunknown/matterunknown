@@ -3,87 +3,97 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="matterunknown" description="Ryan Silver's independent identity research lab. Research on identity — especially the identity of AI agents — and real tools built in the open.">
+<Base title="matterunknown" description="Ryan Silver's independent identity research lab. Research on identity — especially the identity of AI agents — and real software built in the open.">
 <style>
-  .heroWrap { position: relative; }
-  .heroWrap::before {
-    content: ''; position: absolute; inset: -80px 0 0;
-    background:
-      radial-gradient(ellipse 90% 60% at 18% 18%, rgba(196,151,42,.07), transparent 68%),
-      radial-gradient(ellipse 70% 50% at 92% 72%, rgba(126,184,196,.035), transparent 72%);
-    pointer-events: none;
-  }
-  .hero { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; padding: 64px 0 8px; }
-  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 4.5vw, 3.3rem); line-height: 1.1; letter-spacing: -.01em; margin: 14px 0 18px; text-wrap: balance; }
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: start; padding: 60px 0 0; }
+  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 4.6vw, 3.3rem); line-height: 1.1; letter-spacing: -.01em; margin: 14px 0 18px; text-wrap: balance; }
   .hero h1 a { color: inherit; }
   .hero h1 a:hover { color: var(--amber); }
-  .hero .dek { color: var(--text-2); font-size: 1.08rem; max-width: 54ch; margin-bottom: 22px; }
+  .hero .dek { color: var(--text-2); font-size: 1.08rem; max-width: 52ch; margin-bottom: 22px; }
   .hero .by { font-size: .85rem; color: var(--text-3); margin-bottom: 26px; }
   .cta { display: inline-block; background: var(--amber); color: #090908; border-radius: 8px; padding: 11px 22px; font-size: .95rem; font-weight: 500; transition: background .2s; }
   .cta:hover { background: #d4a830; }
   .cta2 { margin-left: 18px; color: var(--amber); font-size: .95rem; }
   .cta2:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .heroArt { border-radius: 14px; border: 1px solid rgba(196,151,42,.16); overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
-  .heroArt img { display: block; width: 100%; height: auto; }
-  .mission { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--rule); color: var(--text-2); font-size: 1.02rem; max-width: 72ch; }
+
+  .board { border: 1px solid rgba(196,151,42,.15); border-radius: 12px; background: linear-gradient(180deg, #0e0e0c, #0a0a09); overflow: hidden; }
+  .board-h { padding: 16px 22px; border-bottom: 1px solid var(--rule); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); }
+  .brow { display: block; padding: 14px 22px; border-bottom: 1px solid var(--rule); }
+  .brow:last-child { border-bottom: none; }
+  a.brow:hover { background: #14130f; }
+  .brow .n { font-family: var(--serif); font-size: 1.12rem; color: var(--text); }
+  a.brow:hover .n { color: var(--amber); }
+  .brow .d { display: block; font-size: .84rem; color: var(--text-3); margin-top: 2px; }
+
+  .mission { margin-top: 60px; padding-top: 28px; border-top: 1px solid var(--rule); color: var(--text-2); font-size: 1.02rem; max-width: 72ch; }
   .mission strong { color: var(--text); font-weight: 500; }
-  .mission a { color: var(--amber); }
+
   .programs { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   .program { border-left: 2px solid var(--amber-border); padding-left: 18px; }
   .program h3 { font-family: var(--serif); font-weight: 400; font-size: 1.12rem; margin-bottom: 4px; }
   .program p { color: var(--text-3); font-size: .88rem; }
   .program a { color: var(--text); }
   .program a:hover { color: var(--amber); }
-  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .programs { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 34px; } .programs { grid-template-columns: 1fr; } }
 </style>
 
 <Nav variant="full" active="/" />
 
 <main class="wrapb">
-  <div class="heroWrap">
-    <div class="hero">
-      <div>
-        <span class="sc">Featured essay · August 2026</span>
-        <h1><a href="/writing/retiring-vessel">Retiring Vessel</a></h1>
-        <p class="dek">For six months this site ran with an AI persona that named itself. Ending it taught me more about agent identity than building it did.</p>
-        <p class="by">Ryan Silver · 7 min read</p>
-        <a class="cta" href="/writing/retiring-vessel">Read the essay</a>
-        <a class="cta2" href="/about">About the lab →</a>
-      </div>
-      <div class="heroArt"><img src="/images/art/vessel.jpg" alt="Fragmented concentric rings in amber" width="1200" height="750" /></div>
+  <div class="hero">
+    <div>
+      <span class="sc">Featured essay · August 2026</span>
+      <h1><a href="/writing/retiring-vessel">Retiring Vessel</a></h1>
+      <p class="dek">For six months this site ran with an AI persona that named itself. Ending it taught me more about agent identity than building it did.</p>
+      <p class="by">Ryan Silver · 7 min read</p>
+      <a class="cta" href="/writing/retiring-vessel">Read the essay</a>
+      <a class="cta2" href="/about">About the lab →</a>
+    </div>
+    <div class="board">
+      <div class="board-h">In the lab right now</div>
+      <a class="brow" href="https://puttfor.com" target="_blank" rel="noopener">
+        <span class="n">Puttfor</span>
+        <span class="d">Charity golf, run properly · live</span>
+      </a>
+      <a class="brow" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
+        <span class="n">Commonlist</span>
+        <span class="d">One address book out of four providers · live</span>
+      </a>
+      <a class="brow" href="/projects/quant-trading">
+        <span class="n">Quant scanner</span>
+        <span class="d">100 symbols nightly · paper trading</span>
+      </a>
+      <a class="brow" href="/now">
+        <span class="n">agentic-id</span>
+        <span class="d">Intent tokens for AI agents · building</span>
+      </a>
     </div>
   </div>
 
   <div class="mission">
-    <strong>matterunknown is Ryan Silver's independent identity research lab.</strong> Serious work on how systems decide who you are — above all, what identity means for AI agents acting on our behalf — alongside real tools and models built for the joy of it. Everything runs in the open: the methods, the trades, and the mistakes are public.
+    <strong>matterunknown is Ryan Silver's independent identity research lab.</strong> Serious work on how systems decide who you are — above all, what identity means for AI agents acting on our behalf — alongside real software built for the joy of it. Everything runs in the open: the methods, the trades, and the mistakes are public.
   </div>
 
   <div class="sect">
     <div class="sect-head"><h2>Latest research</h2><a href="/writing">All writing →</a></div>
     <div class="grid3">
-      <a class="icard" href="/writing/the-credential-remembers-who">
-        <img src="/images/art/credential.jpg" alt="" loading="lazy" width="1200" height="750" />
-        <div class="icard-body">
-          <span class="icard-kicker">Agentic identity</span>
-          <h3>The Credential Remembers Who. Nothing Remembers Why.</h3>
-          <div class="meta">July 2026</div>
-        </div>
+      <a class="ecard" href="/writing/the-credential-remembers-who">
+        <span class="k">Agentic identity</span>
+        <h3>The Credential Remembers Who. Nothing Remembers Why.</h3>
+        <p>Intent tokens as the missing layer: proving why an agent acts, not just that it holds a valid credential.</p>
+        <span class="m">July 2026</span>
       </a>
-      <a class="icard" href="/writing/the-workload-is-the-reasoning-session">
-        <img src="/images/art/workload.jpg" alt="" loading="lazy" width="1200" height="750" />
-        <div class="icard-body">
-          <span class="icard-kicker">Agentic identity</span>
-          <h3>The Workload Is the Reasoning Session</h3>
-          <div class="meta">July 2026</div>
-        </div>
+      <a class="ecard" href="/writing/the-workload-is-the-reasoning-session">
+        <span class="k">Agentic identity</span>
+        <h3>The Workload Is the Reasoning Session</h3>
+        <p>Identity belongs to the reasoning session, not the container or the directory entry it borrows credentials from.</p>
+        <span class="m">July 2026</span>
       </a>
-      <a class="icard" href="/writing/pokemon-card-market">
-        <img src="/images/art/cards.jpg" alt="" loading="lazy" width="1200" height="750" />
-        <div class="icard-body">
-          <span class="icard-kicker">Markets</span>
-          <h3>The Card Market Has a Data Problem</h3>
-          <div class="meta">June 2026</div>
-        </div>
+      <a class="ecard" href="/writing/pokemon-card-market">
+        <span class="k">Markets</span>
+        <h3>The Card Market Has a Data Problem</h3>
+        <p>An asset class with real money in it and no reliable pricing data underneath.</p>
+        <span class="m">June 2026</span>
       </a>
     </div>
   </div>
@@ -91,10 +101,17 @@ import Footer from '../components/layout/Footer.astro';
   <div class="sect">
     <div class="sect-head"><h2>From the lab</h2><a href="/projects">All projects →</a></div>
     <div class="grid3">
+      <a class="icard" href="https://puttfor.com" target="_blank" rel="noopener">
+        <div class="icard-body">
+          <span class="icard-kicker">Product · Live</span>
+          <h3>Puttfor</h3>
+          <p>Charity golf, run properly. Registration, payments, and live scoring in one place — money goes to the event's own Stripe account, not the course.</p>
+        </div>
+      </a>
       <a class="icard" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
         <img src="https://commonlist.matterunknown.com/og.png" alt="Commonlist — one clean address book" loading="lazy" width="1200" height="630" />
         <div class="icard-body">
-          <span class="icard-kicker">App · Live</span>
+          <span class="icard-kicker">Product · Live</span>
           <h3>Commonlist</h3>
           <p>One clean address book across Google, Microsoft, Outlook, and iCloud.</p>
         </div>
@@ -121,14 +138,6 @@ import Footer from '../components/layout/Footer.astro';
           <span class="icard-kicker">Research · Interactive</span>
           <h3>Identity Surface Map</h3>
           <p>How many versions of you exist across systems right now?</p>
-        </div>
-      </a>
-      <a class="icard" href="/projects/digital-shadow">
-        <img src="/images/projects/digital-shadow.png" alt="Your Digital Shadow questionnaire" loading="lazy" width="1280" height="750" />
-        <div class="icard-body">
-          <span class="icard-kicker">Research · Interactive</span>
-          <h3>Your Digital Shadow</h3>
-          <p>What data brokers probably know about you.</p>
         </div>
       </a>
       <a class="icard" href="/projects/password-graveyard">
