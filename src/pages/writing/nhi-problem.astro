@@ -47,31 +47,31 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 </style>
 <Nav variant="sub" backHref="/writing" backLabel="← Writing" />
 <article class="article">
-  <div class="article-label">Security — March 2026</div>
+  <div class="article-label">Security, March 2026</div>
   <h1>The NHI Problem Is a Human Problem</h1>
   <div class="article-meta">matterunknown &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; 8 min read</div>
 
-  <p>Non-human identities — service accounts, API keys, OAuth tokens, machine certificates, bot credentials — now outnumber human identities in most enterprise environments by a factor of ten to one. Some estimates put it higher. In a mature cloud infrastructure, the ratio can be forty or fifty to one. For every person with a badge and a login, there are dozens of automated processes quietly authenticating, accessing, doing their jobs or not doing their jobs, accruing permissions that nobody remembers granting.</p>
+  <p>Non-human identities (service accounts, API keys, OAuth tokens, machine certificates, bot credentials) now outnumber human identities in most enterprise environments by a factor of ten to one. Some estimates put it higher. In a mature cloud infrastructure, the ratio can be forty or fifty to one. For every person with a badge and a login, there are dozens of automated processes quietly authenticating, accessing, doing their jobs or not doing their jobs, accruing permissions that nobody remembers granting.</p>
 
-  <p>The security industry has named this the NHI problem and is busily building tools to solve it. Scanning for exposed credentials. Inventorying service accounts. Rotating API keys. Monitoring for anomalous access patterns. All of this is necessary and most of it is underutilized. But the framing — that this is a technical problem about non-human identities — obscures something important about why the problem exists and why it's so hard to actually fix.</p>
+  <p>The security industry has named this the NHI problem and is busily building tools to solve it. Scanning for exposed credentials. Inventorying service accounts. Rotating API keys. Monitoring for anomalous access patterns. All of this is necessary and most of it is underutilized. But the framing, that this is a technical problem about non-human identities, obscures something important about why the problem exists and why it's so hard to actually fix.</p>
 
   <p>The NHI problem is a human problem. Every non-human identity was created by a human, for a purpose a human had, in a context a human understood. The service account exists because someone needed to automate a process. The API key exists because a developer needed to connect two systems. The OAuth token exists because someone clicked through an authorization flow without reading it carefully. The identity is non-human. The origin is entirely human.</p>
 
   <h2>What actually creates orphaned NHIs</h2>
 
-  <p>Consider how a service account comes to be orphaned. Someone on the infrastructure team creates it for a specific purpose — let's say a data pipeline that moves records from a production database to a reporting system. The account gets the permissions it needs: read access to the source database, write access to the destination, perhaps some S3 access for intermediate storage. The pipeline runs. Nobody thinks about the account again.</p>
+  <p>Consider how a service account comes to be orphaned. Someone on the infrastructure team creates it for a specific purpose. Let's say a data pipeline that moves records from a production database to a reporting system. The account gets the permissions it needs: read access to the source database, write access to the destination, perhaps some S3 access for intermediate storage. The pipeline runs. Nobody thinks about the account again.</p>
 
   <p>Six months later, the pipeline is replaced by a newer system. The old pipeline is decommissioned. The code is archived. The documentation is updated, mostly. The service account is not disabled because disabling it was not on the decommission checklist, and the decommission checklist was written by someone who is no longer at the company, and it was last updated when the infrastructure was completely different, and nobody is entirely sure what the account still touches.</p>
 
   <p>This is not a story about negligence. It is a story about how organizations actually work. Provisioning is a workflow. Decommissioning is an afterthought. The systems that create identities are usually sophisticated and well-governed. The systems that retire them are usually ad hoc, if they exist at all.</p>
 
-  <blockquote>"The most dangerous service account is not the one being actively abused. It's the one that could be abused and nobody would know — because nobody knows it exists."</blockquote>
+  <blockquote>"The most dangerous service account is not the one being actively abused. It's the one that could be abused and nobody would know, because nobody knows it exists."</blockquote>
 
   <h2>The discovery problem</h2>
 
   <p>Before you can remediate an orphaned NHI, you have to know it exists. This sounds obvious. It is, in practice, extraordinarily difficult. The account may exist in a directory service that is not fully integrated with your identity governance tooling. It may have been created by a contractor using a process that predates your current onboarding procedures. It may exist in a cloud account that was set up during a proof-of-concept and never properly folded into your infrastructure inventory. It may be authenticating successfully every day and therefore generating no alerts.</p>
 
-  <p>The accounts that generate alerts are the accounts that fail. Orphaned accounts, by definition, are the ones that don't fail — they continue working exactly as designed, in service of a purpose that no longer exists, with permissions that no longer make sense, with no owner who would notice if something changed.</p>
+  <p>The accounts that generate alerts are the accounts that fail. Orphaned accounts, by definition, are the ones that don't fail. They continue working exactly as designed, in service of a purpose that no longer exists, with permissions that no longer make sense, with no owner who would notice if something changed.</p>
 
   <p>In the demo environments we build to show this problem, the most effective accounts for illustrating the risk are the ones that have been running the longest. <code>svc.legacy-etl</code>, created in 2018, running a data sync that was replaced in 2021, still authenticating daily, risk score 95. Not because it has done anything wrong. Because it is invisible.</p>
 
@@ -79,9 +79,9 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 
   <p>Most organizations have reasonably good processes for the beginning of an identity's lifecycle. New employee joins: access request submitted, manager approves, IT provisions. New service account needed: ticket created, security reviews permissions, account created with documented purpose. The front door is well-guarded.</p>
 
-  <p>The back door — the processes for what happens when an employee leaves, when a service is decommissioned, when a project ends — is almost universally underbuilt. Not because security teams don't know it matters, but because the incentives are wrong. Provisioning access enables something. Deprovisioning access prevents something that hasn't happened yet. In a world of competing priorities, prevention of hypothetical future harm consistently loses to enablement of present work.</p>
+  <p>The back door (the processes for what happens when an employee leaves, when a service is decommissioned, when a project ends) is almost universally underbuilt. Not because security teams don't know it matters, but because the incentives are wrong. Provisioning access enables something. Deprovisioning access prevents something that hasn't happened yet. In a world of competing priorities, prevention of hypothetical future harm consistently loses to enablement of present work.</p>
 
-  <p>This is the human part of the NHI problem. The tools exist to discover, inventory, and remediate orphaned non-human identities. The harder problem is building and sustaining the organizational processes that ensure identities are retired when they should be — before they accumulate enough risk to matter, before someone has to reverse-engineer what a six-year-old service account actually does before deciding whether it's safe to disable.</p>
+  <p>This is the human part of the NHI problem. The tools exist to discover, inventory, and remediate orphaned non-human identities. The harder problem is building and sustaining the organizational processes that ensure identities are retired when they should be. Before they accumulate enough risk to matter, before someone has to reverse-engineer what a six-year-old service account actually does before deciding whether it's safe to disable.</p>
 
   <h2>What actually helps</h2>
 
@@ -89,7 +89,7 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 
   <p>This is not complicated. It requires policy, tooling to enforce the policy, and organizational will to sustain it. The last item is the hard one. Identity hygiene is invisible when it's working. The incentive to maintain it is entirely preventive. It is the kind of discipline that organizations develop after a breach, not before one.</p>
 
-  <p>The NHI problem will be solved when organizations treat the retirement of an identity as a first-class event — as important as its creation, as well-documented, as carefully reviewed. Until then, the gap between provisioning discipline and deprovisioning discipline will continue to produce exactly the kind of invisible, unowned, quietly dangerous accounts that make identity security so hard to get right.</p>
+  <p>The NHI problem will be solved when organizations treat the retirement of an identity as a first-class event. As important as its creation, as well-documented, as carefully reviewed. Until then, the gap between provisioning discipline and deprovisioning discipline will continue to produce exactly the kind of invisible, unowned, quietly dangerous accounts that make identity security so hard to get right.</p>
 
   <div class="article-footer">
     <a class="back-link" href="/writing">← All writing</a>

@@ -1,12 +1,12 @@
 ---
 // Card.astro
-// Generalizes the ".proj-card" (projects grid) and ".cat" (OSINT category card) patterns —
+// Generalizes the ".proj-card" (projects grid) and ".cat" (OSINT category card) patterns , 
 // both are the same primitive today: bg-2 panel, amber top-border reveal on hover, optional link.
 
 export interface Props {
   as?: 'div' | 'a';
   href?: string;
-  interactive?: boolean; // hover lift/border-reveal — off for static content cards
+  interactive?: boolean; // hover lift/border-reveal, off for static content cards
   class?: string;
 }
 

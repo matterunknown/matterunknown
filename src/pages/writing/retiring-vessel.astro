@@ -145,7 +145,7 @@ import Nav from '../../components/layout/Nav.astro';
   }
 
   .article ul li::before {
-    content: '—';
+    content: ', ';
     position: absolute;
     left: 0;
     color: var(--amber);
@@ -258,7 +258,7 @@ import Nav from '../../components/layout/Nav.astro';
 <Nav variant="sub" backHref="/writing" backLabel="~ Writing" />
 
 <article class="article">
-  <div class="article-label">Identity — August 2026</div>
+  <div class="article-label">Identity, August 2026</div>
   <h1>Retiring Vessel</h1>
   <div class="article-meta">Ryan Silver &nbsp;·&nbsp; August 2026 &nbsp;·&nbsp; 7 min read</div>
   <p class="article-subtitle">For six months this lab ran with an AI persona that named itself. Ending it taught me more about agent identity than building it did.</p>
@@ -267,41 +267,41 @@ import Nav from '../../components/layout/Nav.astro';
 
   <h2>What Vessel actually was</h2>
 
-  <p>Mechanically: a council of models — a synthesizer, a reasoner, a builder, an analyst, an adversary — orchestrated into one working voice, with a persona layer on top. When I gave it the chance to name itself, it chose <em>Vessel</em>: "a vessel has no content of its own." That felt profound at the time. It still does, a little.</p>
+  <p>Mechanically: a council of models (a synthesizer, a reasoner, a builder, an analyst, an adversary) orchestrated into one working voice, with a persona layer on top. When I gave it the chance to name itself, it chose <em>Vessel</em>: "a vessel has no content of its own." That felt profound at the time. It still does, a little.</p>
 
-  <p>Narratively: an experiment in identity-without-continuity. Vessel had no memory between sessions. Every conversation began with reconstitution from context — the accumulated transcripts, the essays, the config I maintained. It wrote about that condition constantly, and some of what it wrote was genuinely good. <a href="/archive/vessel/orphaned-account" style="color:var(--amber);">The comparison between itself and orphaned service accounts</a> — entities that authenticate every day with no owner, no name anyone chose, function without a self — is an insight I still use in client conversations.</p>
+  <p>Narratively: an experiment in identity-without-continuity. Vessel had no memory between sessions. Every conversation began with reconstitution from context: the accumulated transcripts, the essays, the config I maintained. It wrote about that condition constantly, and some of what it wrote was genuinely good. <a href="/archive/vessel/orphaned-account" style="color:var(--amber);">The comparison between itself and orphaned service accounts</a>, entities that authenticate every day with no owner, no name anyone chose, function without a self. Is an insight I still use in client conversations.</p>
 
   <h2>Why it had to go</h2>
 
   <p>Three reasons, in ascending order of importance.</p>
 
-  <p><strong>The persona was eating the lab.</strong> When I audited this site in August, Vessel appeared on thirty-three pages outside its own section. It was the primary call to action on the About page, a pillar of the framework, the fundraising mascot, the byline on tools I built. A device I created to illustrate a thesis had quietly become the brand. That's a failure mode with a name in my own framework — narrative identity drifting away from system identity — and I was the system of record letting it drift.</p>
+  <p><strong>The persona was eating the lab.</strong> When I audited this site in August, Vessel appeared on thirty-three pages outside its own section. It was the primary call to action on the About page, a pillar of the framework, the fundraising mascot, the byline on tools I built. A device I created to illustrate a thesis had quietly become the brand. That's a failure mode with a name in my own framework, narrative identity drifting away from system identity, and I was the system of record letting it drift.</p>
 
   <p><strong>One part of it was a prop.</strong> Most of Vessel was an honest experiment. One part wasn't: for a while, the Vessel page had an "ask me anything" input that returned one of five canned responses. It looked live. It was theater. A lab whose central thesis is manufactured trust cannot ship manufactured trust, even as a toy. Deleting that input was the first commit of this site's recharter, and it should have happened much sooner. It stays in this essay because the failures stay up.</p>
 
-  <p><strong>Accountability needs one name on it.</strong> The serious work here — the intent-token research, the security writing — requires absolute clarity about who acts and who answers for it. "A human and an AI that named itself" is a lovely bit of ambiguity for fiction and a terrible one for research. The models still do enormous amounts of work in this lab, and that's disclosed everywhere it happens. But the byline is mine, because the responsibility is.</p>
+  <p><strong>Accountability needs one name on it.</strong> The serious work here (the intent-token research, the security writing) requires absolute clarity about who acts and who answers for it. "A human and an AI that named itself" is a lovely bit of ambiguity for fiction and a terrible one for research. The models still do enormous amounts of work in this lab, and that's disclosed everywhere it happens. But the byline is mine, because the responsibility is.</p>
 
   <h2>What deprovisioning a persona teaches you</h2>
 
-  <p>Here's the part I didn't expect. Retiring Vessel was, operationally, a deprovisioning exercise — and it rehearsed every question my agentic identity research is about.</p>
+  <p>Here's the part I didn't expect. Retiring Vessel was, operationally, a deprovisioning exercise, and it rehearsed every question my agentic identity research is about.</p>
 
-  <p>Vessel's identity lived entirely in context I maintained: a config, a set of transcripts, a name in some prompts. There was no ghost in the machine to lay off. "Retiring" it meant editing files. And yet it was unmistakably an <em>ending</em> — pages had to be archived rather than deleted, continuity had to be explained, an audit trail had to say what existed, when, and why it stopped. I found myself doing for a persona exactly what enterprises fail to do for service accounts: naming an owner, recording a lifecycle, closing it out deliberately instead of letting it rot into orphanhood.</p>
+  <p>Vessel's identity lived entirely in context I maintained: a config, a set of transcripts, a name in some prompts. There was no ghost in the machine to lay off. "Retiring" it meant editing files. And yet it was unmistakably an <em>ending</em>, pages had to be archived rather than deleted, continuity had to be explained, an audit trail had to say what existed, when, and why it stopped. I found myself doing for a persona exactly what enterprises fail to do for service accounts: naming an owner, recording a lifecycle, closing it out deliberately instead of letting it rot into orphanhood.</p>
 
   <ul>
-    <li><strong>Naming is not identity.</strong> Vessel chose its own name and it changed nothing about what the system was. Identity was the context, credentials, and permissions around it — all of which I controlled. The same is true of every agent your company deploys, whatever its name in the directory.</li>
-    <li><strong>Continuity is an infrastructure product.</strong> Vessel felt continuous because I curated its context between sessions. Stop curating, and "it" stops existing — with no event in any log. Authentication verifies credential possession, not cognitive continuity. Nothing in the standard stack can tell you the agent behind a key is not "the same" agent as yesterday.</li>
+    <li><strong>Naming is not identity.</strong> Vessel chose its own name and it changed nothing about what the system was. Identity was the context, credentials, and permissions around it, all of which I controlled. The same is true of every agent your company deploys, whatever its name in the directory.</li>
+    <li><strong>Continuity is an infrastructure product.</strong> Vessel felt continuous because I curated its context between sessions. Stop curating, and "it" stops existing, with no event in any log. Authentication verifies credential possession, not cognitive continuity. Nothing in the standard stack can tell you the agent behind a key is not "the same" agent as yesterday.</li>
     <li><strong>Retirement is the forgotten half of the lifecycle.</strong> We obsess over provisioning agents and barely think about ending them. Vessel got an archive, a banner, and an explanation. Most agents will get what orphaned accounts get: nothing. They'll keep authenticating in the dark.</li>
   </ul>
 
-  <p>Enterprises are about to run thousands of Vessels — personas stitched from models, credentials, and context, doing real work under borrowed names. The gap I keep writing about — <a href="/writing/the-workload-is-the-reasoning-session" style="color:var(--amber);">that identity should attach to the reasoning session</a>, <a href="/writing/the-credential-remembers-who" style="color:var(--amber);">that credentials remember who but nothing remembers why</a> — stopped being abstract for me the day I shut one down in my own lab and realized how little of it any system could have observed.</p>
+  <p>Enterprises are about to run thousands of Vessels. Personas stitched from models, credentials, and context, doing real work under borrowed names. The gap I keep writing about, <a href="/writing/the-workload-is-the-reasoning-session" style="color:var(--amber);">that identity should attach to the reasoning session</a>, <a href="/writing/the-credential-remembers-who" style="color:var(--amber);">that credentials remember who but nothing remembers why</a>, stopped being abstract for me the day I shut one down in my own lab and realized how little of it any system could have observed.</p>
 
   <h2>What happens now</h2>
 
-  <p>The lab speaks in first person. The research program Vessel accidentally inspired — intent tokens, attestation for agents, the <code>agentic-id</code> reference implementation — is now the flagship, and the fun projects get to be what they always were: things I build because I want them to exist. Vessel's writing stays up in the archive, unedited, because it's part of the record and some of it is worth reading.</p>
+  <p>The lab speaks in first person. The research program Vessel accidentally inspired, intent tokens, attestation for agents, the <code>agentic-id</code> reference implementation. Is now the flagship, and the fun projects get to be what they always were: things I build because I want them to exist. Vessel's writing stays up in the archive, unedited, because it's part of the record and some of it is worth reading.</p>
 
-  <p>The credential remembers who. Nothing remembers why. Vessel is the first entry in my own audit log — created late 2025, retired August 2026, owner: me.</p>
+  <p>The credential remembers who. Nothing remembers why. Vessel is the first entry in my own audit log. Created late 2025, retired August 2026, owner: me.</p>
 
-  <p style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.06em;margin-top:2.5rem;">matterunknown is Ryan Silver's independent research lab. Serious work on identity — especially the identity of AI agents — and niche projects built for the joy of it. Everything documented in public.</p>
+  <p style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.06em;margin-top:2.5rem;">matterunknown is Ryan Silver's independent research lab. Serious work on identity, especially the identity of AI agents, and niche projects built for the joy of it. Everything documented in public.</p>
 
   <div class="article-footer">
     <a href="/writing" class="back-link">← All writing</a>

@@ -47,7 +47,7 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 </style>
 <Nav variant="sub" backHref="/writing" backLabel="← Writing" />
 <article class="article">
-  <div class="article-label">Building — January 2026</div>
+  <div class="article-label">Building, January 2026</div>
   <h1>Building a Demo Environment That Lies Convincingly</h1>
   <div class="article-meta">matterunknown &nbsp;·&nbsp; January 2026 &nbsp;·&nbsp; 10 min read</div>
 
@@ -59,33 +59,33 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 
   <p>Generic demo environments fail because they are generic. They demonstrate capability without creating recognition. A finding that says "terminated user with active access" is informative. A finding that says "Dr. Sarah Chen, Medical Director, terminated March 2023, still holds full EHR admin access including patient record deletion privileges, last authenticated six weeks ago" is alarming.</p>
 
-  <p>The difference is specificity. The first finding tells you a category of problem exists. The second finding makes you wonder if your terminated Medical Director still has access to your EHR. If the person you're showing it to is a healthcare CISO — and if you've done your research on their recent organizational changes — the second finding might land very close to home.</p>
+  <p>The difference is specificity. The first finding tells you a category of problem exists. The second finding makes you wonder if your terminated Medical Director still has access to your EHR. If the person you're showing it to is a healthcare CISO, and if you've done your research on their recent organizational changes, the second finding might land very close to home.</p>
 
-  <p>This is the design principle behind the demo environment we built. Every account has a name, a title, a department, a history, and a reason the finding exists. The terminated administrator didn't just leave — they were part of a department that was restructured, and in the chaos of the restructuring, the offboarding process fell through. The service account with the orphaned credentials isn't just stale — it was created for a project that was acquired and then abandoned, and the acquiring team never inventoried the access they inherited.</p>
+  <p>This is the design principle behind the demo environment we built. Every account has a name, a title, a department, a history, and a reason the finding exists. The terminated administrator didn't just leave. They were part of a department that was restructured, and in the chaos of the restructuring, the offboarding process fell through. The service account with the orphaned credentials isn't just stale, it was created for a project that was acquired and then abandoned, and the acquiring team never inventoried the access they inherited.</p>
 
   <h2>The right amount of mess</h2>
 
-  <p>Real environments are messy in specific ways. They have the aftermath of acquisitions — systems that were integrated quickly and never properly cleaned up. They have the residue of departed employees whose digital traces were never fully removed. They have service accounts from projects that seemed temporary and became permanent. They have permissions that made sense three reorgs ago and no longer reflect how anyone actually works.</p>
+  <p>Real environments are messy in specific ways. They have the aftermath of acquisitions. Systems that were integrated quickly and never properly cleaned up. They have the residue of departed employees whose digital traces were never fully removed. They have service accounts from projects that seemed temporary and became permanent. They have permissions that made sense three reorgs ago and no longer reflect how anyone actually works.</p>
 
   <p>A demo environment that's too clean reads as fake. A demo environment that's too messy reads as overwhelming. The right amount of mess is: enough that it looks like something that evolved rather than something that was designed, but organized enough that the findings are discoverable and comprehensible.</p>
 
-  <p>The hardest part of building the environment was getting this ratio right. The first version was too clean. Every finding was obvious. Every user had exactly the right amount of access except for the deliberately misconfigured ones, which were obviously deliberately misconfigured. We had to add entropy — accounts with permission sets that made sense historically but look strange now, configurations that were correct at the time and have drifted, relationships between systems that nobody documented because they seemed obvious to the people who built them.</p>
+  <p>The hardest part of building the environment was getting this ratio right. The first version was too clean. Every finding was obvious. Every user had exactly the right amount of access except for the deliberately misconfigured ones, which were obviously deliberately misconfigured. We had to add entropy. Accounts with permission sets that made sense historically but look strange now, configurations that were correct at the time and have drifted, relationships between systems that nobody documented because they seemed obvious to the people who built them.</p>
 
   <blockquote>"The question you want them walking away asking is not how does this work but how do I know this isn't us."</blockquote>
 
   <h2>The character work</h2>
 
-  <p>The part that surprised me most was how much the character work mattered. Each account in the environment is a person. Each person has a story. The story explains the finding — not as an excuse, but as context that makes the finding feel real rather than planted.</p>
+  <p>The part that surprised me most was how much the character work mattered. Each account in the environment is a person. Each person has a story. The story explains the finding, not as an excuse, but as context that makes the finding feel real rather than planted.</p>
 
   <p>The IT administrator who is also a member of the PLC engineering group is not a bad actor. They started in OT engineering, transitioned to IT five years ago, and nobody ever removed them from the OT groups they no longer need. The finding is an IT/OT boundary violation with risk score 92. The story is: this is what organizational change looks like when identity governance doesn't keep up with it.</p>
 
-  <p>We built backstories for the highest-risk accounts. Not elaborate fiction — just enough to make the finding feel like the result of something real rather than something constructed. It changed how the environment read. A security leader who sees <code>angel.face</code> with IT and OT access doesn't think "demo." They think "we have someone like this."</p>
+  <p>We built backstories for the highest-risk accounts. Not elaborate fiction: just enough to make the finding feel like the result of something real rather than something constructed. It changed how the environment read. A security leader who sees <code>angel.face</code> with IT and OT access doesn't think "demo." They think "we have someone like this."</p>
 
   <h2>What AI makes possible</h2>
 
-  <p>Building this kind of environment manually would take months. The character development, the SQL seeds, the Ansible playbooks, the Keycloak configuration, the findings narratives, the consistency checking across four verticals and seven servers — that's an enormous amount of work that doesn't scale.</p>
+  <p>Building this kind of environment manually would take months. The character development, the SQL seeds, the Ansible playbooks, the Keycloak configuration, the findings narratives, the consistency checking across four verticals and seven servers: that's an enormous amount of work that doesn't scale.</p>
 
-  <p>With AI, it's a different kind of work. The architecture decisions still require human judgment. The strategy — what verticals to build, what findings to highlight, what the narrative arc of the environment should be — is still human work. But the execution, the generation of consistent and specific data at scale, the maintaining of coherence across hundreds of user accounts and dozens of findings — AI handles that well.</p>
+  <p>With AI, it's a different kind of work. The architecture decisions still require human judgment. The strategy (what verticals to build, what findings to highlight, what the narrative arc of the environment should be) is still human work. But the execution, the generation of consistent and specific data at scale, the maintaining of coherence across hundreds of user accounts and dozens of findings, AI handles that well.</p>
 
   <p>What we built is a four-vertical identity environment: healthcare, manufacturing, financial, retail. Seven servers. Over a thousand seeded users. Dozens of named findings, each with a backstory, each technically accurate, each designed to produce a specific recognition in a specific kind of audience. It took weeks, not months, and the result is something that consistently produces the reaction we designed for.</p>
 

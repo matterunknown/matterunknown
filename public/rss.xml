@@ -3,7 +3,7 @@
   <channel>
     <title>matterunknown</title>
     <link>https://matterunknown.com</link>
-    <description>Ryan Silver's independent research lab. Serious work on identity — especially the identity of AI agents — and niche projects built for the joy of it.</description>
+    <description>Ryan Silver's independent research lab. Serious work on identity, especially the identity of AI agents, and niche projects built for the joy of it.</description>
     <language>en</language>
     <atom:link href="https://matterunknown.com/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
@@ -18,7 +18,7 @@
       <link>https://matterunknown.com/writing/the-credential-remembers-who</link>
       <guid>https://matterunknown.com/writing/the-credential-remembers-who</guid>
       <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
-      <description>Intent tokens as the missing identity layer for AI agents — built on existing standards, attesting to why an agent acts, not just who it is.</description>
+      <description>Intent tokens as the missing identity layer for AI agents. Built on existing standards, attesting to why an agent acts, not just who it is.</description>
     </item>
     <item>
       <title>The Workload Is the Reasoning Session</title>
@@ -109,7 +109,7 @@
       <link>https://matterunknown.com/writing/demo-environment</link>
       <guid>https://matterunknown.com/writing/demo-environment</guid>
       <pubDate>Thu, 01 Jan 2026 00:00:00 GMT</pubDate>
-      <description>Building a security demo environment that lies convincingly — and what that teaches about manufactured trust.</description>
+      <description>Building a security demo environment that lies convincingly, and what that teaches about manufactured trust.</description>
     </item>
     <item>
       <title>AI Agents Don't Have Identity. That's the Problem.</title>

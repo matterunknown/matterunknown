@@ -51,7 +51,7 @@ import Footer from '../components/layout/Footer.astro';
     .layer-examples { list-style: none; }
     .layer-examples li { font-family: var(--mono); font-size: .68rem; color: var(--text-3); padding: 7px 0; border-bottom: 1px solid var(--amber-border); letter-spacing: .04em; }
     .layer-examples li:last-child { border-bottom: none; }
-    .layer-examples li::before { content: '— '; color: var(--amber); }
+    .layer-examples li::before { content: ',  '; color: var(--amber); }
 
     /* Failure modes */
     .failures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--amber-border); }
@@ -115,7 +115,7 @@ import Footer from '../components/layout/Footer.astro';
     <div class="hero-eyebrow">Identity surface mapping / framework</div>
     <h1>The <em>Identity</em><br>System Model</h1>
     <p class="hero-sub">
-      Identity is not a login. It is a system — with layers, failure modes, and outputs. This is the operating model behind everything matterunknown researches, builds, and publishes.
+      Identity is not a login. It is a system, with layers, failure modes, and outputs. This is the operating model behind everything matterunknown researches, builds, and publishes.
     </p>
   </section>
 
@@ -123,7 +123,7 @@ import Footer from '../components/layout/Footer.astro';
     <div class="section-label">The core problem</div>
     <div class="thesis-text">
       <p>Systems constantly misidentify people. Identity is where that failure happens.</p>
-      <p>The problem is not that systems are malicious. The problem is that identity is <em>structurally underspecified</em> in almost every system that touches it. Systems were built to process transactions, not to represent people. Identity was an afterthought — and that afterthought became the attack surface.</p>
+      <p>The problem is not that systems are malicious. The problem is that identity is <em>structurally underspecified</em> in almost every system that touches it. Systems were built to process transactions, not to represent people. Identity was an afterthought, and that afterthought became the attack surface.</p>
       <p>Every breach, every fraud, every case of stolen identity, every wrongful identification is downstream of the same root problem: <em>systems hold versions of you that you cannot see, cannot correct, and cannot revoke.</em></p>
     </div>
   </section>
@@ -134,7 +134,7 @@ import Footer from '../components/layout/Footer.astro';
       <div class="layer">
         <div class="layer-num">Layer 01</div>
         <h3>System Identity</h3>
-        <p>The identity that exists inside databases, authentication systems, and digital infrastructure. This is identity as machines process it — credentials, records, tokens, certificates.</p>
+        <p>The identity that exists inside databases, authentication systems, and digital infrastructure. This is identity as machines process it, credentials, records, tokens, certificates.</p>
         <ul class="layer-examples">
           <li>Login credentials and session tokens</li>
           <li>Database records and access permissions</li>
@@ -145,7 +145,7 @@ import Footer from '../components/layout/Footer.astro';
       <div class="layer">
         <div class="layer-num">Layer 02</div>
         <h3>Human Identity</h3>
-        <p>The identity that exists in people — continuous, embodied, contextual. This is identity as experienced from the inside: selfhood, continuity across time, the body as an identifier.</p>
+        <p>The identity that exists in people, continuous, embodied, contextual. This is identity as experienced from the inside: selfhood, continuity across time, the body as an identifier.</p>
         <ul class="layer-examples">
           <li>Physical presence and biometric markers</li>
           <li>Legal identity: name, nationality, document</li>
@@ -156,7 +156,7 @@ import Footer from '../components/layout/Footer.astro';
       <div class="layer">
         <div class="layer-num">Layer 03</div>
         <h3>Narrative Identity</h3>
-        <p>The identity constructed through story, memory, and perception — by yourself and by others. This is identity as representation: what you say about yourself, what systems say about you, and where those stories diverge.</p>
+        <p>The identity constructed through story, memory, and perception, by yourself and by others. This is identity as representation: what you say about yourself, what systems say about you, and where those stories diverge.</p>
         <ul class="layer-examples">
           <li>Reputation and social proof systems</li>
           <li>Media narratives and public records</li>
@@ -173,13 +173,13 @@ import Footer from '../components/layout/Footer.astro';
       <div class="failure">
         <div class="failure-tag">Failure Mode 01</div>
         <h3>Misidentification</h3>
-        <p>A system believes someone is who they are not — or believes a person is someone they are not. The identity record and the human have come apart.</p>
+        <p>A system believes someone is who they are not, or believes a person is someone they are not. The identity record and the human have come apart.</p>
         <div class="failure-example">Examples: credential theft, account takeover, facial recognition errors on dark skin tones, wrongful identification in criminal databases.</div>
       </div>
       <div class="failure">
         <div class="failure-tag">Failure Mode 02</div>
         <h3>Over-attribution</h3>
-        <p>A system assigns too much meaning to a signal — treating a data point as proof of identity when it is only correlation. The system is more certain than it should be.</p>
+        <p>A system assigns too much meaning to a signal. Treating a data point as proof of identity when it is only correlation. The system is more certain than it should be.</p>
         <div class="failure-example">Examples: credit scoring treating ZIP code as creditworthiness, predictive policing treating location as intent, health records treating race as biological fact.</div>
       </div>
       <div class="failure">
@@ -191,7 +191,7 @@ import Footer from '../components/layout/Footer.astro';
       <div class="failure">
         <div class="failure-tag">Failure Mode 04</div>
         <h3>Synthetic Identity</h3>
-        <p>An identity is constructed from real data fragments that don't belong to any single person — or are manufactured wholesale. The system cannot distinguish it from a real identity because it has all the right signals.</p>
+        <p>An identity is constructed from real data fragments that don't belong to any single person, or are manufactured wholesale. The system cannot distinguish it from a real identity because it has all the right signals.</p>
         <div class="failure-example">Examples: synthetic identity fraud in financial systems, AI-generated faces attached to stolen credentials, deepfake voice cloning for social engineering.</div>
       </div>
     </div>
@@ -203,13 +203,13 @@ import Footer from '../components/layout/Footer.astro';
       <div class="output">
         <div class="output-type">Output 01</div>
         <h3>Research</h3>
-        <p>Long-form essays and frameworks that map the problem. Theory first — because you cannot fix what you cannot name.</p>
+        <p>Long-form essays and frameworks that map the problem. Theory first, because you cannot fix what you cannot name.</p>
         <a href="/writing">Read the research →</a>
       </div>
       <div class="output">
         <div class="output-type">Output 02</div>
         <h3>Experiments</h3>
-        <p>Interactive tools that let you feel the failure modes. Not demonstrations — simulations. Built to reveal, not to explain.</p>
+        <p>Interactive tools that let you feel the failure modes. Not demonstrations, simulations. Built to reveal, not to explain.</p>
         <a href="/projects">See the lab →</a>
       </div>
       <div class="output">
@@ -226,14 +226,14 @@ import Footer from '../components/layout/Footer.astro';
       <div>
         <div class="vc-label">Agentic identity / the live problem</div>
         <div class="vc-title">Systems that act with authority but have no identity of their own</div>
-        <p class="vc-body">AI agents are the fourth failure mode arriving at scale. They hold OAuth tokens and API keys provisioned for humans, act with delegated authority, and leave audit trails that point at the person, not the agent. Authentication verifies credential possession — not intent, and not continuity.</p>
+        <p class="vc-body">AI agents are the fourth failure mode arriving at scale. They hold OAuth tokens and API keys provisioned for humans, act with delegated authority, and leave audit trails that point at the person, not the agent. Authentication verifies credential possession, not intent, and not continuity.</p>
         <p class="vc-body">The lab's flagship program builds the missing layer: intent tokens that bind an agent's actions to an attestable reason, on top of standards that already exist.</p>
         <a class="vc-link" href="/writing/the-credential-remembers-who">Read the research →</a>
       </div>
       <div class="vc-right">
         <p>This lab once ran its own experiment in identity-without-continuity: an AI persona called <em>Vessel</em>, which named itself and wrote about existing with no memory between sessions.</p>
         <br>
-        <p>That experiment is retired, and retiring it taught the same lesson the enterprise is about to learn — an agent's identity lives entirely in the context we build around it. <a href="/archive/vessel" style="color:var(--teal)">The archive preserves it as written.</a></p>
+        <p>That experiment is retired, and retiring it taught the same lesson the enterprise is about to learn: an agent's identity lives entirely in the context we build around it. <a href="/archive/vessel" style="color:var(--teal)">The archive preserves it as written.</a></p>
       </div>
     </div>
   </div>
