@@ -3,17 +3,31 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="Now" description="What's running in the lab and what I'm thinking about right now.">
+<Base title="Now" description="What I'm working on right now, and the numbers coming out of the systems that are running.">
 <style>
   .head { padding: 56px 0 0; max-width: 46rem; }
-  .head p { color: var(--text-2); font-size: 1.05rem; margin-top: 8px; }
+  .head p { color: var(--text-2); margin-top: 8px; }
   .stamp { font-size: .82rem; color: var(--text-3); margin-top: 10px; font-variant-numeric: tabular-nums; }
-  .think { max-width: 46rem; margin-top: 40px; }
-  .think p { color: var(--text-2); margin-top: 10px; }
-  .think a { color: var(--amber); }
-  .think a:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .cols2 { margin-top: 44px; }
-  .prow .stat { display: block; font-size: .88rem; color: var(--text-3); font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+  .work { margin-top: 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 40px; }
+  .item { border-top: 2px solid var(--amber); padding-top: 16px; }
+  .item h3 { font-family: var(--serif); font-weight: 400; font-size: 1.25rem; margin-bottom: 2px; }
+  .item .state { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+  .item p { color: var(--text-2); font-size: .95rem; }
+  .item a { color: var(--amber); }
+  .item a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .statgrid { margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(196,151,42,.15); border: 1px solid rgba(196,151,42,.15); border-radius: 12px; overflow: hidden; }
+  .stat { background: linear-gradient(180deg, #0e0e0c, #0a0a09); padding: 24px 24px 20px; display: block; }
+  a.stat:hover { background: linear-gradient(180deg, #14130f, #0d0d0b); }
+  .stat .n { display: block; font-family: var(--serif); font-size: 2.1rem; line-height: 1.05; color: var(--amber); font-variant-numeric: tabular-nums; }
+  .stat .l { display: block; font-size: .86rem; color: var(--text-2); margin-top: 6px; }
+  .stat .s { display: block; font-size: .76rem; color: var(--text-3); margin-top: 2px; }
+
+  .stale { margin-top: 14px; font-size: .84rem; color: var(--text-3); max-width: 62ch; }
+  .latest { margin-top: 22px; max-width: 46rem; }
+  @media (max-width: 860px) { .work { grid-template-columns: 1fr; gap: 26px; } }
+  @media (max-width: 620px) { .statgrid { grid-template-columns: 1fr 1fr; } }
 </style>
 
 <Nav variant="full" active="/now" />
@@ -21,35 +35,73 @@ import Footer from '../components/layout/Footer.astro';
 <main class="wrapb">
   <div class="head">
     <h1 class="statement">Now</h1>
-    <p>What's running, and what I'm thinking about. The numbers refresh nightly; the thinking refreshes when it changes.</p>
-    <p class="stamp">Model data as of 2026-08-19 · page updated 2026-09-08</p>
+    <p>What I'm working on, and what the running systems are saying.</p>
+    <p class="stamp">Updated 9 September 2026</p>
   </div>
 
-  <div class="think">
-    <div class="sc">Thinking about</div>
-    <p>Agentic identity. AI agents authenticate with borrowed credentials and leave audit trails that point at their humans. I'm building an intent-token layer on existing standards — RFC 8693 token exchange, SPIFFE workload identity — to attest not just <em>who</em> an agent is but <em>why</em> it's acting, working toward an open-source package and a paper. <a href="/writing/the-credential-remembers-who">The Credential Remembers Who</a> and <a href="/writing/the-workload-is-the-reasoning-session">The Workload Is the Reasoning Session</a> make the argument; <a href="/writing/retiring-vessel">Retiring Vessel</a> is the story behind it.</p>
-  </div>
-
-  <div class="cols2">
-    <div>
-      <div class="sc" style="display:block;margin-bottom:12px">Running</div>
-      <!-- now:commonlist -->
-      <a class="prow" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener"><span class="pt">Commonlist</span><span class="stat">contacts connected, cleaned, and merged across Google, Microsoft, Outlook, and iCloud</span></a>
-      <!-- now:quant -->
-      <a class="prow" href="/projects/quant-trading"><span class="pt">Quant scanner</span><span class="stat">100 symbols scanned daily · 8 positions open · paper trading</span></a>
-      <!-- now:crypto -->
-      <a class="prow" href="/projects/crypto-model"><span class="pt">Crypto model</span><span class="stat">21 assets scored daily · 0 buy signals</span></a>
-      <!-- now:pokemon -->
-      <a class="prow" href="/projects/pokemon-model"><span class="pt">Pokémon model</span><span class="stat">17,428 cards · 168 sets · top 25 updated daily</span></a>
-      <!-- now:onepiece -->
-      <a class="prow" href="/projects/onepiece-model"><span class="pt">One Piece model</span><span class="stat">1,035 cards · 43 sets</span></a>
-      <!-- now:gpk -->
-      <a class="prow" href="/projects/gpk-model"><span class="pt">Garbage Pail Kids model</span><span class="stat">11,580 cards tracked · 114 sets</span></a>
-      <!-- now:building -->
-      <span class="prow"><span class="pt">Building</span><span class="stat">agentic-id (intent tokens) · Harvest Haven (Roblox) · Perimeter OS</span></span>
+  <div class="work">
+    <div class="item">
+      <h3>Puttfor</h3>
+      <div class="state">Live</div>
+      <p>Charity golf, run properly. Registration, payments and live scoring in one place — the leaderboard updates while groups are still on the course, and the money lands in the event's own Stripe account rather than the course's. <a href="https://puttfor.com" target="_blank" rel="noopener">puttfor.com →</a></p>
     </div>
-    <div>
-      <div class="sc" style="display:block;margin-bottom:12px">Latest writing</div>
+    <div class="item">
+      <h3>agentic-id</h3>
+      <div class="state">Building</div>
+      <p>Intent tokens. An agent should be able to prove <em>why</em> it is acting, not just that it holds a valid credential. Built on RFC 8693 and SPIFFE rather than a new format, because the primitives already exist. Next: a reference implementation clean enough to open source.</p>
+    </div>
+    <div class="item">
+      <h3>Commonlist</h3>
+      <div class="state">Live, still hardening</div>
+      <p>One address book merged out of Google, Microsoft, Outlook and iCloud. It works; moving it off test auth credentials is the job before it gets real traffic. <a href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">Try it →</a></p>
+    </div>
+    <div class="item">
+      <h3>Harvest Haven</h3>
+      <div class="state">Weekends</div>
+      <p>A Roblox farming game I'm building with my 10 year old. Crop chains, pets, and an economy he keeps redesigning.</p>
+    </div>
+  </div>
+
+  <div class="sect">
+    <div class="sect-head"><h2>The models, by the numbers</h2><a href="/projects">All projects →</a></div>
+    <div class="statgrid">
+      <a class="stat" href="/projects/pokemon-model">
+        <span class="n" data-stat="pokemon-cards">17,428</span>
+        <span class="l">Pokémon cards scored</span>
+        <span class="s">across <span data-stat="pokemon-sets">168</span> sets</span>
+      </a>
+      <a class="stat" href="/projects/gpk-model">
+        <span class="n" data-stat="gpk-cards">11,580</span>
+        <span class="l">Garbage Pail Kids tracked</span>
+        <span class="s">114 sets, 1985–2025</span>
+      </a>
+      <a class="stat" href="/projects/onepiece-model">
+        <span class="n" data-stat="onepiece-cards">1,035</span>
+        <span class="l">One Piece cards scored</span>
+        <span class="s">43 sets</span>
+      </a>
+      <a class="stat" href="/projects/quant-trading">
+        <span class="n" data-stat="quant-positions">8</span>
+        <span class="l">Open positions</span>
+        <span class="s">100 symbols scanned nightly · paper</span>
+      </a>
+      <a class="stat" href="/projects/crypto-model">
+        <span class="n" data-stat="crypto-assets">21</span>
+        <span class="l">Crypto assets scored daily</span>
+        <span class="s"><span data-stat="crypto-buys">0</span> buy signals</span>
+      </a>
+      <a class="stat" href="/projects/identity-map">
+        <span class="n">12</span>
+        <span class="l">Systems in the identity map</span>
+        <span class="s">that hold a version of you</span>
+      </a>
+    </div>
+    <p class="stale">These come out of the nightly model runs. The job last pushed on <span data-stat="asof">19 August 2026</span>, so that is the date these numbers are from — getting the pipeline running again is on the list. When it is, this page updates itself.</p>
+  </div>
+
+  <div class="sect">
+    <div class="sect-head"><h2>Latest writing</h2><a href="/writing">All writing →</a></div>
+    <div class="latest">
       <a class="wrow" href="/writing/retiring-vessel"><span class="wt">Retiring Vessel</span><span class="wd">Aug 2026</span></a>
       <a class="wrow" href="/writing/the-credential-remembers-who"><span class="wt">The Credential Remembers Who. Nothing Remembers Why.</span><span class="wd">Jul 2026</span></a>
       <a class="wrow" href="/writing/the-workload-is-the-reasoning-session"><span class="wt">The Workload Is the Reasoning Session</span><span class="wd">Jul 2026</span></a>

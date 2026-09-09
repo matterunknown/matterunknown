@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 ---
-<Base title="Projects" description="Everything built at matterunknown: identity research experiments, and real tools made for the joy of it.">
+<Base title="Projects" description="Everything built at matterunknown: shipped products, identity research experiments, and things made for the joy of it.">
 <style>
   .head { padding: 56px 0 4px; max-width: 46rem; }
   .head p { color: var(--text-2); font-size: 1.05rem; margin-top: 8px; }
@@ -16,10 +16,38 @@ import Footer from '../components/layout/Footer.astro';
 <main class="wrapb">
   <div class="head">
     <h1 class="statement">Projects</h1>
-    <p>Two kinds of work. The research experiments exist to make identity failures visible; the rest exists because building it was fun. Everything shown is real and running unless it says otherwise.</p>
+    <p>Products people actually use, research experiments that make identity failures visible, and things that exist because building them was fun. Everything shown is real and running unless it says otherwise.</p>
   </div>
 
   <div class="sect" style="margin-top:44px">
+    <div class="sect-head"><h2>Products</h2></div>
+    <div class="grid3">
+      <a class="icard" href="https://puttfor.com" target="_blank" rel="noopener">
+        <div class="icard-body">
+          <span class="icard-kicker">Live · puttfor.com</span>
+          <h3>Puttfor</h3>
+          <p>Charity golf, run properly. Registration, payments and live scoring in one place: per-hole team scoring, a leaderboard that updates while groups are still on the back nine, and mulligans and charity strokes bought from a phone without an account. Money goes to the event's own connected Stripe account — the course is never the merchant of record. No setup fee.</p>
+        </div>
+      </a>
+      <a class="icard" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
+        <img src="https://commonlist.matterunknown.com/og.png" alt="Commonlist" loading="lazy" width="1200" height="630" />
+        <div class="icard-body">
+          <span class="icard-kicker">Live · commonlist.matterunknown.com</span>
+          <h3>Commonlist</h3>
+          <p>One clean address book: connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud. Every duplicate contact is an identity-system failure in miniature.</p>
+        </div>
+      </a>
+      <a class="icard" href="/studio/broken-heart-ohio">
+        <div class="icard-body">
+          <span class="icard-kicker">Client build · Live</span>
+          <h3>Broken Heart Ohio</h3>
+          <p>A tattoo studio's website, booking system, and payment flow, built from scratch — no templates, no booking platform in the middle.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sect">
     <div class="sect-head"><h2>Research</h2><a href="/model">The framework →</a></div>
     <div class="grid3">
       <a class="icard" href="/projects/identity-map">
@@ -49,10 +77,6 @@ import Footer from '../components/layout/Footer.astro';
   <div class="sect">
     <div class="sect-head"><h2>For the joy of it</h2></div>
     <div class="grid3">
-      <a class="icard" href="https://commonlist.matterunknown.com" target="_blank" rel="noopener">
-        <img src="https://commonlist.matterunknown.com/og.png" alt="Commonlist" loading="lazy" width="1200" height="630" />
-        <div class="icard-body"><span class="icard-kicker">App · Live</span><h3>Commonlist</h3><p>One clean address book: connect, clean, and merge contacts across Google, Microsoft, Outlook, and iCloud.</p></div>
-      </a>
       <a class="icard" href="/projects/quant-trading">
         <img src="/images/projects/quant-trading.png" alt="Quant scanner positions and trade log" loading="lazy" width="1280" height="750" />
         <div class="icard-body"><span class="icard-kicker">Finance · Paper trading</span><h3>Quant scanner</h3><p>100 symbols scanned nightly, defensive rotation thesis, every trade public.</p></div>
@@ -74,11 +98,8 @@ import Footer from '../components/layout/Footer.astro';
       <a class="icard" href="/projects/mtg-decks">
         <div class="icard-body"><span class="icard-kicker">Collecting</span><h3>MTG decks</h3><p>Emrakul Commander and Death &amp; Taxes Legacy, built as appreciating assets.</p></div>
       </a>
-      <a class="icard" href="/studio/broken-heart-ohio">
-        <div class="icard-body"><span class="icard-kicker">Client build · Live</span><h3>Broken Heart Ohio</h3><p>A tattoo studio's website, booking, and payments, built from scratch.</p></div>
-      </a>
       <span class="icard">
-        <div class="icard-body"><span class="icard-kicker">Roblox · Building</span><h3>Harvest Haven</h3><p>A farming game built with my 10 year old.</p></div>
+        <div class="icard-body"><span class="icard-kicker">Roblox · Building</span><h3>Harvest Haven</h3><p>A farming game built with my 10 year old. Crop chains, pets, and an economy he keeps redesigning.</p></div>
       </span>
     </div>
   </div>
