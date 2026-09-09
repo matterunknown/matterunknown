@@ -145,7 +145,7 @@ import Nav from '../../components/layout/Nav.astro';
   }
 
   .article ul li::before {
-    content: '—';
+    content: ', ';
     position: absolute;
     left: 0;
     color: var(--amber);
@@ -258,7 +258,7 @@ import Nav from '../../components/layout/Nav.astro';
 <Nav variant="sub" backHref="/writing" backLabel="~ Writing" />
 
 <article class="article">
-  <div class="article-label">Identity Security — July 2026</div>
+  <div class="article-label">Identity Security, July 2026</div>
   <h1>The Workload Is the Reasoning Session</h1>
   <div class="article-meta">matterunknown &nbsp;·&nbsp; July 2026 &nbsp;·&nbsp; 9 min read</div>
   <p class="article-subtitle">Why agentic identity breaks the assumptions your identity stack was built on, and the attestation layer no standard defines.</p>
@@ -281,7 +281,7 @@ import Nav from '../../components/layout/Nav.astro';
 
   <p>When an agent performs a task, the meaningful unit of activity is not the container it runs in or the API key it borrows. It's the <em>reasoning session</em>: a short-lived burst of model inference that receives a goal, decomposes it, calls tools, possibly spawns sub-agents, produces an outcome, and disappears. It may live for ninety seconds. The same container may host a thousand of these sessions in a day, each with a different objective, a different risk profile, and a different blast radius.</p>
 
-  <p>If you assign identity at the container level, every one of those thousand sessions inherits the same credentials and the same permissions. That is exactly how we ended up with the service-account sprawl we're all now paying vendors to inventory. If you assign it at the "agent" level — the named, durable bot in your directory — you've captured the actor but not the act. The agent that summarizes your meeting notes and the agent run that modifies your Terraform may be the same registered identity ten minutes apart.</p>
+  <p>If you assign identity at the container level, every one of those thousand sessions inherits the same credentials and the same permissions. That is exactly how we ended up with the service-account sprawl we're all now paying vendors to inventory. If you assign it at the "agent" level (the named, durable bot in your directory) you've captured the actor but not the act. The agent that summarizes your meeting notes and the agent run that modifies your Terraform may be the same registered identity ten minutes apart.</p>
 
   <p>The framing we've adopted at matterunknown is blunt: <strong>the workload is the reasoning session.</strong> Identity must be scoped to the session. Not the container, not the service, not the directory entry.</p>
 
@@ -312,12 +312,12 @@ import Nav from '../../components/layout/Nav.astro';
 
   <h2>Intent tokens: attestation before action</h2>
 
-  <p>The layer we're proposing — and have built — is an <strong>intent token</strong>: a short-lived, signed attestation issued to a reasoning session <em>before it acts</em>, declaring the task it was dispatched for, the actions it is permitted to take, the actions it is explicitly denied, and its position in the agent chain.</p>
+  <p>The layer we're proposing, and have built, is an <strong>intent token</strong>: a short-lived, signed attestation issued to a reasoning session <em>before it acts</em>, declaring the task it was dispatched for, the actions it is permitted to take, the actions it is explicitly denied, and its position in the agent chain.</p>
 
   <p>This is deliberately boring engineering. It's a standard JWT, signed with Ed25519, verifiable by any off-the-shelf JWT library with no proprietary infrastructure. The interesting part isn't the cryptography. It's what the artifact changes:</p>
 
   <ul>
-    <li><strong>Enforcement gets a contract.</strong> A tool boundary or gateway can verify the token and refuse actions outside the attested intent, including explicitly denied actions — which turn out to matter more than allowed ones. "This session may read the repository and may not push to it" is a materially different security posture than a repo-scoped OAuth token.</li>
+    <li><strong>Enforcement gets a contract.</strong> A tool boundary or gateway can verify the token and refuse actions outside the attested intent, including explicitly denied actions, which turn out to matter more than allowed ones. "This session may read the repository and may not push to it" is a materially different security posture than a repo-scoped OAuth token.</li>
     <li><strong>Audit gets evidence.</strong> The token outlives the session. Incident response stops inferring authorization from behavior and starts comparing behavior against a signed statement of what was authorized. The delta <em>is</em> the finding.</li>
     <li><strong>Chains get accountable.</strong> Because chain position is attested and enforced sequentially, a downstream agent can verify the provenance of its instructions. That is the beginning of an answer to cross-agent injection, which today rides delegation chains with full trust.</li>
   </ul>
@@ -327,7 +327,7 @@ import Nav from '../../components/layout/Nav.astro';
   <div class="stack-table">
     <div class="stack-row">
       <div class="stack-label">Workload Identity</div>
-      <div class="stack-desc">SPIFFE — who is running. Cryptographic, portable, already standardized.</div>
+      <div class="stack-desc">SPIFFE, who is running. Cryptographic, portable, already standardized.</div>
     </div>
     <div class="stack-row">
       <div class="stack-label">Semantic Identity</div>
@@ -335,7 +335,7 @@ import Nav from '../../components/layout/Nav.astro';
     </div>
     <div class="stack-row">
       <div class="stack-label">Intent Attestation</div>
-      <div class="stack-desc">What this session was authorized to do — signed before action, durable after.</div>
+      <div class="stack-desc">What this session was authorized to do, signed before action, durable after.</div>
     </div>
   </div>
 
@@ -343,7 +343,7 @@ import Nav from '../../components/layout/Nav.astro';
 
   <h2>This is running, not whiteboarded</h2>
 
-  <p>We didn't write this as a thought experiment. matterunknown operates a multi-model research council: several models generating, cross-examining, and adversarially reviewing each other's output before anything ships. It is exactly the kind of multi-agent pipeline that makes security people nervous, which made it the right test subject. The signing chain is live on real research workloads, and every council session runs under the three-layer model described above. A full write-up and an open reference implementation (<code>agentic-id</code>) are coming, including the parts where we were wrong on the first attempt — because those are the parts worth publishing.</p>
+  <p>We didn't write this as a thought experiment. matterunknown operates a multi-model research council: several models generating, cross-examining, and adversarially reviewing each other's output before anything ships. It is exactly the kind of multi-agent pipeline that makes security people nervous, which made it the right test subject. The signing chain is live on real research workloads, and every council session runs under the three-layer model described above. A full write-up and an open reference implementation (<code>agentic-id</code>) are coming, including the parts where we were wrong on the first attempt, because those are the parts worth publishing.</p>
 
   <h2>The questions worth asking now</h2>
 
@@ -364,7 +364,7 @@ import Nav from '../../components/layout/Nav.astro';
   <p style="font-family:var(--mono);font-size:.65rem;color:var(--text-3);letter-spacing:.06em;margin-top:2.5rem;">matterunknown is an independent identity security research lab. Identity is the largest unmonitored attack surface. We map it. The full paper and the <code>agentic-id</code> reference implementation will be published here.</p>
 
   <div style="margin-top:2.5rem;padding:1.25rem 1.5rem;background:var(--amber-dim);border-left:2px solid var(--amber);border-radius:0 4px 4px 0;">
-    <p style="margin-bottom:0;color:var(--text);font-size:.95rem;">Continued in Part 2: <a href="/writing/the-credential-remembers-who" style="color:var(--amber);">The Credential Remembers Who. Nothing Remembers Why.</a> — how attenuation and delegation actually work under intent tokens.</p>
+    <p style="margin-bottom:0;color:var(--text);font-size:.95rem;">Continued in Part 2: <a href="/writing/the-credential-remembers-who" style="color:var(--amber);">The Credential Remembers Who. Nothing Remembers Why.</a>, how attenuation and delegation actually work under intent tokens.</p>
   </div>
 
   <div class="article-footer">

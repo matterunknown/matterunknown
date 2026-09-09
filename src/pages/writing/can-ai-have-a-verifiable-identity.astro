@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/layout/Nav.astro';
 ---
-<Base title="Can an AI Agent Have a Verifiable Identity?" description="We built a lab to find out. Not a theoretical exercise — a running system where AI agents register, attest, and get governed by cryptographic identity primitives.">
+<Base title="Can an AI Agent Have a Verifiable Identity?" description="We built a lab to find out. Not a theoretical exercise: a running system where AI agents register, attest, and get governed by cryptographic identity primitives.">
 <style>
 :root {
   --bg:           #090908;
@@ -51,11 +51,11 @@ code { font-family:var(--mono);font-size:.82em;background:var(--bg-3);border:1px
 <Nav variant="sub" backHref="/writing" backLabel="~ Writing" />
 
 <article class="article">
-  <div class="article-label">Identity — May 2026</div>
+  <div class="article-label">Identity, May 2026</div>
   <h1>Can an AI Agent Have a Verifiable Identity?</h1>
   <div class="article-meta">matterunknown &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 6 min read</div>
 
-  <p>It's a deceptively simple question. When an AI agent does something — reads a file, calls an API, writes to a database — can you know, with cryptographic certainty, that it was that agent? Not a process that claimed to be it. Not a token that was stolen and replayed. The actual system, with the actual scope it was given, doing the actual thing it said it would do.</p>
+  <p>It's a deceptively simple question. When an AI agent does something (reads a file, calls an API, writes to a database) can you know, with cryptographic certainty, that it was that agent? Not a process that claimed to be it. Not a token that was stolen and replayed. The actual system, with the actual scope it was given, doing the actual thing it said it would do.</p>
 
   <p>Most deployments today can't answer that. They have logs. They have service accounts. They have API keys assigned to a role that three different systems share. The identity of the agent is implied, not attested. You trust the infrastructure to be telling the truth about who did what.</p>
 
@@ -63,7 +63,7 @@ code { font-family:var(--mono);font-size:.82em;background:var(--bg-3);border:1px
 
   <h2>The Identity Problem Is Different for Agents</h2>
 
-  <p>Human identity in security has decades of infrastructure behind it. SSO, MFA, RBAC, session tokens, device certificates — these aren't perfect, but they encode real assumptions about how humans authenticate: from known devices, in known locations, at human speed.</p>
+  <p>Human identity in security has decades of infrastructure behind it. SSO, MFA, RBAC, session tokens, device certificates: these aren't perfect, but they encode real assumptions about how humans authenticate: from known devices, in known locations, at human speed.</p>
 
   <p>Agents break every one of those assumptions. They authenticate programmatically, continuously, from wherever they happen to be running. They can spawn sub-agents and delegate authority. They operate at machine speed, which means a compromised identity can cause damage in milliseconds, not the minutes it takes a human to notice something is wrong.</p>
 
@@ -75,17 +75,17 @@ code { font-family:var(--mono);font-size:.82em;background:var(--bg-3);border:1px
 
   <h2>What We Built</h2>
 
-  <p>The matterunknown lab runs a system we're calling Guardian — an identity and access layer specifically for AI agents. The goal wasn't to build another secret manager. It was to answer a narrower question: can you create an identity primitive for an agent that is cryptographically verifiable, carries its own scope, and exists within a lifecycle you can observe and interrupt?</p>
+  <p>The matterunknown lab runs a system we're calling Guardian: an identity and access layer specifically for AI agents. The goal wasn't to build another secret manager. It was to answer a narrower question: can you create an identity primitive for an agent that is cryptographically verifiable, carries its own scope, and exists within a lifecycle you can observe and interrupt?</p>
 
-  <p>The core mechanism is the intent token. When an agent registers with Guardian, it receives an Ed25519-signed JWT. The token carries three things: the agent's identity (a declared name and role), its behavioral scope (explicit allow and deny lists for action categories), and a short expiry that forces continuous re-attestation. The agent presents this token to every service it interacts with. Services verify it offline — no callback required.</p>
+  <p>The core mechanism is the intent token. When an agent registers with Guardian, it receives an Ed25519-signed JWT. The token carries three things: the agent's identity (a declared name and role), its behavioral scope (explicit allow and deny lists for action categories), and a short expiry that forces continuous re-attestation. The agent presents this token to every service it interacts with. Services verify it offline, no callback required.</p>
 
-  <p>This is different from a standard bearer token in one important way: **the scope travels with the identity.** An agent with <code>allow: [read, analyze]</code> and <code>deny: [delete, execute, escalate]</code> cannot escalate — not because a policy file somewhere says so, but because any service validating its token will see the deny list and reject the attempt before it reaches anything sensitive. The constraint is in the cryptographic object, not in a configuration layer that can drift.</p>
+  <p>This is different from a standard bearer token in one important way: **the scope travels with the identity.** An agent with <code>allow: [read, analyze]</code> and <code>deny: [delete, execute, escalate]</code> cannot escalate, not because a policy file somewhere says so, but because any service validating its token will see the deny list and reject the attempt before it reaches anything sensitive. The constraint is in the cryptographic object, not in a configuration layer that can drift.</p>
 
   <h2>The Lifecycle Question</h2>
 
-  <p>Credentials don't have lifecycles. They have expiry dates, which is not the same thing. An identity lifecycle means the entity has states — and transitions between those states are deliberate, auditable, and reversible.</p>
+  <p>Credentials don't have lifecycles. They have expiry dates, which is not the same thing. An identity lifecycle means the entity has states, and transitions between those states are deliberate, auditable, and reversible.</p>
 
-  <p>In Guardian, every agent moves through a sequence: registered, pending approval, approved, and if something goes wrong, quarantined. Quarantine is not deletion. It's suspension — the agent's token stops being honored, its actions stop succeeding, but the record of what it did and what it was authorized to do is preserved. You can inspect it, investigate it, and decide whether to reinstate or revoke.</p>
+  <p>In Guardian, every agent moves through a sequence: registered, pending approval, approved, and if something goes wrong, quarantined. Quarantine is not deletion. It's suspension: the agent's token stops being honored, its actions stop succeeding, but the record of what it did and what it was authorized to do is preserved. You can inspect it, investigate it, and decide whether to reinstate or revoke.</p>
 
   <p>This matters for a reason that's easy to overlook: **you need to be able to ask "what was this agent allowed to do at the time it did this thing?"** Not what the policy says today. What the token said then. Because the token is a signed, timestamped artifact, that question has a real answer.</p>
 
@@ -103,17 +103,17 @@ code { font-family:var(--mono);font-size:.82em;background:var(--bg-3);border:1px
 
   <p>Running this in practice surfaced three things we didn't fully anticipate.</p>
 
-  <p>First, offline verification is non-negotiable. Agents operate at a speed where a round-trip to a central authority on every action is a real constraint. The token-based model — sign once, verify anywhere — is the only architecture that doesn't create a bottleneck at the identity layer.</p>
+  <p>First, offline verification is non-negotiable. Agents operate at a speed where a round-trip to a central authority on every action is a real constraint. The token-based model (sign once, verify anywhere) is the only architecture that doesn't create a bottleneck at the identity layer.</p>
 
-  <p>Second, the deny list matters more than the allow list. It's easy to enumerate what an agent should be able to do. It's harder — and more important — to enumerate what it should never be able to do regardless of what it's trying to accomplish. Escalation, deletion, and self-modification of scope should be structural impossibilities, not policy decisions that can be misconfigured.</p>
+  <p>Second, the deny list matters more than the allow list. It's easy to enumerate what an agent should be able to do. It's harder, and more important, to enumerate what it should never be able to do regardless of what it's trying to accomplish. Escalation, deletion, and self-modification of scope should be structural impossibilities, not policy decisions that can be misconfigured.</p>
 
-  <p>Third, identity without observability is incomplete. A verifiable identity tells you who did something. It doesn't tell you whether that something was expected. The next layer of this problem is behavioral — not just "was this agent authorized?" but "is this agent behaving like itself?" That's a harder question. We're working on it.</p>
+  <p>Third, identity without observability is incomplete. A verifiable identity tells you who did something. It doesn't tell you whether that something was expected. The next layer of this problem is behavioral, not just "was this agent authorized?" but "is this agent behaving like itself?" That's a harder question. We're working on it.</p>
 
   <h2>The Answer to the Question</h2>
 
-  <p>Yes — an AI agent can have a verifiable identity. The primitives exist: asymmetric signing, short-lived tokens, explicit scope, lifecycle state machines. None of this is novel cryptography. What's novel is applying it to entities that are autonomous, fast-moving, and not human.</p>
+  <p>Yes, an AI agent can have a verifiable identity. The primitives exist: asymmetric signing, short-lived tokens, explicit scope, lifecycle state machines. None of this is novel cryptography. What's novel is applying it to entities that are autonomous, fast-moving, and not human.</p>
 
-  <p>What we don't yet have is consensus on what "verified" needs to mean at scale — when agents spawn agents, when scope gets delegated, when the system making decisions about identity is itself an AI. Those are open problems. The lab exists to work them out in the open, in running code, not in whitepapers.</p>
+  <p>What we don't yet have is consensus on what "verified" needs to mean at scale. When agents spawn agents, when scope gets delegated, when the system making decisions about identity is itself an AI. Those are open problems. The lab exists to work them out in the open, in running code, not in whitepapers.</p>
 
   <p>If you're building in this space and thinking about these questions, we're interested in what you're finding.</p>
 

@@ -1,11 +1,11 @@
 ---
 // PageHeader.astro
-// The "Lab — Experiment No. X / Category" label + <h1> (with optional <em> highlight) + subtitle
+// The "Lab, Experiment No. X / Category" label + <h1> (with optional <em> highlight) + subtitle
 // pattern, repeated verbatim across every project/experiment page (identity-map, osint-dashboard,
 // pokemon-model, onepiece-model, etc.) with only the text changing.
 
 export interface Props {
-  eyebrow: string;        // e.g. "Lab — Experiment No. 4 / Reference Tool"
+  eyebrow: string;        // e.g. "Lab, Experiment No. 4 / Reference Tool"
   title: string;           // plain text; use titleEm for the amber-italic portion
   titleEm?: string;        // rendered as <em> in amber, appended after `title`
   sub?: string;

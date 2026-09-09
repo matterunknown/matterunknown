@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../../components/layout/Nav.astro';
 import Footer from '../../components/layout/Footer.astro';
 ---
-<Base title="OSINT Dashboard" description="An identity-security research dashboard — curated OSINT tools organized by workflow. Built by matterunknown.">
+<Base title="OSINT Dashboard" description="An identity-security research dashboard, curated OSINT tools organized by workflow. Built by matterunknown.">
 <style>
   :root {
     --bg:      #090908;
@@ -218,10 +218,10 @@ import Footer from '../../components/layout/Footer.astro';
 <Nav variant="sub" />
 
 <div class="page">
-  <div class="page-label">Lab — Experiment No. 4 / Reference Tool</div>
+  <div class="page-label">Lab, Experiment No. 4 / Reference Tool</div>
   <h1>OSINT <em>Dashboard</em></h1>
   <p class="sub">A curated reference of open-source intelligence and identity-research tools, organized by workflow instead of alphabet. Built because the ones we tried were either commercial dashboards charging for a link list, or scattered across a dozen browser bookmark folders.</p>
-  <p class="disclaimer">For lawful research, journalism, security, and due-diligence use only. matterunknown does not run or control any linked service — verify terms of use before querying third-party data on a subject. The Investigate tab queries real third-party services (crt.sh, RDAP, Wayback Machine) on your behalf and signs the result — it does not access breach, credential, or paid data sources.</p>
+  <p class="disclaimer">For lawful research, journalism, security, and due-diligence use only. matterunknown does not run or control any linked service. Verify terms of use before querying third-party data on a subject. The Investigate tab queries real third-party services (crt.sh, RDAP, Wayback Machine) on your behalf and signs the result, it does not access breach, credential, or paid data sources.</p>
 
   <div class="tab-row">
     <button class="tab-btn active" data-tab="investigate">Investigate</button>
@@ -233,9 +233,9 @@ import Footer from '../../components/layout/Footer.astro';
       <input type="text" class="inv-input" id="inv-query" placeholder="Enter a domain (e.g. example.com) or company name..." />
       <button class="inv-btn" id="inv-submit">Investigate</button>
     </div>
-    <p class="inv-note">Runs live queries against crt.sh (certificate transparency), RDAP (WHOIS successor), and the Wayback Machine for domains — or OpenCorporates / OpenSanctions for company names. Results are cross-correlated across sources and the final report is signed with Ed25519 so it's a verifiable artifact, not just a screenshot. Rate limited to 10 investigations/minute.</p>
+    <p class="inv-note">Runs live queries against crt.sh (certificate transparency), RDAP (WHOIS successor), and the Wayback Machine for domains, or OpenCorporates / OpenSanctions for company names. Results are cross-correlated across sources and the final report is signed with Ed25519 so it's a verifiable artifact, not just a screenshot. Rate limited to 10 investigations/minute.</p>
 
-    <div class="inv-status" id="inv-status">Querying sources — this can take up to 30 seconds for domains with many certificates on record...</div>
+    <div class="inv-status" id="inv-status">Querying sources: this can take up to 30 seconds for domains with many certificates on record...</div>
     <div class="inv-error" id="inv-error"></div>
     <div class="inv-meta" id="inv-meta"></div>
     <div id="inv-results"></div>
@@ -249,7 +249,7 @@ import Footer from '../../components/layout/Footer.astro';
 
   <div class="tab-panel" id="tab-browse">
   <div class="search-row">
-    <input type="text" class="search-input" id="osint-search" placeholder="Filter tools — try 'breach', 'domain', 'image', 'username'..." />
+    <input type="text" class="search-input" id="osint-search" placeholder="Filter tools. Try 'breach', 'domain', 'image', 'username'..." />
   </div>
   <div class="search-hint" id="search-count"></div>
 
@@ -259,12 +259,12 @@ import Footer from '../../components/layout/Footer.astro';
       <div class="cat-header"><span class="cat-icon">🪪</span><span class="cat-title">People &amp; Identity</span></div>
       <div class="cat-desc">Name, phone, email, and public-record lookups.</div>
       <div class="tool-list">
-        <a class="tool" href="https://www.google.com/search?q=%22FIRST+LAST%22" target="_blank" rel="noopener"><span class="tool-name">Google — exact-match name search</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.google.com/search?q=%22FIRST+LAST%22" target="_blank" rel="noopener"><span class="tool-name">Google, exact-match name search</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://www.truepeoplesearch.com/" target="_blank" rel="noopener"><span class="tool-name">TruePeopleSearch</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://www.spokeo.com/" target="_blank" rel="noopener"><span class="tool-name">Spokeo</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://pipl.com/" target="_blank" rel="noopener"><span class="tool-name">Pipl</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://www.familysearch.org/" target="_blank" rel="noopener"><span class="tool-name">FamilySearch — genealogy records</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://opencorporates.com/" target="_blank" rel="noopener"><span class="tool-name">OpenCorporates — corporate officers</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.familysearch.org/" target="_blank" rel="noopener"><span class="tool-name">FamilySearch, genealogy records</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://opencorporates.com/" target="_blank" rel="noopener"><span class="tool-name">OpenCorporates, corporate officers</span><span class="tool-arrow">↗</span></a>
       </div>
     </div>
 
@@ -272,7 +272,7 @@ import Footer from '../../components/layout/Footer.astro';
       <div class="cat-header"><span class="cat-icon">🔎</span><span class="cat-title">Username &amp; Social</span></div>
       <div class="cat-desc">Cross-platform handle enumeration, profile discovery.</div>
       <div class="tool-list">
-        <a class="tool" href="https://whatsmyname.app/" target="_blank" rel="noopener"><span class="tool-name">WhatsMyName — username across 600+ sites</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://whatsmyname.app/" target="_blank" rel="noopener"><span class="tool-name">WhatsMyName, username across 600+ sites</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://namechk.com/" target="_blank" rel="noopener"><span class="tool-name">Namechk</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://sherlock-project.github.io/" target="_blank" rel="noopener"><span class="tool-name">Sherlock (GitHub tool, self-run)</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://github.com/soxoj/maigret" target="_blank" rel="noopener"><span class="tool-name">Maigret (GitHub tool, self-run)</span><span class="tool-arrow">↗</span></a>
@@ -297,12 +297,12 @@ import Footer from '../../components/layout/Footer.astro';
       <div class="cat-desc">Ownership, hosting history, and network footprint.</div>
       <div class="tool-list">
         <a class="tool" href="https://who.is/" target="_blank" rel="noopener"><span class="tool-name">WHOIS lookup</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://securitytrails.com/" target="_blank" rel="noopener"><span class="tool-name">SecurityTrails — DNS history</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://www.shodan.io/" target="_blank" rel="noopener"><span class="tool-name">Shodan — exposed devices &amp; services</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://securitytrails.com/" target="_blank" rel="noopener"><span class="tool-name">SecurityTrails, DNS history</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.shodan.io/" target="_blank" rel="noopener"><span class="tool-name">Shodan, exposed devices &amp; services</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://censys.io/" target="_blank" rel="noopener"><span class="tool-name">Censys</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://crt.sh/" target="_blank" rel="noopener"><span class="tool-name">crt.sh — certificate transparency</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://crt.sh/" target="_blank" rel="noopener"><span class="tool-name">crt.sh, certificate transparency</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://web.archive.org/" target="_blank" rel="noopener"><span class="tool-name">Wayback Machine</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://builtwith.com/" target="_blank" rel="noopener"><span class="tool-name">BuiltWith — tech stack fingerprint</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://builtwith.com/" target="_blank" rel="noopener"><span class="tool-name">BuiltWith, tech stack fingerprint</span><span class="tool-arrow">↗</span></a>
       </div>
     </div>
 
@@ -311,11 +311,11 @@ import Footer from '../../components/layout/Footer.astro';
       <div class="cat-desc">Photo provenance, verification, location inference.</div>
       <div class="tool-list">
         <a class="tool" href="https://images.google.com/" target="_blank" rel="noopener"><span class="tool-name">Google Images (reverse search)</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://yandex.com/images/" target="_blank" rel="noopener"><span class="tool-name">Yandex Images — often best for faces</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://yandex.com/images/" target="_blank" rel="noopener"><span class="tool-name">Yandex Images, often best for faces</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://tineye.com/" target="_blank" rel="noopener"><span class="tool-name">TinEye</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://www.pimeyes.com/" target="_blank" rel="noopener"><span class="tool-name">PimEyes — facial search</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://suncalc.org/" target="_blank" rel="noopener"><span class="tool-name">SunCalc — shadow/time geolocation</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://mapillary.com/" target="_blank" rel="noopener"><span class="tool-name">Mapillary — street-level imagery</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://www.pimeyes.com/" target="_blank" rel="noopener"><span class="tool-name">PimEyes, facial search</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://suncalc.org/" target="_blank" rel="noopener"><span class="tool-name">SunCalc, shadow/time geolocation</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://mapillary.com/" target="_blank" rel="noopener"><span class="tool-name">Mapillary, street-level imagery</span><span class="tool-arrow">↗</span></a>
       </div>
     </div>
 
@@ -337,7 +337,7 @@ import Footer from '../../components/layout/Footer.astro';
       <div class="tool-list">
         <a class="tool" href="https://www.virustotal.com/" target="_blank" rel="noopener"><span class="tool-name">VirusTotal</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://urlscan.io/" target="_blank" rel="noopener"><span class="tool-name">urlscan.io</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://abuse.ch/" target="_blank" rel="noopener"><span class="tool-name">abuse.ch — feeds &amp; trackers</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://abuse.ch/" target="_blank" rel="noopener"><span class="tool-name">abuse.ch, feeds &amp; trackers</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://otx.alienvault.com/" target="_blank" rel="noopener"><span class="tool-name">AlienVault OTX</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://www.greynoise.io/" target="_blank" rel="noopener"><span class="tool-name">GreyNoise</span><span class="tool-arrow">↗</span></a>
       </div>
@@ -348,10 +348,10 @@ import Footer from '../../components/layout/Footer.astro';
       <div class="cat-desc">Standards, registries, and research relevant to identity infra.</div>
       <div class="tool-list">
         <a class="tool" href="https://spiffe.io/" target="_blank" rel="noopener"><span class="tool-name">SPIFFE / SPIRE</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://datatracker.ietf.org/doc/html/rfc8693" target="_blank" rel="noopener"><span class="tool-name">RFC 8693 — OAuth Token Exchange</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://datatracker.ietf.org/doc/html/rfc8693" target="_blank" rel="noopener"><span class="tool-name">RFC 8693, OAuth Token Exchange</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://openid.net/sg/aiid/" target="_blank" rel="noopener"><span class="tool-name">OpenID AI Identity Working Group</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener"><span class="tool-name">CISA KEV Catalog</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://nvd.nist.gov/" target="_blank" rel="noopener"><span class="tool-name">NIST NVD — CVE database</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://nvd.nist.gov/" target="_blank" rel="noopener"><span class="tool-name">NIST NVD, CVE database</span><span class="tool-arrow">↗</span></a>
       </div>
     </div>
 
@@ -363,7 +363,7 @@ import Footer from '../../components/layout/Footer.astro';
         <a class="tool" href="https://wikimapia.org/" target="_blank" rel="noopener"><span class="tool-name">Wikimapia</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://www.flightradar24.com/" target="_blank" rel="noopener"><span class="tool-name">Flightradar24</span><span class="tool-arrow">↗</span></a>
         <a class="tool" href="https://www.marinetraffic.com/" target="_blank" rel="noopener"><span class="tool-name">MarineTraffic</span><span class="tool-arrow">↗</span></a>
-        <a class="tool" href="https://sentinel.esa.int/" target="_blank" rel="noopener"><span class="tool-name">Sentinel Hub — satellite imagery</span><span class="tool-arrow">↗</span></a>
+        <a class="tool" href="https://sentinel.esa.int/" target="_blank" rel="noopener"><span class="tool-name">Sentinel Hub, satellite imagery</span><span class="tool-arrow">↗</span></a>
       </div>
     </div>
 
@@ -432,7 +432,7 @@ async function runInvestigation() {
 
     const okSources = data.sources_queried.filter(s => !data.sources_failed.includes(s));
     const failSources = data.sources_failed;
-    invMeta.innerHTML = `Queried ${data.sources_queried.length} source(s) for <strong style="color:var(--text-2)">${data.query}</strong> (${data.query_type}) — ` +
+    invMeta.innerHTML = `Queried ${data.sources_queried.length} source(s) for <strong style="color:var(--text-2)">${data.query}</strong> (${data.query_type}), ` +
       `<span class="ok">${okSources.length} responded</span>` +
       (failSources.length ? `, <span class="fail">${failSources.length} unavailable (${failSources.join(', ')})</span>` : '') +
       ` · ${data.findings.length} findings · signed ${data.generated_at}`;
@@ -491,8 +491,8 @@ document.getElementById('verify-report').addEventListener('click', async () => {
     });
     const data = await res.json();
     verifyResultEl.textContent = data.valid
-      ? '✓ Signature valid — this report matches what was signed at generation time and has not been altered.'
-      : '✕ Signature invalid — this report does not match its signature. Do not treat it as authentic.';
+      ? '✓ Signature valid: this report matches what was signed at generation time and has not been altered.'
+      : '✕ Signature invalid, this report does not match its signature. Do not treat it as authentic.';
     verifyResultEl.className = 'verify-result show ' + (data.valid ? 'valid' : 'invalid');
   } catch (err) {
     verifyResultEl.textContent = 'Verification request failed: ' + err.message;

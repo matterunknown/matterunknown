@@ -46,7 +46,7 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 </style>
 <Nav variant="sub" backHref="/writing" backLabel="← Writing" />
 <article class="article">
-  <div class="article-label">Identity — February 2026</div>
+  <div class="article-label">Identity, February 2026</div>
   <h1>What Break Glass Access Reveals About Trust</h1>
   <div class="article-meta">matterunknown &nbsp;·&nbsp; February 2026 &nbsp;·&nbsp; 7 min read</div>
 
@@ -72,7 +72,7 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 
   <p>A well-designed break glass system has several properties that most implementations lack. First: the accounts are genuinely separate from normal identity infrastructure. They don't authenticate through the identity provider that might be down. They have their own credential chain that is deliberately independent.</p>
 
-  <p>Second: every use generates an alert. Not just a log entry that someone might review in an audit — an immediate, loud, multi-channel alert that break glass access was used, by whom, for what stated reason. The transparency is the point. If someone is using break glass access, everyone who matters should know immediately.</p>
+  <p>Second: every use generates an alert. Not just a log entry that someone might review in an audit: an immediate, loud, multi-channel alert that break glass access was used, by whom, for what stated reason. The transparency is the point. If someone is using break glass access, everyone who matters should know immediately.</p>
 
   <p>Third: the accounts are tested regularly. This sounds obvious. In practice, many organizations discover during an actual emergency that their break glass credentials have expired, or the vault that holds them requires credentials to access, or the person who knows the procedure is on vacation.</p>
 
@@ -82,7 +82,7 @@ h1 { font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.5rem);font-weight:400
 
   <p>Every identity system has a break glass layer, even if it's not called that. The question is whether it's designed or accidental. The root account in AWS that nobody uses but that has to exist. The local administrator account on servers that bypasses Active Directory. The emergency contact at the identity provider who can reset things manually. The executive who can call the CEO of the SaaS vendor directly.</p>
 
-  <p>These are all break glass mechanisms. They exist because the formal trust model has edges and the organization knows it. The difference between a secure organization and an insecure one is often not whether the break glass layer exists — it almost always exists — but whether it's been thought about, designed, tested, and audited.</p>
+  <p>These are all break glass mechanisms. They exist because the formal trust model has edges and the organization knows it. The difference between a secure organization and an insecure one is often not whether the break glass layer exists, it almost always exists, but whether it's been thought about, designed, tested, and audited.</p>
 
   <p>If you want to understand how an organization actually thinks about trust and accountability, don't look at their access control policies. Look at their break glass procedures. Look at who has access to the emergency accounts and how that decision was made. Look at how long it's been since those credentials were last rotated and last tested. Look at what happens when someone uses them.</p>
 
