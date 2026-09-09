@@ -164,3 +164,5 @@ a.ecard:hover h3 { color: var(--amber); }
 .ecard .m { margin-top: auto; padding-top: 6px; font-size: .78rem; color: var(--text-3); }
 /* Cards with no image: centre the body so the space reads as intentional */
 .icard > .icard-body:only-child { justify-content: center; }
+/* Brand/marketing images: show whole, never crop the wordmark */
+.icard img.fit { object-fit: contain; background: #0d0d0b; }
